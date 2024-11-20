@@ -6,6 +6,18 @@ The current time is ${new Date(now).toLocaleTimeString("en-US")}.
 
 ```js
 import {FileAttachment} from "npm:@observablehq/stdlib";
+import * as vega from "npm:vega";
+import * as vegaLite from "npm:vega-lite";
+import * as vegaLiteApi from "npm:vega-lite-api";
+import * as tooltip from "npm:vega-tooltip";
+const vl = vegaLiteApi.register(vega, vegaLite, {
+  init: (view) => {
+    view.tooltip(new tooltip.Handler().call);
+
+    // another suggestion from https://observablehq.com/@vega/vega-lite-api-v5#vl
+    if (view.container()) view.container().style["overflow-x"] = "auto";
+  }
+});
 
 const data = FileAttachment("./data/OID-Dataset.csv").csv({typed: true});
 ```
@@ -21,47 +33,40 @@ Inputs.table(data)
 
 ## Plot
 ```js
-// function scatterPlot(data, {width} = {}) {
-//     return Plot.plot({
-//         marginLeft: 50,
-//         width,
-//         inset: 10,
-//         grid: true,
-//         color: {
-//             legend: true,
-//         },
-//         y: {type: "symlog"},
-//         marks: [
-//             Plot.dot(data, {
-//                 x: "Transaction Date", 
-//                 y: "No. of shares", 
-//                 stroke: "Action",
-//                 channels: {Ticker: "Ticker",Name: "Name" },
-//                 tip: true
-//                 })
-//         ]
-//     })
+
+vl.markPoint({filled: true})
+    .data(data)
+    .params(
+        vl.selectInterval().bind('scales')
+    )
+    .encode(
+        vl.x().fieldT('Transaction Date'),
+        vl.y().fieldQ('Price / share').scale({type: 'log', domain: [0.001, 100]}),
+        vl.color().fieldN('Action'),
+        vl.shape().fieldN('Action'),
+        vl.tooltip(['Ticker', 'Name', 'Price / share'])
+    )
+    .width(1000)
+    .height(600)
+    .render()
+
+// {
+//   const brush = vl.selectInterval().encodings('x');
+//   const x = vl.x().fieldT('Transaction Date').title(null);
+  
+//   const base = vl.markArea()
+//     .encode(x, vl.y().fieldQ('Price / share'))
+//     .width(700);
+  
+//   return vl.data(data)
+//     .vconcat(
+//       base.encode(x.scale({domain: brush})),
+//       base.params(brush).height(60)
+//     )
+//     .render();
 // }
 
-Plot.plot({
-    marginLeft: 50,
-    width,
-    inset: 10,
-    grid: true,
-    color: {
-        legend: true,
-    },
-    y: {type: "symlog"},
-    marks: [
-        Plot.dot(data, {
-            x: "Transaction Date", 
-            y: "Price / share", 
-            stroke: "Action",
-            channels: {Ticker: "Ticker",Name: "Name" },
-            tip: true
-            })
-    ]
-})
+
 ```
 
 <!-- 
