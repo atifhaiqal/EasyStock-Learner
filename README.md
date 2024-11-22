@@ -13,6 +13,9 @@ This app is built on [StreamLit](https://streamlit.io)
 ## API reference
 [StreamLit API](https://docs.streamlit.io/develop/api-reference)
 
+## Bug tracker
+[List of known bugs](docs/BugTracker.md)
+
 ## Command reference
 
 | Command           | Description                                              |

@@ -1,14 +1,14 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
+import numpy as np
 import plotly.express as px
 
-st.title(":green[EasyStock] Learner :chart:")
+st.title("Open Investment Bank Data")
 
 data = pd.read_csv('Data/OID-Dataset.csv')
 st.write(data)
 
-st.write("Plotting using streamlit built in plotting library")
+st.subheader("Plotting using streamlit built in plotting library")
 
 st.scatter_chart(
     data,
@@ -17,12 +17,15 @@ st.scatter_chart(
     color="Action",
 )
 
-st.write("Plotting using plotly")
+st.subheader("Plotting using plotly")
+
+is_Log = st.checkbox("Use log scale for y axis")
+
 fig = px.scatter(
     data,
     x="Transaction Date",
     y="Price / share",
-    log_y=True,
+    log_y=is_Log,
     color="Action",
     hover_data=["Ticker", "Name", "No. of shares"],
     symbol="Action",
