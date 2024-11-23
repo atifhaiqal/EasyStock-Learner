@@ -5,7 +5,7 @@ import plotly.express as px
 
 st.title("Open Investment Bank Data")
 
-data = pd.read_csv('Data/OID-Dataset.csv')
+data = pd.read_csv('data/OID-Dataset.csv')
 st.write(data)
 
 st.subheader("Plotting using streamlit built in plotting library")

@@ -29,7 +29,7 @@ with col1:
                 st.session_state["api_key"] = api_key
 
         st.write("#### Nickname: ", user_name)
-        st.write("##### API Key: ", api_key)
+        st.write("###### API Key: ", api_key)
 
 with col2:
     st.header("Financial Modeling Prep API")

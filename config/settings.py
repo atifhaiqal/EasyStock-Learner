@@ -1,0 +1,1 @@
+options = ["SPY", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA", "TSLA", "ORCL", "ADBE"]
