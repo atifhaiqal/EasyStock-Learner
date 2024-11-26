@@ -1,0 +1,36 @@
+{
+  "ticker_options": [
+    "SPY",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "AMZN",
+    "META",
+    "NVDA",
+    "TSLA",
+    "ORCL",
+    "ADBE"
+  ],
+  "financial_data_options": [
+    "income-statement",
+    "balance-sheet-statement",
+    "cash-flow-statement",
+    "income-statement-growth",
+    "balance-sheet-statement-growth",
+    "cash-flow-statement-growth",
+    "ratios-ttm",
+    "ratios",
+    "financial-growth",
+    "quote",
+    "enterprise-values",
+    "rating",
+    "key-metrics-ttm",
+    "key-metrics",
+    "historical-rating",
+    "discounted-cash-flow",
+    "historical-discounted-cash-flow-statement",
+    "historical-price-full",
+    "Historical Price smaller intervals"
+  ],
+  "interval_options": ["1min", "5min", "15min", "30min", "1hour", "4hour"]
+}
