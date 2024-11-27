@@ -56,4 +56,82 @@ class FMP_APIClient:
             print(f"Unexpected error: {e}")
             return None
 
-# to do: test if this works, and add all the other functions for data retrival
+    def get_financial_ratio(self, ticker, API_KEY):
+        """
+        Retrieves financial ratios from FMP's API for a given ticker.
+
+        This function makes an HTTP GET request to the Financial Modeling Prep (FMP) API
+        to retrieve trailing twelve month financial ratios for a given stock ticker.
+        It takes two parameters and returns the data as a pandas DataFrame.
+
+        Args:
+            ticker (str): The stock ticker symbol to get ratios for (e.g. "AAPL")
+            API_KEY (str): FMP API authentication key
+
+        Returns:
+            pandas DataFrame: DataFrame containing financial ratios.
+            None: If there is an error retrieving or processing the data.
+        """
+
+        url=f'{self.base_url}/v3/ratios-ttm/{ticker}?apikey={API_KEY}'
+
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise exception for bad status codes
+            data = response.json()
+
+            if not data:  # Check if data is empty
+                raise ValueError(f"No data returned for {ticker}")
+
+            df = pd.DataFrame(data)
+            return df
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error making API request: {e}")
+            return None
+        except ValueError as e:
+            print(f"Error processing data: {e}")
+            return None
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return None
+
+    def get_key_metrics(self, ticker, API_KEY):
+        """
+        Retrieves key metrics from FMP's API for a given ticker.
+
+        This function makes an HTTP GET request to the Financial Modeling Prep (FMP) API
+        to retrieve annual key metrics for a given stock ticker. It takes two parameters
+        and returns the data as a pandas DataFrame.
+
+        Args:
+            ticker (str): The stock ticker symbol to get key metrics for (e.g. "AAPL")
+            API_KEY (str): FMP API authentication key
+
+        Returns:
+            pandas DataFrame: DataFrame containing key metrics data.
+            None: If there is an error retrieving or processing the data.
+        """
+
+        url=f'{self.base_url}/v3/key-metrics/{ticker}?period=annual&apikey={API_KEY}'
+
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise exception for bad status codes
+            data = response.json()
+
+            if not data:  # Check if data is empty
+                raise ValueError(f"No data returned for {ticker}")
+
+            df = pd.DataFrame(data)
+            return df
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error making API request: {e}")
+            return None
+        except ValueError as e:
+            print(f"Error processing data: {e}")
+            return None
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return None

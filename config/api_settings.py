@@ -1,8 +1,8 @@
 import json
 import os
 
-class APIConfig:
-    def __init__(self, config_file='config/api_config.json'):
+class FMP_APIConfig:
+    def __init__(self, config_file='config/fmp_api_config.json'):
         # Check if the config file exists
         if not os.path.exists(config_file):
             raise FileNotFoundError(f"The configuration file {config_file} does not exist!")
