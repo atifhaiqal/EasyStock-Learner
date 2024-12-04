@@ -1,5 +1,5 @@
 import streamlit as st
-from config.api_settings import APIConfig
+from config.api_settings import FMP_APIConfig
 from services.fmp_api_client import FMP_APIClient
 import numpy as np
 import pandas as pd
@@ -19,7 +19,7 @@ if "user_name" not in st.session_state:
     st.session_state["user_name"] = ""
 
 api_client = FMP_APIClient()
-api_config = APIConfig()
+api_config = FMP_APIConfig()
 
 # temporary value for API KEY
 st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"

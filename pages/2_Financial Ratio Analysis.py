@@ -3,9 +3,9 @@ from config.api_settings import FMP_APIConfig
 from services.av_api_client import AV_APIClient
 from services.fmp_api_client import FMP_APIClient
 from view.plot_components import Plot_Components
-import numpy as np
-import pandas as pd
-import plotly.express as px
+# import numpy as np
+# import pandas as pd
+# import plotly.express as px
 
 ############# PAGE CONFIG #############
 st.set_page_config(
@@ -26,7 +26,7 @@ plot_component = Plot_Components()
 
 # temporary value for API KEY
 st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
-AV_API_KEY = "WGHKWKAR5TGFV4IC"
+# AV_API_KEY = "WGHKWKAR5TGFV4IC"
 
 ############# PAGE STARTS HERE #############
 
@@ -41,8 +41,19 @@ ticker = st.selectbox(
 st.markdown(f"You selected: :green[{ticker}]")
 
 
-df = av_api_client.get_company_overview(ticker, AV_API_KEY)
+# df = av_api_client.get_company_overview(ticker, AV_API_KEY)
 
-st.write(df)
+# st.write(df)
 
-# plot_component.draw_pe_ratio_component(api_client=api_client, api_config=api_config, API_KEY=st.session_state["api_key"])
+plot_component.draw_pe_ratio_component(api_client=api_client, api_config=api_config, API_KEY=st.session_state["api_key"])
+
+# Important metrics
+# Return on equity
+# Debt levels
+# profit margins
+# price to earning
+# price to book
+# revenuew growth
+# earning growth
+# analyst ratings
+# news sentiment
