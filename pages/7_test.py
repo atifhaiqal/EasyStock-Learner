@@ -32,4 +32,5 @@ selectedTickers = st.multiselect(
     key="selectbox1"
 )
 
-fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
+metrics = finnhub_client.company_basic_financials('AAPL', 'all')
+st.write(metrics)
