@@ -10,6 +10,9 @@ This app is built on [StreamLit](https://streamlit.io)
 ├─ .gitignore
 └─ README.md
 
+## Dependencies
+pip install yfinance
+
 ## API reference
 [StreamLit API](https://docs.streamlit.io/develop/api-reference)
 

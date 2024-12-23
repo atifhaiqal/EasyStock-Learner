@@ -32,13 +32,13 @@ st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 
 st.title("Financial Ratio Analysis")
 
-ticker = st.selectbox(
-    "Select ticker:",
-    api_config.get_ticker_options(),
-    key="selectbox-main"
-)
+# ticker = st.selectbox(
+#     "Select ticker:",
+#     api_config.get_ticker_options(),
+#     key="selectbox-main"
+# )
 
-st.markdown(f"You selected: :green[{ticker}]")
+# st.markdown(f"You selected: :green[{ticker}]")
 
 
 # df = av_api_client.get_company_overview(ticker, AV_API_KEY)
