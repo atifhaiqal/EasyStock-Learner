@@ -26,3 +26,17 @@ class FMP_APIConfig:
     def display_config(self):
         """Optional: Display the entire configuration."""
         print(json.dumps(self.config_data, indent=4))
+
+class YF_APIConfig:
+    def __init__(self, config_file='config/yf_api_config.json'):
+        # Check if the config file exists
+        if not os.path.exists(config_file):
+            raise FileNotFoundError(f"The configuration file {config_file} does not exist!")
+
+        # Load the JSON configuration file
+        with open(config_file, 'r') as f:
+            self.config_data = json.load(f)
+
+    def get_ticker_options(self):
+        """Returns the list of ticker options from the configuration."""
+        return self.config_data.get("ticker_options", [])
