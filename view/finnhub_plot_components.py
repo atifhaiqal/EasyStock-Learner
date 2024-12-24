@@ -20,11 +20,15 @@ class Finnhub_Plot_Components:
 
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
-            metrics = finnhub_client.company_basic_financials(ticker, 'all')
-            peRatio = metrics["series"]["annual"]["pe"]
-            df = pd.json_normalize(peRatio)
-            df['ticker'] = ticker # Add column to identify ticker
-            combined_df = pd.concat([combined_df, df])
+            try:
+                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                peRatio = metrics["series"]["annual"]["pe"]
+                df = pd.json_normalize(peRatio)
+                df['ticker'] = ticker # Add column to identify ticker
+                combined_df = pd.concat([combined_df, df])
+            except (KeyError, TypeError):
+                df = pd.DataFrame({'period': [None], 'v': [0], 'ticker': [ticker]})
+                combined_df = pd.concat([combined_df, df])
 
         fig = px.line(
             combined_df,
@@ -52,11 +56,15 @@ class Finnhub_Plot_Components:
 
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
-            metrics = finnhub_client.company_basic_financials(ticker, 'all')
-            pbRatio = metrics["series"]["annual"]["pb"]
-            df = pd.json_normalize(pbRatio)
-            df['ticker'] = ticker # Add column to identify ticker
-            combined_df = pd.concat([combined_df, df])
+            try:
+                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                pbRatio = metrics["series"]["annual"]["pb"]
+                df = pd.json_normalize(pbRatio)
+                df['ticker'] = ticker # Add column to identify ticker
+                combined_df = pd.concat([combined_df, df])
+            except (KeyError, TypeError):
+                df = pd.DataFrame({'period': [None], 'v': [0], 'ticker': [ticker]})
+                combined_df = pd.concat([combined_df, df])
 
         fig = px.line(
             combined_df,
@@ -84,11 +92,15 @@ class Finnhub_Plot_Components:
 
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
-            metrics = finnhub_client.company_basic_financials(ticker, 'all')
-            epsRatio = metrics["series"]["annual"]["eps"]
-            df = pd.json_normalize(epsRatio)
-            df['ticker'] = ticker # Add column to identify ticker
-            combined_df = pd.concat([combined_df, df])
+            try:
+                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                epsRatio = metrics["series"]["annual"]["eps"]
+                df = pd.json_normalize(epsRatio)
+                df['ticker'] = ticker # Add column to identify ticker
+                combined_df = pd.concat([combined_df, df])
+            except (KeyError, TypeError):
+                df = pd.DataFrame({'period': [None], 'v': [0], 'ticker': [ticker]})
+                combined_df = pd.concat([combined_df, df])
 
         fig = px.line(
             combined_df,
@@ -96,6 +108,41 @@ class Finnhub_Plot_Components:
             y="v",
             color='ticker',
             title="PE RATIO"
+        )
+
+        st.plotly_chart(fig)
+
+    def draw_dividend_yield_annual(self, tickers, finnhub_client):
+        """
+        Draw a bar plot of annual dividend yields for multiple stock tickers.
+
+        Args:
+            tickers (list): List of stock ticker symbols to plot
+            finnhub_client: Finnhub API client instance for fetching financial data
+
+        Returns:
+            None - Displays the plot using streamlit
+        """
+        # Create empty dataframe to store all PE ratios
+        combined_df = pd.DataFrame()
+
+        # Fetch PE ratio data for each ticker
+        for ticker in tickers:
+            try:
+                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                dividendYield = metrics["metric"]["dividendYieldIndicatedAnnual"]
+                df = pd.DataFrame({'dividendYieldIndicatedAnnual': [dividendYield], 'ticker': [ticker]})
+                combined_df = pd.concat([combined_df, df])
+            except (KeyError, TypeError):
+                df = pd.DataFrame({'dividendYieldIndicatedAnnual': [0], 'ticker': [ticker]})
+                combined_df = pd.concat([combined_df, df])
+
+        fig = px.bar(
+            combined_df,
+            x="ticker",
+            y="dividendYieldIndicatedAnnual",
+            color='ticker',
+            title="Dividend Yield Indicated Annual"
         )
 
         st.plotly_chart(fig)

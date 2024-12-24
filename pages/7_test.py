@@ -32,5 +32,11 @@ selectedTickers = st.multiselect(
     key="selectbox1"
 )
 
-metrics = finnhub_client.company_basic_financials('AAPL', 'all')
-st.write(metrics)
+# metrics = finnhub_client.company_basic_financials('AAPL', 'all')
+# st.write(metrics)
+
+# metrics = finnhub_client.company_basic_financials('AAPL', 'all')
+# dividendYield = metrics["metric"]["dividendYieldIndicatedAnnual"]
+# st.write(dividendYield)
+
+fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
