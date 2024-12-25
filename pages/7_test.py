@@ -9,6 +9,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import requests
 from view.finnhub_plot_components import Finnhub_Plot_Components
+from view.fmp_plot_components import FMP_Plot_Components
+from services.fmp_api_client import FMP_APIClient
 from config.api_settings import YF_APIConfig
 import finnhub
 
@@ -17,8 +19,13 @@ st.set_page_config(
     page_title="TEST",
 )
 
+FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
+
 api_config = YF_APIConfig()
+fmp_api = FMP_APIClient(FMP_API_KEY)
 fin_plot = Finnhub_Plot_Components()
+fmp_plot = FMP_Plot_Components()
+
 
 ############# PAGE STARTS HERE #############
 
@@ -39,4 +46,10 @@ selectedTickers = st.multiselect(
 # dividendYield = metrics["metric"]["dividendYieldIndicatedAnnual"]
 # st.write(dividendYield)
 
-fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
+# fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
+
+# incomeStatement = fmp_api.get_income_statement("AAPL")
+
+# st.write(incomeStatement)
+
+fmp_plot.draw_revenue(selectedTickers, fmp_api)
