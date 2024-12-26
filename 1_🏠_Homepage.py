@@ -1,14 +1,23 @@
 import streamlit as st
-from config.api_settings import FMP_APIConfig
-from services.fmp_api_client import FMP_APIClient
 import numpy as np
 import pandas as pd
 import plotly.express as px
+import finnhub
+
+from config.api_settings import FMP_APIConfig
+from services.fmp_api_client import FMP_APIClient
+from services.alphavantage_api_client import AlphaVantage_APIClient
+
+from view.alphavantage_plot_components import AlphaVantage_Plot_Components
+from view.finnhub_plot_components import Finnhub_Plot_Components
+from view.fmp_plot_components import FMP_Plot_Components
+
 
 ############# PAGE CONFIG #############
 st.set_page_config(
     page_title="EasyStock Learner",
     page_icon= "💹",
+    layout="wide"
 )
 
 # Initialising global variables
@@ -18,9 +27,19 @@ if "api_key" not in st.session_state:
 if "user_name" not in st.session_state:
     st.session_state["user_name"] = ""
 
-api_client = FMP_APIClient()
+#temp
+FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
+AV_API_KEY = 'WGHKWKAR5TGFV4IC'
+FINNHUB_API_KEY = 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg'
+
+fmp_api = FMP_APIClient(FMP_API_KEY)
+av_api = AlphaVantage_APIClient(AV_API_KEY)
+finnhub_client = finnhub.Client(FINNHUB_API_KEY)
 api_config = FMP_APIConfig()
 
+fin_plot = Finnhub_Plot_Components()
+fmp_plot = FMP_Plot_Components()
+av_plot = AlphaVantage_Plot_Components()
 # temporary value for API KEY
 st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 
@@ -35,36 +54,27 @@ else:
 
 st.markdown("## Pick stocks to compare")
 
-ticker = st.selectbox(
+selectedTickers = st.multiselect(
     "Select ticker:",
     api_config.get_ticker_options(),
+    default=['AAPL', 'GOOGL'],
+    key="selectbox1"
 )
 
-financial_data_type = st.selectbox(
-    "Financial data type",
-    api_config.get_financial_data_options(),
-    index=None,
-    placeholder="Select financial data type"
-)
+av_plot.draw_stock_prices(selectedTickers, av_api)
 
-st.markdown(f"You selected: :green[{financial_data_type}]")
+col1, col2, col3 = st.columns(3)
 
-if financial_data_type == "Historical Price smaller interval":
-    interval = st.selectbox(
-        "Interval",
-        api_config.get_interval_options(),
-        index=1
-    )
-    financial_data_type = f'historical-chart/{interval}'
+with col1:
+    fmp_plot.draw_revenue(selectedTickers, fmp_api)
 
-# base_url = 'https://financialmodelingprep.com/api'
-# ticker = "AAPL"
-# data_type = "income-statement"
+    fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
 
-df = api_client.get_financial_data(financial_data_type, ticker, st.session_state["api_key"])
+with col2:
+    fmp_plot.draw_ebitda(selectedTickers, fmp_api)
 
-# to do
-# make a view class
-# api_interface <---> streamline_page.py <---> view_class
+    fin_plot.draw_pb_ratio(selectedTickers, finnhub_client)
+with col3:
+    fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
 
-st.dataframe(df)
+    fin_plot.draw_eps_ratio(selectedTickers, finnhub_client)

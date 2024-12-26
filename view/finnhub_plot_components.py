@@ -38,7 +38,7 @@ class Finnhub_Plot_Components:
             title="PE RATIO"
         )
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
 
     def draw_pb_ratio(self, tickers, finnhub_client):
         """
@@ -74,7 +74,7 @@ class Finnhub_Plot_Components:
             title="PB RATIO"
         )
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
 
     def draw_eps_ratio(self, tickers, finnhub_client):
         """
@@ -110,7 +110,7 @@ class Finnhub_Plot_Components:
             title="PE RATIO"
         )
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
 
     def draw_dividend_yield_annual(self, tickers, finnhub_client):
         """
@@ -145,4 +145,4 @@ class Finnhub_Plot_Components:
             title="Dividend Yield Indicated Annual"
         )
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)

@@ -1,5 +1,6 @@
 # THIS IS PURELY FOR TEST PURPOSES, DO NOT USE IN PRODUCTION
 
+from numpy.lib.function_base import diff
 from streamlit.elements import metric
 import yfinance as yf
 import streamlit as st
@@ -8,10 +9,13 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import requests
+from view import finnhub_plot_components
 from view.finnhub_plot_components import Finnhub_Plot_Components
+from view.alphavantage_plot_components import AlphaVantage_Plot_Components
 from view.fmp_plot_components import FMP_Plot_Components
 from services.fmp_api_client import FMP_APIClient
 from config.api_settings import YF_APIConfig
+from services.alphavantage_api_client import AlphaVantage_APIClient
 import finnhub
 
 # Page config
@@ -20,11 +24,14 @@ st.set_page_config(
 )
 
 FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
+AV_API_KEY = 'WGHKWKAR5TGFV4IC'
 
 api_config = YF_APIConfig()
 fmp_api = FMP_APIClient(FMP_API_KEY)
+av_api = AlphaVantage_APIClient(AV_API_KEY)
 fin_plot = Finnhub_Plot_Components()
 fmp_plot = FMP_Plot_Components()
+av_plot = AlphaVantage_Plot_Components()
 
 
 ############# PAGE STARTS HERE #############
@@ -52,4 +59,4 @@ selectedTickers = st.multiselect(
 
 # st.write(incomeStatement)
 
-fmp_plot.draw_revenue(selectedTickers, fmp_api)
+av_plot.draw_stock_prices(selectedTickers, av_api)

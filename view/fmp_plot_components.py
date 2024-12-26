@@ -33,7 +33,7 @@ class FMP_Plot_Components:
             title="Revenue"
         )
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
 
     def draw_ebitda(self, tickers, fmp_api_client_instance):
         """
@@ -64,4 +64,4 @@ class FMP_Plot_Components:
             title="EBITDA"
         )
 
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width = True)
