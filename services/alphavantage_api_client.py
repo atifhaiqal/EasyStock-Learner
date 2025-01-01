@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 import streamlit as st
 
-# API_KEY = 'WGHKWKAR5TGFV4IC'
 class AlphaVantage_APIClient:
     """Alpha Vantage API Client with centralized request logic and caching."""
 
@@ -11,6 +10,7 @@ class AlphaVantage_APIClient:
     def __init__(self, api_key):
         self.api_key = api_key
 
+    # internal function
     def _make_request(self, params):
         """Centralized API request logic."""
         try:

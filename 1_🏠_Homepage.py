@@ -6,7 +6,7 @@ import finnhub
 
 # importing api clients
 from config.api_settings import FMP_APIConfig
-from services.fmp_api_client import FMP_APIClient
+from services.fmp_api_client import FMP_APIClient, get_fmp_client
 from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphavantage_client
 
 # importing plot components
@@ -34,7 +34,7 @@ FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 AV_API_KEY = 'WGHKWKAR5TGFV4IC'
 FINNHUB_API_KEY = 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg'
 
-fmp_api = FMP_APIClient(FMP_API_KEY)
+fmp_api = get_fmp_client(FMP_API_KEY)
 av_api = get_alphavantage_client(AV_API_KEY)
 finnhub_client = finnhub.Client(FINNHUB_API_KEY)
 api_config = FMP_APIConfig()
@@ -59,7 +59,7 @@ st.markdown("## Pick stocks to compare")
 selectedTickers = st.multiselect(
     "Select ticker:",
     api_config.get_ticker_options(),
-    default=['AAPL', 'GOOGL'],
+    default=['MSFT', 'GOOGL'],
     key="selectbox1"
 )
 
