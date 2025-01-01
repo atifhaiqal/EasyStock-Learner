@@ -4,10 +4,12 @@ import pandas as pd
 import plotly.express as px
 import finnhub
 
+# importing api clients
 from config.api_settings import FMP_APIConfig
 from services.fmp_api_client import FMP_APIClient
-from services.alphavantage_api_client import AlphaVantage_APIClient
+from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphavantage_client
 
+# importing plot components
 from view.alphavantage_plot_components import AlphaVantage_Plot_Components
 from view.finnhub_plot_components import Finnhub_Plot_Components
 from view.fmp_plot_components import FMP_Plot_Components
@@ -17,7 +19,7 @@ from view.fmp_plot_components import FMP_Plot_Components
 st.set_page_config(
     page_title="EasyStock Learner",
     page_icon= "💹",
-    layout="wide"
+    layout="wide",
 )
 
 # Initialising global variables
@@ -33,7 +35,7 @@ AV_API_KEY = 'WGHKWKAR5TGFV4IC'
 FINNHUB_API_KEY = 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg'
 
 fmp_api = FMP_APIClient(FMP_API_KEY)
-av_api = AlphaVantage_APIClient(AV_API_KEY)
+av_api = get_alphavantage_client(AV_API_KEY)
 finnhub_client = finnhub.Client(FINNHUB_API_KEY)
 api_config = FMP_APIConfig()
 
@@ -61,20 +63,24 @@ selectedTickers = st.multiselect(
     key="selectbox1"
 )
 
+# The main candle chart
 av_plot.draw_stock_prices(selectedTickers, av_api)
 
+with st.popover("How to read candle stick chart"):
+    st.write("To add")
+# add how to read candle stick, yes
+
+# Smaller charts
 col1, col2, col3 = st.columns(3)
 
 with col1:
     fmp_plot.draw_revenue(selectedTickers, fmp_api)
-
     fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
 
 with col2:
     fmp_plot.draw_ebitda(selectedTickers, fmp_api)
-
     fin_plot.draw_pb_ratio(selectedTickers, finnhub_client)
+
 with col3:
     fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
-
     fin_plot.draw_eps_ratio(selectedTickers, finnhub_client)

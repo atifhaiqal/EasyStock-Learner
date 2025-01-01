@@ -6,14 +6,21 @@ class Finnhub_Plot_Components:
 
     def draw_pe_ratio(self, tickers, finnhub_client):
         """
-        Draw a line plot of PE (Price to Earnings) ratios over time for multiple stock tickers.
+        Draws a line plot showing PE (Price to Earnings) ratios over time for multiple stocks.
+
+        This method fetches PE ratio data from Finnhub for each provided ticker symbol and creates
+        a line plot comparing the PE ratios over time. If data cannot be retrieved for a ticker,
+        it will show as 0.
 
         Args:
-            tickers (list): List of stock ticker symbols to plot
-            finnhub_client: Finnhub API client instance for fetching financial data
+            tickers (list): List of stock ticker symbols (e.g. ['AAPL', 'MSFT'])
+            finnhub_client (finnhub.Client): Initialized Finnhub API client object
 
         Returns:
-            None - Displays the plot using streamlit
+            None
+
+        Displays:
+            A Plotly line chart via Streamlit showing PE ratios over time for each ticker
         """
         # Create empty dataframe to store all PE ratios
         combined_df = pd.DataFrame()
@@ -42,14 +49,21 @@ class Finnhub_Plot_Components:
 
     def draw_pb_ratio(self, tickers, finnhub_client):
         """
-        Draw a line plot of PB (Price to Book) ratios over time for multiple stock tickers.
+        Draws a line plot showing PB (Price to Book) ratios over time for multiple stocks.
+
+        This method fetches PB ratio data from Finnhub for each provided ticker symbol and creates
+        a line plot comparing the PB ratios over time. If data cannot be retrieved for a ticker,
+        it will show as 0.
 
         Args:
-            tickers (list): List of stock ticker symbols to plot
-            finnhub_client: Finnhub API client instance for fetching financial data
+            tickers (list): List of stock ticker symbols (e.g. ['AAPL', 'MSFT'])
+            finnhub_client (finnhub.Client): Initialized Finnhub API client object
 
         Returns:
-            None - Displays the plot using streamlit
+            None
+
+        Displays:
+            A Plotly line chart via Streamlit showing PB ratios over time for each ticker
         """
         # Create empty dataframe to store all PE ratios
         combined_df = pd.DataFrame()
@@ -78,14 +92,21 @@ class Finnhub_Plot_Components:
 
     def draw_eps_ratio(self, tickers, finnhub_client):
         """
-        Draw a line plot of EPS (Earnings per share) ratios over time for multiple stock tickers.
+        Draws a line plot showing EPS (Earnings Per Share) over time for multiple stocks.
+
+        This method fetches EPS data from Finnhub for each provided ticker symbol and creates
+        a line plot comparing the EPS values over time. If data cannot be retrieved for a ticker,
+        it will show as 0.
 
         Args:
-            tickers (list): List of stock ticker symbols to plot
-            finnhub_client: Finnhub API client instance for fetching financial data
+            tickers (list): List of stock ticker symbols (e.g. ['AAPL', 'MSFT'])
+            finnhub_client (finnhub.Client): Initialized Finnhub API client object
 
         Returns:
-            None - Displays the plot using streamlit
+            None
+
+        Displays:
+            A Plotly line chart via Streamlit showing EPS over time for each ticker
         """
         # Create empty dataframe to store all PE ratios
         combined_df = pd.DataFrame()
@@ -114,14 +135,21 @@ class Finnhub_Plot_Components:
 
     def draw_dividend_yield_annual(self, tickers, finnhub_client):
         """
-        Draw a bar plot of annual dividend yields for multiple stock tickers.
+        Draws a bar plot showing annual dividend yields for multiple stocks.
+
+        This method fetches the indicated annual dividend yield from Finnhub for each provided
+        ticker symbol and creates a bar plot comparing the yields. If data cannot be retrieved
+        for a ticker, it will show as 0.
 
         Args:
-            tickers (list): List of stock ticker symbols to plot
-            finnhub_client: Finnhub API client instance for fetching financial data
+            tickers (list): List of stock ticker symbols (e.g. ['AAPL', 'MSFT'])
+            finnhub_client (finnhub.Client): Initialized Finnhub API client object
 
         Returns:
-            None - Displays the plot using streamlit
+            None
+
+        Displays:
+            A Plotly bar chart via Streamlit showing dividend yields for each ticker
         """
         # Create empty dataframe to store all PE ratios
         combined_df = pd.DataFrame()
