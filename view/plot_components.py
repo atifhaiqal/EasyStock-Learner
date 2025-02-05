@@ -1,10 +1,15 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+from warnings import warn
+
+# Might be deprecated
 
 class Plot_Components:
 
     def draw_pe_ratio_component(self, api_client, api_config, API_KEY):
+        warn('This method is deprecated.', DeprecationWarning, stacklevel=2)
+
         st.markdown("## Pick 2 tickers to compare P/E ratios")
 
         col1, col2 = st.columns(2)

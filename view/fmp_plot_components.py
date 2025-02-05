@@ -18,7 +18,10 @@ class FMP_Plot_Components:
         revenue_dfs = []
 
         for ticker in tickers:
-            incomeStatement_df = fmp_api_client_instance.get_income_statement(ticker)
+            try:
+                incomeStatement_df = fmp_api_client_instance.get_income_statement(ticker)
+            except:
+                continue
             revenue_df = incomeStatement_df[['date', 'revenue']]
             revenue_df['ticker'] = ticker
             revenue_dfs.append(revenue_df)
@@ -49,7 +52,10 @@ class FMP_Plot_Components:
         ebitda_dfs = []
 
         for ticker in tickers:
-            incomeStatement_df = fmp_api_client_instance.get_income_statement(ticker)
+            try:
+                incomeStatement_df = fmp_api_client_instance.get_income_statement(ticker)
+            except:
+                continue
             ebitda_df = incomeStatement_df[['date', 'ebitda']]
             ebitda_df['ticker'] = ticker
             ebitda_dfs.append(ebitda_df)

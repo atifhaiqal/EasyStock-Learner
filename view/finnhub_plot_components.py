@@ -128,7 +128,7 @@ class Finnhub_Plot_Components:
             x="period",
             y="v",
             color='ticker',
-            title="PE RATIO"
+            title="EPS RATIO"
         )
 
         st.plotly_chart(fig, use_container_width = True)

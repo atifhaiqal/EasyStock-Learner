@@ -3,6 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+
 class AlphaVantage_Plot_Components:
 
     def draw_stock_prices(self, tickers, alphavantage_client):
@@ -36,7 +37,10 @@ class AlphaVantage_Plot_Components:
         fig = go.Figure()
 
         for ticker in tickers:
-            df = alphavantage_client.get_time_series_stock_prices(ticker)
+            try:
+                df = alphavantage_client.get_time_series_stock_prices(ticker)
+            except:
+                continue
 
             if df is not None:
                 # Reset index for plotting

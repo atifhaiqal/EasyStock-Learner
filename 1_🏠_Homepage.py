@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import plotly.express as px
+from datetime import date
 import finnhub
 
 # importing api clients
@@ -66,9 +67,33 @@ selectedTickers = st.multiselect(
 # The main candle chart
 av_plot.draw_stock_prices(selectedTickers, av_api)
 
-with st.popover("How to read candle stick chart"):
-    st.write("To add")
-# add how to read candle stick, yes
+with st.popover("How to read candle stick chart? 🤔"):
+    st.markdown('''
+    A candlestick chart helps visualize stock price movements over time.
+    Each candlestick represents a specific time period (e.g., 1 day) and shows four key prices:
+    ''')
+    st.markdown('''
+    - Open – The price when the period started
+    - Close – The price when the period ended
+    - High – The highest price reached
+    - Low – The lowest price reached
+
+    Understanding Candlesticks:
+    - Green Candle: The price closed higher than it opened (bullish).
+    - Red Candle: The price closed lower than it opened (bearish).
+    - Wicks: Thin lines above and below the candle body show the highest and lowest prices.
+
+    Key Patterns to Watch:
+    - Long green candles → Strong buying pressure
+    - Long red candles → Strong selling pressure
+    - Doji (small body, long wicks) → Market indecision
+    - Hammer / Shooting Star → Potential trend reversal
+    ''')
+
+    st.markdown('''
+    Candlestick charts help identify trends, reversals, and market sentiment quickly.
+    Use them with other indicators for better analysis! 🚀
+    ''')
 
 # Smaller charts
 col1, col2, col3 = st.columns(3)
@@ -84,3 +109,35 @@ with col2:
 with col3:
     fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
     fin_plot.draw_eps_ratio(selectedTickers, finnhub_client)
+
+st.header("Stock Rating Prediction (PLACEHOLDERS FOR NOW)")
+
+# use the same selection as the one on top
+
+st.subheader("AAPL")
+st.write("Stock Rating: :green[Buy]")
+st.write("Date: ", date.today())
+
+st.markdown('''
+    ### **Reasoning for Buy Call on Apple Stock (AAPL)**
+
+    #### **1. Strong Revenue Growth 📈**
+    - Apple’s latest earnings report shows a **15% YoY revenue increase**, driven by strong iPhone and services sales.
+    - Services segment (**App Store, iCloud, Apple Music**) is growing at **20% YoY**, providing stable recurring revenue.
+
+    #### **2. Positive Technical Indicators 📊**
+    - **50-day moving average** is crossing above the **200-day moving average** (**Golden Cross**), signaling an uptrend.
+    - Recent **candlestick patterns** show **higher lows**, indicating **bullish momentum**.
+
+    #### **3. Undervalued Relative to Growth 📉**
+    - Current **P/E ratio: 24** vs. historical average of **26**, suggesting slight undervaluation.
+    - **Price-to-book (P/B) ratio** remains stable, reflecting confidence in asset valuation.
+
+    #### **4. Strong Institutional Support 🏛️**
+    - **Hedge funds and institutional investors** have increased holdings by **8%** in the last quarter.
+    - **Warren Buffett’s Berkshire Hathaway** maintains a significant stake, showing long-term confidence.
+
+    #### **5. Macroeconomic & Industry Trends 🌍**
+    - The global shift toward **AI and AR** (**Apple Vision Pro**) positions Apple for future growth.
+    - **Declining inflation** and potential **Fed rate cuts** may boost tech stock valuations.
+''')
