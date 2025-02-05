@@ -16,6 +16,9 @@ if "av_api_key" not in st.session_state:
 if "finnhub_api_key" not in st.session_state:
     st.session_state["finnhub_api_key"] = ""
 
+if "qwen_api_key" not in st.session_state:
+    st.session_state["qwen_api_key"] = ""
+
 if "user_name" not in st.session_state:
     st.session_state["user_name"] = ""
 
@@ -52,6 +55,7 @@ with st.container(border=True):
         st.session_state["fmp_api_key"] = st.text_input("FMP API Key", type="password")
         st.session_state["av_api_key"] = st.text_input("AlphaVantage API Key", type="password")
         st.session_state["finnhub_api_key"] = st.text_input("FinnHub API Key", type="password")
+        st.session_state["qwen_api_key"] = st.text_input("Qwen LLM API Key", type="password")
 
 st.header("API Keys Setup")
 

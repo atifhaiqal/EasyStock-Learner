@@ -13,6 +13,7 @@ This app is built on [StreamLit](https://streamlit.io)
 ## Dependencies
 pip install yfinance
 pip install finnhub
+pip install openai
 
 ## API reference
 [StreamLit API](https://docs.streamlit.io/develop/api-reference)

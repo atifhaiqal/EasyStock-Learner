@@ -47,6 +47,8 @@ class Finnhub_Plot_Components:
 
         st.plotly_chart(fig, use_container_width = True)
 
+        return combined_df
+
     def draw_pb_ratio(self, tickers, finnhub_client):
         """
         Draws a line plot showing PB (Price to Book) ratios over time for multiple stocks.
@@ -89,6 +91,8 @@ class Finnhub_Plot_Components:
         )
 
         st.plotly_chart(fig, use_container_width = True)
+
+        return combined_df
 
     def draw_eps_ratio(self, tickers, finnhub_client):
         """
@@ -133,6 +137,8 @@ class Finnhub_Plot_Components:
 
         st.plotly_chart(fig, use_container_width = True)
 
+        return combined_df
+
     def draw_dividend_yield_annual(self, tickers, finnhub_client):
         """
         Draws a bar plot showing annual dividend yields for multiple stocks.
@@ -174,3 +180,5 @@ class Finnhub_Plot_Components:
         )
 
         st.plotly_chart(fig, use_container_width = True)
+
+        return combined_df
