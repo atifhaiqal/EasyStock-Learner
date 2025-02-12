@@ -36,6 +36,8 @@ class AlphaVantage_Plot_Components:
         """
         fig = go.Figure()
 
+        show_candlestick = st.checkbox("Show candlestick", value=True)
+
         for ticker in tickers:
             try:
                 df = alphavantage_client.get_time_series_stock_prices(ticker)
@@ -47,26 +49,28 @@ class AlphaVantage_Plot_Components:
                 df.reset_index(inplace=True)
                 df.rename(columns={"index": "Date"}, inplace=True)
 
-                # Add candlestick trace for this ticker
-                fig.add_trace(go.Candlestick(
-                    x=df["Date"],
-                    open=df["Open"],
-                    high=df["High"],
-                    low=df["Low"],
-                    close=df["Close"],
-                    name=ticker
-                ))
+                if show_candlestick:
+                    # Add candlestick trace for this ticker
+                    fig.add_trace(go.Candlestick(
+                        x=df["Date"],
+                        open=df["Open"],
+                        high=df["High"],
+                        low=df["Low"],
+                        close=df["Close"],
 
-                # # Calculate and add median price line
-                # df['Median'] = (df['High'] + df['Low']) / 2
-                # fig.add_trace(go.Scatter(
-                #     x=df["Date"],
-                #     y=df["Median"],
-                #     mode='lines',
-                #     name=f'{ticker} Median',
-                #     line=dict(width=1),
-                #     opacity=0.6
-                # ))
+                        name=ticker
+                    ))
+
+                # Calculate and add median price line
+                df['Median'] = (df['High'] + df['Low']) / 2
+                fig.add_trace(go.Line(
+                    x=df["Date"],
+                    y=df["Median"],
+                    mode='lines',
+                    name=f'{ticker} Median',
+                    line=dict(width=1),
+                    opacity=0.6
+                ))
             else:
                 st.write(f"Failed to fetch stock data for {ticker}")
 
@@ -75,11 +79,11 @@ class AlphaVantage_Plot_Components:
             title="Daily Stock Prices (Weekdays only)",
             xaxis_title="Date",
             yaxis_title="Price (USD)",
-            xaxis_rangeslider_visible=True,  # Show range slider
+            xaxis_rangeslider_visible=False,  # Show range slider
             template="plotly_dark",
             height=600,
             # xaxis_rangebreaks=[dict(bounds=["sat", "mon"])]  # Hide weekends
         )
 
-        # Show plot (Streamlit or standalone)
+        # Show plot
         st.plotly_chart(fig, use_container_width = True)
