@@ -9,11 +9,13 @@ import finnhub
 from config.api_settings import FMP_APIConfig
 from services.fmp_api_client import FMP_APIClient, get_fmp_client
 from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphavantage_client
+from services.finnhub_api_client import Finnhub_APIClient, get_finnhub_client
 
 # importing plot components
 from view.alphavantage_plot_components import AlphaVantage_Plot_Components
 from view.finnhub_plot_components import Finnhub_Plot_Components
 from view.fmp_plot_components import FMP_Plot_Components
+from view.yfinance_plot_componenets import YFinance_Plot_Components
 
 
 ############# PAGE CONFIG #############
@@ -37,12 +39,14 @@ FINNHUB_API_KEY = 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg'
 
 fmp_api = get_fmp_client(FMP_API_KEY)
 av_api = get_alphavantage_client(AV_API_KEY)
-finnhub_client = finnhub.Client(FINNHUB_API_KEY)
+finnhub_client = get_finnhub_client(FINNHUB_API_KEY)
 api_config = FMP_APIConfig()
 
 fin_plot = Finnhub_Plot_Components()
 fmp_plot = FMP_Plot_Components()
 av_plot = AlphaVantage_Plot_Components()
+y_plot = YFinance_Plot_Components()
+
 # temporary value for API KEY
 st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 
@@ -65,7 +69,15 @@ selectedTickers = st.multiselect(
 )
 
 # The main candle chart
-av_plot.draw_stock_prices(selectedTickers, av_api)
+col1, col2 = st.columns([2,1])
+
+with col1:
+    av_plot.draw_stock_prices(selectedTickers, av_api)
+
+with col2:
+    fin_plot.draw_stock_ratings(selectedTickers, finnhub_client)
+    fin_plot.draw_consensus_ratings(selectedTickers, finnhub_client)
+
 
 with st.popover("How to read candle stick chart? 🤔"):
     st.markdown('''
@@ -96,19 +108,27 @@ with st.popover("How to read candle stick chart? 🤔"):
     ''')
 
 # Smaller charts
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    fmp_plot.draw_revenue(selectedTickers, fmp_api)
-    fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
-
-with col2:
-    fmp_plot.draw_ebitda(selectedTickers, fmp_api)
-    fin_plot.draw_pb_ratio(selectedTickers, finnhub_client)
+col3, col4, col5, col6 = st.columns(4)
 
 with col3:
+    fmp_plot.draw_revenue(selectedTickers, fmp_api)
+    fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
+    fmp_plot.draw_total_debt(selectedTickers, fmp_api)
+
+with col4:
+    fmp_plot.draw_ebitda(selectedTickers, fmp_api)
+    fin_plot.draw_pb_ratio(selectedTickers, finnhub_client)
+    fmp_plot.draw_net_debt(selectedTickers, fmp_api)
+
+with col5:
     fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
+    fmp_plot.draw_longterm_debt(selectedTickers, fmp_api)
+    fmp_plot.draw_net_change_in_cash(selectedTickers, fmp_api)
+
+with col6:
     fin_plot.draw_eps_ratio(selectedTickers, finnhub_client)
+    fmp_plot.draw_net_income(selectedTickers, fmp_api)
+    fmp_plot.draw_net_income_ratio(selectedTickers, fmp_api)
 
 st.header("Stock Rating Prediction (PLACEHOLDERS FOR NOW)")
 

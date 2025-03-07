@@ -1,6 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import altair as alt
 
 class Finnhub_Plot_Components:
 
@@ -28,7 +29,7 @@ class Finnhub_Plot_Components:
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
             try:
-                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
                 peRatio = metrics["series"]["annual"]["pe"]
                 df = pd.json_normalize(peRatio)
                 df['ticker'] = ticker # Add column to identify ticker
@@ -73,7 +74,7 @@ class Finnhub_Plot_Components:
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
             try:
-                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
                 pbRatio = metrics["series"]["annual"]["pb"]
                 df = pd.json_normalize(pbRatio)
                 df['ticker'] = ticker # Add column to identify ticker
@@ -118,7 +119,7 @@ class Finnhub_Plot_Components:
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
             try:
-                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
                 epsRatio = metrics["series"]["annual"]["eps"]
                 df = pd.json_normalize(epsRatio)
                 df['ticker'] = ticker # Add column to identify ticker
@@ -163,7 +164,7 @@ class Finnhub_Plot_Components:
         # Fetch PE ratio data for each ticker
         for ticker in tickers:
             try:
-                metrics = finnhub_client.company_basic_financials(ticker, 'all')
+                metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
                 dividendYield = metrics["metric"]["dividendYieldIndicatedAnnual"]
                 df = pd.DataFrame({'dividendYieldIndicatedAnnual': [dividendYield], 'ticker': [ticker]})
                 combined_df = pd.concat([combined_df, df])
@@ -182,3 +183,98 @@ class Finnhub_Plot_Components:
         st.plotly_chart(fig, use_container_width = True)
 
         return combined_df
+
+    def draw_stock_ratings(self, tickers, finnhub_client):
+        """
+        Draws an interactive grouped horizontal bar chart showing stock ratings
+        (Strong Buy, Buy, Hold, Sell, Strong Sell) for multiple stocks.
+
+        Users can click on a rating type to adjust the graph so that the selected rating starts at 0.
+
+        Args:
+            tickers (list): List of stock ticker symbols (e.g. ['AAPL', 'MSFT'])
+            finnhub_client (finnhub.Client): Initialized Finnhub API client object
+        """
+
+        # Define the fixed order for rating types
+        rating_order = ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"]
+
+        # Custom color mapping
+        rating_colors = {
+            "Strong Buy": "#006400",  # Dark Green
+            "Buy": "#008000",  # Green
+            "Hold": "#FFD700",  # Yellow
+            "Sell": "#FF69B4",  # Pink
+            "Strong Sell": "#FF0000"  # Red
+        }
+
+        # Create empty DataFrame to store ratings
+        combined_df = pd.DataFrame()
+
+        # Fetch stock ratings for each ticker
+        for ticker in tickers:
+            try:
+                ratings = finnhub_client.get_recommendation_trends(ticker)
+                if ratings:
+                    latest_rating = ratings[-1]  # Get the most recent rating data
+                    df = pd.DataFrame({
+                        'Ticker': [ticker] * 5,
+                        'Rating Type': rating_order,
+                        'Count': [
+                            latest_rating.get("strongBuy", 0),
+                            latest_rating.get("buy", 0),
+                            latest_rating.get("hold", 0),
+                            latest_rating.get("sell", 0),
+                            latest_rating.get("strongSell", 0)
+                        ]
+                    })
+                    combined_df = pd.concat([combined_df, df], ignore_index=True)
+            except (KeyError, TypeError, IndexError):
+                pass
+
+        if combined_df.empty:
+            st.warning("No stock rating data available.")
+            return None
+
+        # Ensure the rating type order is maintained
+        combined_df["Rating Type"] = pd.Categorical(combined_df["Rating Type"], categories=rating_order, ordered=True)
+
+        # Use Plotly's inbuilt qualitative color scale
+        color_scale = px.colors.qualitative.Set1
+
+        # Create grouped horizontal bar chart
+        fig = px.bar(
+            combined_df,
+            x="Count",
+            y="Ticker",
+            color="Rating Type",
+            barmode="group",
+            color_discrete_sequence=color_scale,
+            title="Stock Ratings by Ticker",
+            category_orders={"Rating Type": rating_order}  # Enforce order
+        )
+
+
+        fig.update_layout(xaxis_title="Number of Ratings", yaxis_title="Stock Ticker")
+
+        # Display in Streamlit
+        st.plotly_chart(fig, use_container_width=True)
+
+        return combined_df
+
+    def draw_consensus_ratings(self, tickers, finnhub_client):
+        st.markdown("##### Consensus Ratings")
+
+        for ticker in tickers:
+            try:
+                rating = finnhub_client.get_rating_consensus(ticker)
+
+                if(rating == 'Buy'):
+                    st.write(f"{ticker}: :green[{rating}] ")
+                elif(rating == 'Hold'):
+                    st.write(f"{ticker}: :yellow[{rating}] ")
+                elif(rating == 'Sell'):
+                    st.write(f"{ticker}: :red[{rating}] ")
+
+            except (KeyError, TypeError):
+                st.write(f"{ticker}: :red[NONE] ")

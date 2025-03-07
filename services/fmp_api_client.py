@@ -93,6 +93,16 @@ class FMP_APIClient:
 
         return None
 
+    def get_cashflow_statement(_self, ticker):
+        endpoint = f"v3/cash-flow-statement/{ticker}"
+        params = {"period": "annual"}
+        data = _self._make_request(endpoint, params)
+
+        if data is not None:
+            return pd.DataFrame(data)
+
+        return None
+
 @st.cache_resource
 def get_fmp_client(api_key):
     """Streamlit cached resource for the FMP API client."""

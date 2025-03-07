@@ -1,0 +1,4 @@
+digraph Metadata {
+	node [fillcolor=lightgoldenrod1 shape=Mrecord style=filled]
+	financials [label="{financials|Unnamed: 0 : id\lSymbol : unknown\lName : unknown\lSector : unknown\lPrice : numerical\lPrice/Earnings : numerical\lDividend Yield : numerical\lEarnings/Share : numerical\l52 Week Low : numerical\l52 Week High : numerical\lMarket Cap : numerical\lEBITDA : numerical\lPrice/Sales : numerical\lPrice/Book : numerical\lConsensus : categorical\lConsensus Score : numerical\l|Primary key: Unnamed: 0\l}"]
+}
