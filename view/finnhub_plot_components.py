@@ -251,9 +251,9 @@ class Finnhub_Plot_Components:
             barmode="group",
             color_discrete_sequence=color_scale,
             title="Stock Ratings by Ticker",
-            category_orders={"Rating Type": rating_order}  # Enforce order
+            category_orders={"Rating Type": rating_order},  # Enforce order
+            height=400
         )
-
 
         fig.update_layout(xaxis_title="Number of Ratings", yaxis_title="Stock Ticker")
 
@@ -263,18 +263,18 @@ class Finnhub_Plot_Components:
         return combined_df
 
     def draw_consensus_ratings(self, tickers, finnhub_client):
-        st.markdown("##### Consensus Ratings")
+        st.markdown("### Consensus Ratings")
 
         for ticker in tickers:
             try:
                 rating = finnhub_client.get_rating_consensus(ticker)
 
                 if(rating == 'Buy'):
-                    st.write(f"{ticker}: :green[{rating}] ")
+                    st.markdown(f"#### {ticker}: :green[{rating}] ")
                 elif(rating == 'Hold'):
-                    st.write(f"{ticker}: :yellow[{rating}] ")
+                    st.markdown(f"#### {ticker}: :orange[{rating}] ")
                 elif(rating == 'Sell'):
-                    st.write(f"{ticker}: :red[{rating}] ")
+                    st.markdown(f"#### {ticker}: :red[{rating}] ")
 
             except (KeyError, TypeError):
                 st.write(f"{ticker}: :red[NONE] ")
