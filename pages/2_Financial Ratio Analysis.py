@@ -15,7 +15,10 @@ from view.fmp_plot_components import FMP_Plot_Components
 
 ############# PAGE CONFIG #############
 st.set_page_config(
-    page_title="Financial Ratio Analysis",
+    page_title="EasyStock Learner",
+    page_icon= "💹",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # Initialising global variables
@@ -41,19 +44,73 @@ av_plot = AlphaVantage_Plot_Components()
 
 ############# PAGE STARTS HERE #############
 
-st.title("Financial Ratio Analysis")
+with st.sidebar:
+    st.title(":green[EasyStock] Learner :chart:")
+    
+    selected_tickers = st.multiselect(
+        "Select ticker:",
+        api_config.get_ticker_options().keys(),
+        default=['AAPL'],
+        key="selectbox1",
+        format_func=lambda x: api_config.get_ticker_options()[x],
+        max_selections=3
+    )       
+    
+    with st.container(border=True):
+        st.header("Links to other pages")
+        st.page_link("1_🏠_Homepage.py", label="Dashboard")
+        st.page_link("pages/4_News.py", label="News Analysis")
+        st.page_link("pages/6_About.py", label="About")
 
-selectedTickers = st.multiselect(
-    "Select ticker:",
-    api_config.get_ticker_options(),
-    default=['MSFT', 'GOOGL'],
-    key="selectbox1"
-)
+st.title("Assisted Analysis")
 
-fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
-fin_plot.draw_pb_ratio(selectedTickers, finnhub_client)
+main_col, r_col = st.columns((6,4), gap='small')
 
+with main_col:
+    fmp_plot.draw_net_income(selected_tickers, fmp_api)
 
+with r_col:
+    selected_task = st.selectbox(
+        "Select a prompt",
+        ['Explanation', 'Comparison between stocks'],
+        index=0,
+        key="task_selectbox"
+    )
+
+    if selected_task == 'Explanation':
+        selected_explanation = st.selectbox(
+            "Select a prompt",
+            ['Briefly explain the graph', 'Further explain the graph', 'Explain what the metric means and how it affects a stock rating'],
+            index=0,
+            key="explanation_selectbox"
+        )
+
+        prompt_starter = selected_explanation
+
+    elif selected_task == 'Comparison between stocks':
+        col = st.columns(2)
+
+        with col[0]:
+            selected_stocks_compare = st.multiselect(
+                "Select ticker:",
+                selected_tickers,
+                key="compare_stock_selectbox",
+                max_selections=2
+            )   
+
+        with col[1]:
+            selected_comparison = st.selectbox(
+                "Select a prompt",
+                ['Compare between these stocks', 'Which stock is performing better'], # Add more questions
+                index=0,
+                key="compare_selectbox"
+            )
+        
+        prompt_starter = f"{selected_comparison}. The stocks to compare are {', '.join(selected_stocks_compare)}."
+
+    st.write(prompt_starter)
+
+    st.markdown("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
 # Important metrics
 #
 # Return on equity

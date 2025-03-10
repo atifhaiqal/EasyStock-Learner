@@ -22,8 +22,9 @@ from view.fmp_plot_components import FMP_Plot_Components
 
 
 st.set_page_config(
-    page_title="Profile Page",
+    page_title="News Analysis",
     layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 #temp
@@ -70,139 +71,8 @@ def extract_titles(news_list):
 
 pipe = pipeline("text-classification", model="ProsusAI/finbert")
 
-############# PAGE STARTS HERE #############
-
-st.title("News")
-
-col1, col2 = st.columns(2)
-
-with col1 :
-    selectedTicker = st.selectbox(
-        "Select ticker:",
-        api_config.get_ticker_options(),
-        placeholder = "Choose an option",
-        key="selectbox1"
-    )
-
-with col2:
-    numberOfNews = st.slider(
-        "Number of news",
-        min_value = 5,
-        max_value= 50,
-        value = 15,
-        step = 5,
-        key = "numberOfNewsSlider"
-    )
-
-# news = yf.Search(selectedTicker, news_count=numberOfNews).news
-dt_start = datetime.datetime(2024, 1, 3, 0, 0, 0)
-dt_end = datetime.datetime(2025, 3, 3, 0, 0, 0)
-alpaca_news = alpaca_api.get_news(selectedTicker, alpaca_api.get_alpaca_datetime(dt_start), alpaca_api.get_alpaca_datetime(dt_end), limit=numberOfNews)
-
-if alpaca_news is not None:
-    news = alpaca_news
-else:
-    news = []
-
-# Example news sentiment outputs
-titles = extract_titles(news)
-news_sentiments = pipe(titles) if titles else []
-
-# Count the occurrences of each sentiment label
-sentiment_counts = {'positive': 0, 'neutral': 0, 'negative': 0}
-for sentiment in news_sentiments: # pyright: ignore
-    sentiment_counts[sentiment['label']] += 1 # pyright: ignore
-
-df = pd.DataFrame(list(sentiment_counts.items()), columns=['Sentiment', 'Count']) # pyright: ignore
-
-# Define the custom color map
-color_map = {
-    'positive': '#00FF00',  # Green
-    'neutral': '#FFEB3B',  # Yellow
-    'negative': '#F44336'  # Red
-}
-
-# Mapping sentiment labels to numerical values
-sentiment_map = {'positive': 1, 'neutral': 0, 'negative': -1}
-
-# Weighted average of sentiment scores
-weighted_scores = np.array([sentiment_map[item['label']] * item['score'] for item in news_sentiments]) # pyright: ignore
-average_score = np.sum(weighted_scores) / np.sum([item['score'] for item in news_sentiments]) # pyright: ignore
-
-# Determine the aggregated sentiment label
-aggregated_sentiment = "positive" if average_score > 0 else "negative" if average_score < 0 else "neutral"
-
-def update_filter(trace, points, selector):
-    if points.point_inds:  # If a slice was clicked
-        selected_category = df.iloc[points.point_inds[0]]['Sentiment']
-        st.session_state.selected_sentiment = selected_category  # Update session state
-
-with st.container(border=True):
-    st.header("Sentiment News Analysis")
-
-    g = grid([0.4, 0.6], vertical_align="center")
-    # Create the ring chart using Plotly Express
-    fig = px.pie(df,
-                names='Sentiment',
-                values='Count',
-                hole=0.4,  # Ring effect
-                color='Sentiment',
-                color_discrete_map=color_map)
-
-    # Display the chart in Streamlit
-    g.plotly_chart(fig)
-    g.markdown(f"""
-        ### Aggregated Sentiment: {aggregated_sentiment}
-        ### Score: {average_score}
-
-    """)
-
-news_filter = st.selectbox(
-    "Filter News Option",
-    ['All','Positive', 'Neutral', 'Negative'],
-    key="news_filter"
-)
-
-
-
-# for article, sentiment in zip(news,news_sentiments): # pyright: ignore
-#     with st.container():
-#         g = grid([0.3, 0.7], vertical_align="center")
-
-#         # Handle image display
-#         def get_image(article):
-#             if ('thumbnail' in article and 'resolutions' in article['thumbnail']
-#                 and article['thumbnail']['resolutions']
-#                 and 'url' in article['thumbnail']['resolutions'][0]):
-#                 return article['thumbnail']['resolutions'][0]['url']
-#             return "assets/default_news.jpeg"
-
-#         # Create markdown content
-#         sentiment_icons = {
-#             'positive': '🟢',
-#             'neutral': '🟡',
-#             'negative': '🔴',
-#         }
-
-#         def create_markdown(article, sentiment):
-#             return f"""
-#                 ### {sentiment_icons[sentiment['label']]} [{article['title']}]({article['link']})
-#                 Publisher: {article['publisher']} {datetime.datetime.fromtimestamp(article['providerPublishTime'])}
-#                 | Sentiment Rating: {sentiment['label']}
-#             """
-
-#         # Display content if it matches filter
-#         if (news_filter.lower() == 'all' or
-#             news_filter.lower() == sentiment['label']):
-#             g.image(get_image(article))
-#             g.markdown(create_markdown(article, sentiment))
-#
-padL, left_col, right_col, padR= st.columns([0.1,0.4,0.4,0.1])  # Create two columns
-
-# Split articles between the two columns
-half = len(news) // 2 + len(news) % 2  # Ensures even distribution if odd number
-
-# Helper functions
+#---------------------------------------------------------------------------#
+# Additional Functions
 def get_image(article):
     if "images" in article and article["images"]:
         return article["images"][0]["url"]
@@ -218,6 +88,11 @@ def create_markdown(article, sentiment):
         Sentiment: {sentiment_icons[sentiment['label']]} {sentiment['label'].capitalize()} \n\n
         [**Link**]({article['url']})
     """
+def update_filter(trace, points, selector):
+        if points.point_inds:  # If a slice was clicked
+            selected_category = df.iloc[points.point_inds[0]]['Sentiment']
+            st.session_state.selected_sentiment = selected_category  # Update session state
+
 
 sentiment_icons = {
     'positive': '🟢',
@@ -225,23 +100,207 @@ sentiment_icons = {
     'negative': '🔴',
 }
 
-for i, (article, sentiment) in enumerate(zip(news, news_sentiments)):  # pyright: ignore
-    col = left_col if i < half else right_col  # Assign article to left or right column
+############# PAGE STARTS HERE #############
 
-    # Filter articles based on selected sentiment
-    if (news_filter.lower() == 'all' or news_filter.lower() == sentiment['label']):
-        with col:  # Display inside the chosen column
+with st.sidebar:
+    st.title(":green[EasyStock] Learner :chart:")
+    
+    selected_tickers = st.multiselect(
+        "Select ticker:",
+        api_config.get_ticker_options().keys(),
+        default=['AAPL'],
+        key="sidebar_selectbox",
+        format_func=lambda x: api_config.get_ticker_options()[x],
+        max_selections=3
+    )       
+    
+    with st.container(border=True):
+        st.header("Links to other pages")
+        st.page_link("1_🏠_Homepage.py", label="Dashboard")
+        st.page_link("pages/2_Financial Ratio Analysis.py", label="Assisted Analysis")
+        st.page_link("pages/6_About.py", label="About")
+
+st.title("News")
+
+main_col, right_col = st.columns((8,2), gap='medium')
+
+with main_col:
+
+    col = st.columns(6)
+
+    with col[0]:
+        selectedTicker = st.selectbox(
+            "Select ticker:",
+            selected_tickers,
+            placeholder = "Choose an option",
+            key="ticker_selectbox"
+        )
+
+    with col[1]:
+        news_filter = st.selectbox(
+            "Filter News Option",
+            ['All','Positive', 'Neutral', 'Negative'],
+            key="news_filter"
+        )
+
+
+    with col[2]:
+        dt_start = st.date_input(
+            "Start Date",
+            value = datetime.datetime(2024, 1, 3, 0, 0, 0),
+            key = 'start_date_select',
+        )
+
+    with col[3]:
+        dt_end = st.date_input(
+            "End Date",
+            value = "today",
+            key = 'end_date_select',
+        )
+
+    with col[4]:
+        news_order = st.selectbox(
+            "News order",
+            ['Descending','Ascending'],
+            key="news_order"
+        )
+
+    with col[5]:
+        numberOfNews = st.slider(
+            "Number of news",
+            min_value = 5,
+            max_value= 50,
+            value = 15,
+            step = 5,
+            key = "numberOfNewsSlider"
+        )
+
+    # news = yf.Search(selectedTicker, news_count=numberOfNews).news
+    # dt_start = datetime.datetime(2024, 1, 3, 0, 0, 0)
+    # dt_end = datetime.datetime(2025, 3, 3, 0, 0, 0)
+    alpaca_news = alpaca_api.get_news(selectedTicker, alpaca_api.get_alpaca_datetime(dt_start), alpaca_api.get_alpaca_datetime(dt_end), limit=numberOfNews)
+
+    if alpaca_news is not None:
+        news = alpaca_news
+    else:
+        news = []
+
+    # Example news sentiment outputs
+    titles = extract_titles(news)
+    news_sentiments = pipe(titles) if titles else []
+
+    # Count the occurrences of each sentiment label
+    sentiment_counts = {'positive': 0, 'neutral': 0, 'negative': 0}
+    for sentiment in news_sentiments: # pyright: ignore
+        sentiment_counts[sentiment['label']] += 1 # pyright: ignore
+
+    df = pd.DataFrame(list(sentiment_counts.items()), columns=['Sentiment', 'Count']) # pyright: ignore
+
+    # Define the custom color map
+    color_map = {
+        'positive': '#00FF00',  # Green
+        'neutral': '#FFEB3B',  # Yellow
+        'negative': '#F44336'  # Red
+    }
+
+    # Mapping sentiment labels to numerical values
+    sentiment_map = {'positive': 1, 'neutral': 0, 'negative': -1}
+
+    # Weighted average of sentiment scores
+    weighted_scores = np.array([sentiment_map[item['label']] * item['score'] for item in news_sentiments]) # pyright: ignore
+    average_score = np.sum(weighted_scores) / np.sum([item['score'] for item in news_sentiments]) # pyright: ignore
+
+    # Determine the aggregated sentiment label
+    aggregated_sentiment = "positive" if average_score > 0 else "negative" if average_score < 0 else "neutral"
+
+    if(news_order == 'Ascending'):
+        news = news[::-1]
+
+    for i, (article, sentiment) in enumerate(zip(news, news_sentiments)):  # pyright: ignore
+
+        # Filter articles based on selected sentiment
+        if (news_filter.lower() == 'all' or news_filter.lower() == sentiment['label']):
+
             with st.container(border=True):
-                g = st.columns([0.3, 0.7])  # Define layout columns (image, text)
+                g = st.columns((1,6))  # Define layout columns (image, text)
 
                 # Display image
                 with g[0]:
                     st.markdown(f"""
                     <a href="{article['url']}" target="_blank">
-                        <img src="{get_image(article)}" style="width: 100%; height: auto; border-radius: 10px;">
+                        <img src="{get_image(article)}" style="width: 100%; height: 150; border-radius: 10px;">
                     </a>
                     """, unsafe_allow_html=True)
 
                 # Display text content
                 with g[1]:
                     st.markdown(create_markdown(article, sentiment))
+
+with right_col:
+    
+    with st.container(border=False):
+        st.header("Sentiment News Analysis")
+
+        # Create the ring chart using Plotly Express
+        fig = px.pie(df,
+                    names='Sentiment',
+                    values='Count',
+                    hole=0.4,  # Ring effect
+                    color='Sentiment',
+                    color_discrete_map=color_map)
+
+        fig.update_layout(
+            margin=dict(l=0, r=0, t=0, b=0),  
+            height=250,  
+            width=250, 
+        )
+
+        st.plotly_chart(fig)
+
+        sentiment = aggregated_sentiment.capitalize()
+
+        if(sentiment == 'Positive'):
+            st.markdown(f"Aggregated Sentiment: :green[{sentiment}] ")
+        elif(sentiment == 'Neutral'):
+            st.markdown(f"Aggregated Sentiment: :yellow[{sentiment}] ")
+        elif(sentiment == 'Negative'):
+            st.markdown(f"Aggregated Sentiment: :red[{sentiment}] ")
+
+    
+
+
+
+    # for article, sentiment in zip(news,news_sentiments): # pyright: ignore
+    #     with st.container():
+    #         g = grid([0.3, 0.7], vertical_align="center")
+
+    #         # Handle image display
+    #         def get_image(article):
+    #             if ('thumbnail' in article and 'resolutions' in article['thumbnail']
+    #                 and article['thumbnail']['resolutions']
+    #                 and 'url' in article['thumbnail']['resolutions'][0]):
+    #                 return article['thumbnail']['resolutions'][0]['url']
+    #             return "assets/default_news.jpeg"
+
+    #         # Create markdown content
+    #         sentiment_icons = {
+    #             'positive': '🟢',
+    #             'neutral': '🟡',
+    #             'negative': '🔴',
+    #         }
+
+    #         def create_markdown(article, sentiment):
+    #             return f"""
+    #                 ### {sentiment_icons[sentiment['label']]} [{article['title']}]({article['link']})
+    #                 Publisher: {article['publisher']} {datetime.datetime.fromtimestamp(article['providerPublishTime'])}
+    #                 | Sentiment Rating: {sentiment['label']}
+    #             """
+
+    #         # Display content if it matches filter
+    #         if (news_filter.lower() == 'all' or
+    #             news_filter.lower() == sentiment['label']):
+    #             g.image(get_image(article))
+    #             g.markdown(create_markdown(article, sentiment))
+    #
+
+

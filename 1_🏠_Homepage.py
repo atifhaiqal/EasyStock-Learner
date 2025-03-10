@@ -69,13 +69,28 @@ color_map = {
     'negative': '#F44336'  # Red
 }
 
+def get_image(article):
+    if "images" in article and article["images"]:
+        return article["images"][0]["url"]
+    return "https://www.nccpimandtip.gov.eg/uploads/newsImages/1549208279-default-news.png"  # Default image
+
+def format_date(iso_date):
+    return datetime.datetime.fromisoformat(iso_date[:-1]).strftime("%Y-%m-%d %H:%M:%S")
+
+def create_markdown(article):
+    return f"""
+        ###### {article['headline']}
+        **Source**: {article['source']} | **Published**: {format_date(article['created_at'])} \n\n
+        [**Link**]({article['url']})
+    """
+
 def extract_titles(news_list):
     return [news['headline'] for news in news_list]
 
 @st.cache_resource
 def news_sentiment_analyis(tickers):
     dt_start = datetime.datetime(2024, 1, 3, 0, 0, 0)
-    dt_end = datetime.datetime(2025, 3, 3, 0, 0, 0)
+    dt_end = datetime.datetime.today()
     combined_df = pd.DataFrame()
     aggregated_sentiment_list = []
 
@@ -118,6 +133,121 @@ def news_sentiment_analyis(tickers):
     combined_df = combined_df.reset_index(drop=True)
 
     return combined_df, aggregated_sentiment_df
+
+def format_number(num):
+    if num >= 1_000_000_000_000:  # Trillions
+        return f"{num / 1_000_000_000_000:.1f}T"
+    elif num >= 1_000_000_000:  # Billions
+        return f"{num / 1_000_000_000:.1f}B"
+    elif num >= 1_000_000:  # Millions
+        return f"{num / 1_000_000:.1f}M"
+    elif num >= 1_000:  # Thousands
+        return f"{num / 1_000:.1f}K"
+    else:
+        return str(num)
+
+def calc_percentage_difference(current_val, previous_val):
+    difference = current_val - previous_val
+    percentage_difference = difference/previous_val
+    percentage = f"{percentage_difference:.2%}"
+    return percentage
+
+def make_diff_fmp_cf(ticker, period, label, metric):
+    try:
+        cashflow_df = fmp_api.get_cashflow_statement(ticker)
+        
+        current_year = cashflow_df.iloc[0][metric]
+
+        if period == 1:
+            prev_year = cashflow_df.iloc[period][metric]
+        else:
+            prev_year = cashflow_df.iloc[period-1][metric]
+
+        difference = calc_percentage_difference(current_year, prev_year)
+
+        st.metric(label=label, value=format_number(current_year), delta=difference)
+    except:
+        with st.container(border=True):
+            st.markdown(f"{label} is unavailable for {ticker}")
+
+def make_diff_fmp_bs(ticker, period, label, metric):
+    try:
+        balancesheet_df = fmp_api.get_balance_sheet(ticker)
+        
+        current_year = balancesheet_df.iloc[0][metric]
+
+        if period == 1:
+            prev_year = balancesheet_df.iloc[period][metric]
+        else:
+            prev_year = balancesheet_df.iloc[period-1][metric]
+
+        difference = calc_percentage_difference(current_year, prev_year)
+
+        st.metric(label=label, value=format_number(current_year), delta=difference)
+    except:
+        with st.container(border=True):
+            st.markdown(f"{label} is unavailable for {ticker}")
+
+def make_diff_fmp_is(ticker, period, label, metric):
+    try: 
+        incomeStatement_df = fmp_api.get_income_statement(ticker)
+        
+        current_year = incomeStatement_df.iloc[0][metric]
+
+        if period == 1:
+            prev_year = incomeStatement_df.iloc[period][metric]
+        else:
+            prev_year = incomeStatement_df.iloc[period-1][metric]
+
+        difference = calc_percentage_difference(current_year, prev_year)
+
+        st.metric(label=label, value=format_number(current_year), delta=difference)
+    except:
+        with st.container(border=True):
+            st.markdown(f"{label} is unavailable for {ticker}")
+
+def make_diff_finnhub(ticker, period, label, metric):
+    try:
+        metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
+        peRatio = metrics["series"]["annual"][metric]
+        df = pd.json_normalize(peRatio)
+
+        current_year = df.iloc[0]['v']
+
+        if period == 1:
+            prev_year = df.iloc[period]['v']
+        else:
+            prev_year = df.iloc[period-1]['v']
+
+        difference = calc_percentage_difference(current_year, prev_year)
+
+        st.metric(label=label, value=f"{current_year:.1f}", delta=difference)
+    except:
+        with st.container(border=True):
+            st.markdown(f"{label} is unavailable for {ticker}")
+
+def make_performance_chart(ticker):
+    with st.container(border=True):
+            st.markdown(f"### {ticker}")
+            inner_col = st.columns(3)
+
+            with inner_col[0]:
+                make_diff_finnhub(ticker, period_selectbox, "PE Ratio", "pe")
+                make_diff_finnhub(ticker, period_selectbox, "PTBV", "ptbv")
+                make_diff_fmp_is(ticker, period_selectbox, "EBITDA", "ebitda")
+                make_diff_finnhub(ticker, period_selectbox, "Dept to Capital", "totalDebtToTotalCapital")
+                
+            with inner_col[1]:
+                make_diff_finnhub(ticker, period_selectbox, "PB Ratio", "pb")
+                make_diff_finnhub(ticker, period_selectbox, "Return on Assets", "roa")
+                make_diff_fmp_is(ticker, period_selectbox, "Revenue", "revenue")
+                make_diff_fmp_bs(ticker, period_selectbox, "Total Debt", "totalDebt")
+
+            with inner_col[2]:
+                make_diff_finnhub(ticker, period_selectbox, "Earning per Share", "eps")
+                make_diff_finnhub(ticker, period_selectbox, "Return on Equity", "roe")
+                make_diff_fmp_is(ticker, period_selectbox, "Net Income", "netIncome")
+                make_diff_fmp_cf(ticker, period_selectbox, "Free Cash Flow", "freeCashFlow")
 
 ############# PAGE STARTS HERE #############
 
@@ -163,6 +293,7 @@ with st.sidebar:
     
     with st.container(border=True):
         st.header("Links to other pages")
+        st.page_link("pages/2_Financial Ratio Analysis.py", label="Assisted Analysis")
         st.page_link("pages/4_News.py", label="News Analysis")
         st.page_link("pages/6_About.py", label="About")
 
@@ -235,161 +366,70 @@ with col[2]:
         elif(sentiment == 'Negative'):
             st.markdown(f"#### {ticker}: :red[{sentiment}] ")
 
-st.header("Stock Perfomance Breakdown")
-
-col = st.columns(3)
+col = st.columns((6, 2), gap='small')
 
 with col[0]:
-    with st.container(border=True):
-        st.markdown("### Stock A")
-        inner_col = st.columns(2)
-
-        with inner_col[0]:
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='-5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
-
-        with inner_col[1]:
-            st.metric(label="Gain", value=5000, delta=1000)
-            st.metric(label="PE Ratio", value=24.5, delta='-5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
+    with st.container(border=False, height=716):
+        st.header('ML STUFF WILL GO HERE')
 
 with col[1]:
     with st.container(border=True):
-        st.markdown("### Stock B")
-        inner_col = st.columns(2)
+        news_selectbox = st.selectbox(
+            "Select ticker:",
+            selectedTickers,
+            index=0,
+            key="news_selectbox"
+        )
+    
+        with st.container(border=False, height=600):
+            dt_start = datetime.datetime(2024, 1, 3, 0, 0, 0)
+            dt_end = datetime.datetime.today()
+            alpaca_news = alpaca_api.get_news(news_selectbox, alpaca_api.get_alpaca_datetime(dt_start), alpaca_api.get_alpaca_datetime(dt_end), limit=5)
 
-        with inner_col[0]:
-            st.metric(label="PE Ratio", value=24.5, delta='15.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='-5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
+            if alpaca_news is not None:
+                news = alpaca_news
+            else:
+                news = []
 
-        with inner_col[1]:
-            st.metric(label="Gain", value=5000, delta=1000)
-            st.metric(label="PE Ratio", value=24.5, delta='-5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
+            for i, article in enumerate(news):  # pyright: ignore
+            
+                with st.container(border=True): 
+                    g = st.columns([0.3, 0.7])  # Define layout columns (image, text)
 
-with col[2]:
-    with st.container(border=True):
-        st.markdown("### Stock C")
-        inner_col = st.columns(2)
+                    # Display image
+                    with g[0]:
+                        st.markdown(f"""
+                        <a href="{article['url']}" target="_blank">
+                            <img src="{get_image(article)}" style="width: 100%; height: auto; border-radius: 10px;">
+                        </a>
+                        """, unsafe_allow_html=True)
 
-        with inner_col[0]:
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='-5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
+                    # Display text content
+                    with g[1]:
+                        st.markdown(create_markdown(article))
 
-        with inner_col[1]:
-            st.metric(label="Gain", value=5000, delta=-1000)
-            st.metric(label="PE Ratio", value=24.5, delta='-5.5%')
-            st.metric(label="PE Ratio", value=24.5, delta='5.5%')
+            st.page_link("pages/4_News.py", label="More News")
 
-style_metric_cards(background_color='#2C2C2C', border_color='#1C1C1C', border_left_color='#1C1C1C')
+with st.container(border=True):
+    col_l, col_r = st.columns((7,1), gap='small')
 
-# if st.session_state["user_name"] and "" or st.session_state["api_key"] != "":
-#     st.write("## Hi ", st.session_state["user_name"], "!")
-# else:
-#     st.write("## Please proceed to the profile page to set up API key and nickname")
+    with col_l:
+        st.header("Stock Perfomance Overview")
 
-# st.markdown("## Pick stocks to compare")
+    with col_r:
+        period_selectbox = st.selectbox(
+                "Select time period (Years):",
+                options=[1,5],
+                index=0,
+                key="period_selectbox"
+            )
 
-# selectedTickers = st.multiselect(
-#     "Select ticker:",
-#     api_config.get_ticker_options(),
-#     default=['MSFT', 'GOOGL'],
-#     key="selectbox1"
-# )
+    col = st.columns(len(selectedTickers))
 
-# The main candle chart
-# col1, col2 = st.columns([2,1])
+    for i, ticker in enumerate(selectedTickers):
+        with col[i]:
+            make_performance_chart(ticker)
+    
+    st.page_link("pages/2_Financial Ratio Analysis.py", label="Further Analysis and Visualisation")
 
-# with col1:
-#     av_plot.draw_stock_prices(selectedTickers, av_api)
-
-# with col2:
-#     fin_plot.draw_stock_ratings(selectedTickers, finnhub_client)
-#     fin_plot.draw_consensus_ratings(selectedTickers, finnhub_client)
-
-
-# with st.popover("How to read candle stick chart? 🤔"):
-#     st.markdown('''
-#     A candlestick chart helps visualize stock price movements over time.
-#     Each candlestick represents a specific time period (e.g., 1 day) and shows four key prices:
-#     ''')
-#     st.markdown('''
-#     - Open – The price when the period started
-#     - Close – The price when the period ended
-#     - High – The highest price reached
-#     - Low – The lowest price reached
-
-#     Understanding Candlesticks:
-#     - Green Candle: The price closed higher than it opened (bullish).
-#     - Red Candle: The price closed lower than it opened (bearish).
-#     - Wicks: Thin lines above and below the candle body show the highest and lowest prices.
-
-#     Key Patterns to Watch:
-#     - Long green candles → Strong buying pressure
-#     - Long red candles → Strong selling pressure
-#     - Doji (small body, long wicks) → Market indecision
-#     - Hammer / Shooting Star → Potential trend reversal
-#     ''')
-
-#     st.markdown('''
-#     Candlestick charts help identify trends, reversals, and market sentiment quickly.
-#     Use them with other indicators for better analysis! 🚀
-#     ''')
-
-# # Smaller charts
-# col3, col4, col5, col6 = st.columns(4)
-
-# with col3:
-#     fmp_plot.draw_revenue(selectedTickers, fmp_api)
-#     fin_plot.draw_pe_ratio(selectedTickers, finnhub_client)
-#     fmp_plot.draw_total_debt(selectedTickers, fmp_api)
-
-# with col4:
-#     fmp_plot.draw_ebitda(selectedTickers, fmp_api)
-#     fin_plot.draw_pb_ratio(selectedTickers, finnhub_client)
-#     fmp_plot.draw_net_debt(selectedTickers, fmp_api)
-
-# with col5:
-#     fin_plot.draw_dividend_yield_annual(selectedTickers, finnhub_client)
-#     fmp_plot.draw_longterm_debt(selectedTickers, fmp_api)
-#     fmp_plot.draw_net_change_in_cash(selectedTickers, fmp_api)
-
-# with col6:
-#     fin_plot.draw_eps_ratio(selectedTickers, finnhub_client)
-#     fmp_plot.draw_net_income(selectedTickers, fmp_api)
-#     fmp_plot.draw_net_income_ratio(selectedTickers, fmp_api)
-
-# st.header("Stock Rating Prediction (PLACEHOLDERS FOR NOW)")
-
-# # use the same selection as the one on top
-
-# st.subheader("AAPL")
-# st.write("Stock Rating: :green[Buy]")
-# st.write("Date: ", date.today())
-
-# st.markdown('''
-#     ### **Reasoning for Buy Call on Apple Stock (AAPL)**
-
-#     #### **1. Strong Revenue Growth 📈**
-#     - Apple’s latest earnings report shows a **15% YoY revenue increase**, driven by strong iPhone and services sales.
-#     - Services segment (**App Store, iCloud, Apple Music**) is growing at **20% YoY**, providing stable recurring revenue.
-
-#     #### **2. Positive Technical Indicators 📊**
-#     - **50-day moving average** is crossing above the **200-day moving average** (**Golden Cross**), signaling an uptrend.
-#     - Recent **candlestick patterns** show **higher lows**, indicating **bullish momentum**.
-
-#     #### **3. Undervalued Relative to Growth 📉**
-#     - Current **P/E ratio: 24** vs. historical average of **26**, suggesting slight undervaluation.
-#     - **Price-to-book (P/B) ratio** remains stable, reflecting confidence in asset valuation.
-
-#     #### **4. Strong Institutional Support 🏛️**
-#     - **Hedge funds and institutional investors** have increased holdings by **8%** in the last quarter.
-#     - **Warren Buffett’s Berkshire Hathaway** maintains a significant stake, showing long-term confidence.
-
-#     #### **5. Macroeconomic & Industry Trends 🌍**
-#     - The global shift toward **AI and AR** (**Apple Vision Pro**) positions Apple for future growth.
-#     - **Declining inflation** and potential **Fed rate cuts** may boost tech stock valuations.
-# ''')
+    style_metric_cards(background_color='#2C2C2C', border_color='#1C1C1C', border_left_color='#1C1C1C')
