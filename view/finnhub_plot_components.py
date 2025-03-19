@@ -199,15 +199,6 @@ class Finnhub_Plot_Components:
         # Define the fixed order for rating types
         rating_order = ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"]
 
-        # Custom color mapping
-        rating_colors = {
-            "Strong Buy": "#006400",  # Dark Green
-            "Buy": "#008000",  # Green
-            "Hold": "#FFD700",  # Yellow
-            "Sell": "#FF69B4",  # Pink
-            "Strong Sell": "#FF0000"  # Red
-        }
-
         # Create empty DataFrame to store ratings
         combined_df = pd.DataFrame()
 
@@ -236,11 +227,17 @@ class Finnhub_Plot_Components:
             st.warning("No stock rating data available.")
             return None
 
-        # Ensure the rating type order is maintained
-        combined_df["Rating Type"] = pd.Categorical(combined_df["Rating Type"], categories=rating_order, ordered=True)
+        # Custom color mapping
+        rating_colors_dict = {
+            "Strong Buy": "#067E00",  # Dark Green
+            "Buy": "#3BD133",  # Green
+            "Hold": "#FBF909",  # Yellow
+            "Sell": "#FBAA09",  # Pink
+            "Strong Sell": "#FB1509"  # Red
+        }
 
-        # Use Plotly's inbuilt qualitative color scale
-        color_scale = px.colors.qualitative.Set1
+        # Get colors in correct order matching rating categories
+        plotly_colors = [rating_colors_dict[rating] for rating in rating_order]
 
         # Create grouped horizontal bar chart
         fig = px.bar(
@@ -249,7 +246,7 @@ class Finnhub_Plot_Components:
             y="Ticker",
             color="Rating Type",
             barmode="group",
-            color_discrete_sequence=color_scale,
+            color_discrete_sequence=plotly_colors,
             title="Stock Ratings by Ticker",
             category_orders={"Rating Type": rating_order},  # Enforce order
             height=400

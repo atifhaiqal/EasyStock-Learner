@@ -28,6 +28,9 @@ if "api_key" not in st.session_state:
 if "user_name" not in st.session_state:
     st.session_state["user_name"] = ""
 
+if 'selected_tickers' not in st.session_state:
+    st.session_state.selected_tickers = ['AAPL']
+
 #temp
 FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 AV_API_KEY = 'WGHKWKAR5TGFV4IC'
@@ -47,10 +50,10 @@ av_plot = AlphaVantage_Plot_Components()
 with st.sidebar:
     st.title(":green[EasyStock] Learner :chart:")
     
-    selected_tickers = st.multiselect(
+    st.session_state.selected_tickers = st.multiselect(
         "Select ticker:",
         api_config.get_ticker_options().keys(),
-        default=['AAPL'],
+        default=st.session_state.selected_tickers,
         key="selectbox1",
         format_func=lambda x: api_config.get_ticker_options()[x],
         max_selections=3
@@ -67,7 +70,7 @@ st.title("Assisted Analysis")
 main_col, r_col = st.columns((6,4), gap='small')
 
 with main_col:
-    fmp_plot.draw_net_income(selected_tickers, fmp_api)
+    fmp_plot.draw_net_income(st.session_state.selected_tickers, fmp_api)
 
 with r_col:
     selected_task = st.selectbox(
@@ -93,7 +96,7 @@ with r_col:
         with col[0]:
             selected_stocks_compare = st.multiselect(
                 "Select ticker:",
-                selected_tickers,
+                st.session_state.selected_tickers,
                 key="compare_stock_selectbox",
                 max_selections=2
             )   

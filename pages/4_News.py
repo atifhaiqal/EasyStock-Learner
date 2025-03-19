@@ -62,6 +62,9 @@ if "user_name" not in st.session_state:
 if "selected_sentiment" not in st.session_state:
     st.session_state.selected_sentiment = "All"
 
+if 'selected_tickers' not in st.session_state:
+    st.session_state.selected_tickers = ['AAPL']
+
 # Initialising FinBERT pipeline
 pipe = pipeline("text-classification", model="ProsusAI/finbert")
 
@@ -105,10 +108,10 @@ sentiment_icons = {
 with st.sidebar:
     st.title(":green[EasyStock] Learner :chart:")
     
-    selected_tickers = st.multiselect(
+    st.session_state.selected_tickers = st.multiselect(
         "Select ticker:",
         api_config.get_ticker_options().keys(),
-        default=['AAPL'],
+        default=st.session_state.selected_tickers,
         key="sidebar_selectbox",
         format_func=lambda x: api_config.get_ticker_options()[x],
         max_selections=3
@@ -131,7 +134,7 @@ with main_col:
     with col[0]:
         selectedTicker = st.selectbox(
             "Select ticker:",
-            selected_tickers,
+            st.session_state.selected_tickers,
             placeholder = "Choose an option",
             key="ticker_selectbox"
         )
