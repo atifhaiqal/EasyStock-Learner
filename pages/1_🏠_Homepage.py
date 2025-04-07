@@ -10,6 +10,7 @@ from streamlit_extras.metric_cards import style_metric_cards
 import requests
 import google.generativeai as genai
 import os
+# import joblib
 
 # importing api clients
 from config.api_settings import FMP_APIConfig
@@ -64,6 +65,10 @@ y_plot = YFinance_Plot_Components()
 
 pipe = pipeline("text-classification", model="ProsusAI/finbert")
 
+# Load the pipeline and label encoder
+# pipeline = joblib.load('model_pipeline.joblib')
+# label_encoder = joblib.load('label_encoder.joblib')
+
 # temporary value for API KEY
 st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 
@@ -81,13 +86,17 @@ generation_config = {
 }
 
 model = genai.GenerativeModel(
-  model_name="gemini-1.5-pro",
+  model_name="gemini-1.5-flash",
   generation_config=generation_config,
-  system_instruction="You are a an assistant in a investment learning app called EasyStock Learner. Your role is to predict the stock rating of a company given its financial data and give the reasoning behind the rating (either buy or sell). Apart from that your role is also to help users understand the meaning behind the different metrics and ratios in finance. You are required to analyse time series financial data and generate an explanation of the performance of the metric. Be concise and start directly with insights.",
+  system_instruction="You are a an assistant in a investment learning app called EasyStock Learner. Your role is to predict the stock rating of a company given its financial data and give the reasoning behind the rating (either buy or sell). Apart from that your role is also to help users understand the meaning behind the different metrics and ratios in finance. You are required to analyse time series financial data and generate an explanation of the performance of the metric. Be concise and start directly with insights. Explain in a tone thats easy to understand for someone with little to moderate financial litteracy.",
 )
 
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = genai.ChatSession(model)
+
+if "llm_analysis" not in st.session_state:
+    st.session_state.llm_analysis = "No predictions currently."
+
 
 #---------------------------------------------------------------------------#
 # Additional Functions
@@ -279,22 +288,95 @@ def make_performance_chart(ticker):
                 make_diff_fmp_is(ticker, period_selectbox, "Net Income", "netIncome")
                 make_diff_fmp_cf(ticker, period_selectbox, "Free Cash Flow", "freeCashFlow")
 
-def make_prediction(financial_data, news_sentiment):
-    financial_data_json = financial_data.to_json(orient="records", indent=4)
+def extract_titles(news_list):
+    return [news['headline'] for news in news_list]
+
+def get_labeled_news(ticker):
+    dt_start = datetime.datetime(2024, 1, 3, 0, 0, 0)
+    dt_end = datetime.datetime.today()
+    alpaca_news = alpaca_api.get_news(ticker, alpaca_api.get_alpaca_datetime(dt_start), alpaca_api.get_alpaca_datetime(dt_end), limit=20)
+
+    if alpaca_news is not None:
+        news = alpaca_news
+    else:
+        news = []
+
+    # Example news sentiment outputs
+    titles = extract_titles(news)
+    news_sentiments = pipe(titles) if titles else []
+
+    labeled_news = [(title, sentiment['label'], sentiment['score'])
+                    for title, sentiment in zip(titles, news_sentiments)]
+
+    return labeled_news
+
+def make_prediction(ticker, news_sentiment, labeled_news):
+    metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
+    financial_data_json = metrics['metric']
+
     if news_sentiment is not None:
-        message = f"""Here is the financial data of a given company:\n\n{financial_data_json}\n\n.
+        message = f"""Here is the financial data of {ticker}:\n\n{financial_data_json}\n\n.
                     The sentiment analysis of 20 of the most recent news surrounding the company is {news_sentiment}.
+                    The list of labeled news are as follows: {labeled_news}.
+                    The sentiment scores are provided by FinBERT. Positive or negative news are provided by the positive or negative values of the scores.
+                    Highlight any key news that may influence the final rating.
                     """
     else:
-        message = f"""Here is the financial data of a given company:\n\n{financial_data_json}\n\n.
+        message = f"""Here is the financial data of {ticker}:\n\n{financial_data_json}\n\n.
                     """
     chat_session = st.session_state.chat_session
     response = chat_session.send_message(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
                     Analyse the performance and provide a concise insights but avoid introductions.
-                    Highlight key reasonings as to why the decision has been made. 
+                    Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
                     Give the results in markdown format, with headers for key reasons for the rating of the stock. 
+                    Bold any financial metric mentioned and reformat the name into a more readable format.
 
-                    Return the rating as a markdown header in the form of "## Rating: :green[Buy]", "## Rating: :orange[Hold]" or "## Rating: :red[Sell]",
+                    Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
+                    depending on the stock rating. This is to comply with the formatting of the UI.""")
+
+    # Debugging
+    print(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
+                    Analyse the performance and provide a concise insights but avoid introductions.
+                    Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
+                    Give the results in markdown format, with headers for key reasons for the rating of the stock. 
+                    Bold any financial metric mentioned and reformat the name into a more readable format.
+
+                    Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
+                    depending on the stock rating. This is to comply with the formatting of the UI.""")
+
+    return response.text
+
+def make_comparative_rating(tickers, news_sentiments):
+    metric_a = finnhub_client.get_company_basic_financials(tickers[0], 'all')
+    metric_b = finnhub_client.get_company_basic_financials(tickers[1], 'all')
+    financial_data_a_json = metric_a['metric']
+    financial_data_b_json = metric_b['metric']
+
+    if news_sentiments is not None:
+        message = f"""Here are 2 companies; {tickers[0]} and {tickers[1]}.
+        
+                    The financial data for each companies are given here. 
+                    {tickers[0]}: \n\n{financial_data_a_json}\n\n.
+                    {tickers[1]}: \n\n{financial_data_b_json}\n\n.
+                    The sentiment analysis of 20 of the most recent news surrounding the companies are {news_sentiments[0]} and {news_sentiments[1]} respectfully.
+                    """
+    else:
+        message = f"""Here are 2 companies; {tickers[0]} and {tickers[1]}.
+        
+                    The financial data for each companies are given here. 
+                    {tickers[0]}: \n\n{financial_data_a_json}\n\n.
+                    {tickers[1]}: \n\n{financial_data_b_json}\n\n.
+                    """
+    chat_session = st.session_state.chat_session
+    response = chat_session.send_message(f"""{message} Given these data points, make a comparative rating on the given companies (buy, hold, or sell). 
+                    Analyse the performance and provide a concise insights but avoid introductions.
+                    Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
+                    Highlight the strengths and weaknesses for each company.
+                    Provide and pick which company is performing better with the key metrics that stands out for each company and how that influences the final rating. 
+                    Give the results in markdown format, with headers for key reasons for the rating of the stock. 
+                    Bold any financial metric mentioned and reformat the name into a more readable format.
+
+                    Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
                     depending on the stock rating. This is to comply with the formatting of the UI.""")
 
     return response.text
@@ -310,6 +392,8 @@ with st.sidebar:
         default=st.session_state.selected_tickers,
         key="selectbox1",
         format_func=lambda x: api_config.get_ticker_options()[x],
+        help = """Tickers are short symbols (like AAPL for Apple or MSFT for Microsoft) used to identify companies on the stock market.
+                This tool only supports companies in the S&P 500.""",
         max_selections=3
     )       
 
@@ -359,6 +443,7 @@ with st.sidebar:
     
     with st.container(border=True):
         st.header("Links to other pages")
+        st.page_link("tutorial.py", label="Tutorial")
         st.page_link("pages/2_Financial Ratio Analysis.py", label="Assisted Analysis")
         st.page_link("pages/4_News.py", label="News Analysis")
         st.page_link("pages/6_About.py", label="About")
@@ -437,49 +522,95 @@ col = st.columns((6, 2), gap='small')
 
 with col[0]:
     with st.container(border=False, height=716):
-        st.header('Predictive Rating')
+        st.header('LLM Stock Rating')
 
-        inner_col = st.columns(4, vertical_alignment="bottom")
+        inner_col = st.columns(5, vertical_alignment="bottom")
 
         with inner_col[0]:
-            predictive_selectbox = st.selectbox(
-                "Select a ticker to rate:",
-                st.session_state.selected_tickers,
+            rating_type_selectbox = st.selectbox(
+                "Select rating method:",
+                ['Single stock', 'Comparative rating'],
                 index=0,
-                key="predictive_selectbox"
+                key="rating_type_selectbox"
             )
 
-        with inner_col[1]:
-            include_news_selectbox = st.selectbox(
-                "Include news?:",
-                ['Yes', 'No'],
-                index=0,
-                key="include_news_selectbox"
-            )
+        if rating_type_selectbox == 'Single stock':
 
-        with inner_col[2]:
-            selected_ticker_df = sp500_financial_df.loc[sp500_financial_df['Symbol'] == predictive_selectbox]
+            with inner_col[1]:
+                predictive_selectbox = st.selectbox(
+                    "Select a ticker to rate:",
+                    st.session_state.selected_tickers,
+                    index=0,
+                    key="predictive_selectbox"
+                )
 
-            finaical_df = selected_ticker_df.drop(columns=["Symbol", "Name", "SEC Filings"])
-            news_sentiment = aggregated_sentiment_df.loc[aggregated_sentiment_df['ticker'] == predictive_selectbox, 'average_sentiment'].values[0].capitalize()
+            with inner_col[2]:
+                include_news_selectbox = st.selectbox(
+                    "Include news?:",
+                    ['Yes', 'No'],
+                    index=0,
+                    key="include_news_selectbox"
+                )
 
-            write_analysis = False
-            make_rating = False
-            if st.button("Make prediction"):
-                with inner_col[3]:  # Place spinner in the next column
-                    with st.spinner("Making prediction... Please wait", show_time=True):
-                        if include_news_selectbox == "Yes":
-                            llm_analysis = make_prediction(finaical_df, news_sentiment)
-                        else:
-                            llm_analysis = make_prediction(finaical_df, None)
-                        write_analysis = True
+            with inner_col[3]:
+                news_sentiment = aggregated_sentiment_df.loc[aggregated_sentiment_df['ticker'] == predictive_selectbox, 'average_sentiment'].values[0].capitalize()
+
+                if st.button("Make prediction"):
+                    with inner_col[4]:  # Place spinner in the next column
+                        with st.spinner("Making prediction... Please wait", show_time=True):
+                            if include_news_selectbox == "Yes":
+                                labeled_news = get_labeled_news(predictive_selectbox)
+                                # st.dataframe(labeled_news)
+                                st.session_state.llm_analysis = make_prediction(predictive_selectbox, news_sentiment, labeled_news)
+                            else:
+                                st.session_state.llm_analysis = make_prediction(predictive_selectbox, None, None)
+
+        elif rating_type_selectbox == 'Comparative rating':
+
+            with inner_col[1]:
+                predictive_multiselectbox = st.multiselect(
+                    "Select ticker:",
+                    st.session_state.selected_tickers,
+                    key="predictive_multiselectbox",
+                    max_selections=2
+                )   
+
+            with inner_col[2]:
+                include_news_selectbox = st.selectbox(
+                    "Include news?:",
+                    ['Yes', 'No'],
+                    index=0,
+                    key="include_news_selectbox2"
+                )
+
+            with inner_col[3]:
+                if st.button("Make prediction"):
+                    if len(predictive_multiselectbox) == 0:
+                        st.warning("Please select at least one ticker.")
+                    else:
+                        news_sentiments = []
+
+                        for ticker in predictive_multiselectbox:
+                            sentiment_value = aggregated_sentiment_df.loc[
+                                aggregated_sentiment_df['ticker'] == ticker, 'average_sentiment'
+                            ].values
+
+                            if len(sentiment_value) > 0:
+                                news_sentiments.append(sentiment_value[0].capitalize())
+                            else:
+                                news_sentiments.append("Neutral")  # Default if sentiment is missing
+                        with inner_col[4]:  # Place spinner in the next column
+                            with st.spinner("Making prediction... Please wait"):
+                                if include_news_selectbox == "Yes":
+                                    st.session_state.llm_analysis = make_comparative_rating(predictive_multiselectbox, news_sentiments)
+                                else:
+                                    st.session_state.llm_analysis = make_comparative_rating(predictive_multiselectbox, None)
+
 
         # st.dataframe(finaical_df)
         # st.write(news_sentiment)
-
-        if write_analysis:
-            # st.write(llm_analysis)          
-            st.markdown(f"{llm_analysis}")
+    
+        st.markdown(f"{st.session_state.llm_analysis}")
 
 with col[1]:
     with st.container(border=True):

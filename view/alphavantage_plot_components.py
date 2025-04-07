@@ -173,7 +173,6 @@ class AlphaVantage_Plot_Components:
             tickers (list): Stock tickers to plot (e.g. ['AAPL', 'MSFT'])
             alphavantage_client (AlphaVantageClient): API client for stock data
         """
-        
 
         # Create figure with secondary y-axis
         fig = make_subplots(specs=[[{"secondary_y": True}]])
@@ -212,8 +211,8 @@ class AlphaVantage_Plot_Components:
                     y=df["Median"],
                     mode='lines',
                     name=f'{ticker} Median',
-                    line=dict(width=1),
-                    opacity=0.6
+                    line=dict(width=1.8),
+                    opacity=0.8
                 ))
 
                 # Add Volume Trace (Bars)

@@ -119,7 +119,8 @@ with st.sidebar:
     
     with st.container(border=True):
         st.header("Links to other pages")
-        st.page_link("1_🏠_Homepage.py", label="Dashboard")
+        st.page_link("tutorial.py", label="Tutorial")
+        st.page_link("pages/1_🏠_Homepage.py", label="Dashboard")
         st.page_link("pages/2_Financial Ratio Analysis.py", label="Assisted Analysis")
         st.page_link("pages/6_About.py", label="About")
 
