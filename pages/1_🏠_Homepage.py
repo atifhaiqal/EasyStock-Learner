@@ -310,41 +310,305 @@ def get_labeled_news(ticker):
 
     return labeled_news
 
+def format_financial_data(data, ticker):
+    """
+    Formats the raw financial data dictionary into a readable string for the LLM.
+    Selects a curated set of key metrics relevant for stock rating analysis,
+    removing redundancy and less critical data points to improve LLM focus.
+    """
+    # Define a curated mapping from Finnhub keys to readable names,
+    # focusing on Valuation, Profitability, Growth, Financial Health, Dividends, and Context.
+    metric_map = {
+        # === Context & Basic Info ===
+        'marketCapitalization': 'Market Capitalization',
+        'beta': 'Beta',
+        '52WeekHigh': '52-Week High',
+        '52WeekLow': '52-Week Low',
+
+        # === Valuation ===
+        'peTTM': 'Price-to-Earnings (TTM)',
+        'psTTM': 'Price-to-Sales (TTM)',
+        'pbQuarterly': 'Price-to-Book (Quarterly)', # More recent than Annual
+        'ptbvQuarterly': 'Price-to-Tangible Book Value (Quarterly)', # More recent
+        'enterpriseValue': 'Enterprise Value', # Often used in EV ratios
+        'currentEv/freeCashFlowTTM': 'EV/Free Cash Flow (TTM)', # Example EV ratio
+
+        # === Profitability ===
+        'grossMarginTTM': 'Gross Margin (TTM %)',
+        'operatingMarginTTM': 'Operating Margin (TTM %)',
+        'netProfitMarginTTM': 'Net Profit Margin (TTM %)',
+        'roeTTM': 'Return on Equity (TTM %)',
+        'roaTTM': 'Return on Assets (TTM %)',
+        'roiTTM': 'Return on Investment (TTM %)',
+        # Optional: Historical context for margins/returns
+        'roe5Y': 'Return on Equity (5Y Avg %)',
+        'netProfitMargin5Y': 'Net Profit Margin (5Y Avg %)',
+
+        # === Growth ===
+        'revenueGrowthTTMYoy': 'Revenue Growth (TTM YoY %)',
+        'revenueGrowthQuarterlyYoy': 'Revenue Growth (Quarterly YoY %)',
+        'epsGrowthTTMYoy': 'EPS Growth (TTM YoY %)',
+        'epsGrowthQuarterlyYoy': 'EPS Growth (Quarterly YoY %)',
+        # Optional: Longer term growth context
+        'revenueGrowth5Y': 'Revenue Growth (5Y %)',
+        'epsGrowth5Y': 'EPS Growth (5Y %)',
+        'dividendGrowthRate5Y': 'Dividend Growth Rate (5Y %)', # Also relevant to Dividends
+
+        # === Financial Health / Solvency ===
+        'currentRatioQuarterly': 'Current Ratio (Quarterly)', # More recent
+        'quickRatioQuarterly': 'Quick Ratio (Quarterly)', # More recent
+        'longTermDebt/equityQuarterly': 'Long-Term Debt/Equity (Quarterly)', # More recent
+        'totalDebt/totalEquityQuarterly': 'Total Debt/Equity (Quarterly)', # More recent
+        'netInterestCoverageTTM': 'Net Interest Coverage (TTM)', # Important for debt
+
+        # === Dividends ===
+        'dividendYieldIndicatedAnnual': 'Dividend Yield (Indicated Annual %)',
+        'dividendPerShareTTM': 'Dividend Per Share (TTM)',
+        'payoutRatioTTM': 'Payout Ratio (TTM %)',
+
+        # === Per Share Data ===
+        'epsTTM': 'Earnings Per Share (TTM)', # Key metric
+        'bookValuePerShareQuarterly': 'Book Value Per Share (Quarterly)', # More recent
+        'cashFlowPerShareTTM': 'Cash Flow Per Share (TTM)',
+        'revenuePerShareTTM': 'Revenue Per Share (TTM)',
+
+         # === Recent Stock Performance Context ===
+        '52WeekPriceReturnDaily': '52-Week Price Return (%)',
+        'yearToDatePriceReturnDaily': 'Year-to-Date Price Return (%)',
+        '26WeekPriceReturnDaily': '26-Week Price Return (%)', # Medium term trend
+        '13WeekPriceReturnDaily': '13-Week Price Return (%)', # Shorter medium term trend
+        'priceRelativeToS&P50052Week': 'Price Relative to S&P500 (52 Week %)', # Market comparison
+        'priceRelativeToS&P500Ytd': 'Price Relative to S&P500 (YTD %)', # Market comparison
+    }
+
+    formatted_string = ""
+    # Iterate through the defined map to maintain a somewhat logical order
+    for key, readable_name in metric_map.items():
+        if key in data and data[key] is not None:
+            value = data[key]
+            # Basic formatting (customize further if needed)
+            formatted_value = value # Default
+            if isinstance(value, float):
+                # Add percentage sign for relevant metrics based on readable name heuristics
+                if '%' in readable_name or \
+                   'Margin' in readable_name or \
+                   'Return' in readable_name or \
+                   'Growth' in readable_name or \
+                   'Yield' in readable_name or \
+                   'Ratio' in readable_name or \
+                   'Cagr' in readable_name or \
+                   'CAGR' in readable_name:
+                    # Check if it's a ratio like P/E, P/B, Debt/Equity which shouldn't be a %
+                    if 'Price-to-' not in readable_name and \
+                       'Price/' not in readable_name and \
+                       'EV/' not in readable_name and \
+                       'Debt/Equity' not in readable_name and \
+                       'Ratio' not in readable_name: # Keep ratios like Current Ratio as decimals
+                         formatted_value = f"{value:.2f}%"
+                    else:
+                         formatted_value = f"{value:.2f}" # Format ratios/PE etc. to 2 decimal places
+                else:
+                    formatted_value = f"{value:.2f}"
+            elif isinstance(value, int):
+                 # Consider formatting large numbers like Market Cap / EV if needed
+                 if 'Market Capitalization' in readable_name or 'Enterprise Value' in readable_name:
+                      formatted_value = f"{value:,}" # Add commas
+                 else:
+                      formatted_value = f"{value}"
+            # Handle string values (like dates) directly
+            # else: formatted_value = value
+
+            formatted_string += f"**{readable_name}**: {formatted_value}\n"
+        # If you want to explicitly state that data is missing for a mapped key:
+        # elif key in metric_map:
+        #    formatted_string += f"**{readable_name}**: Data not available\n"
+
+
+    if not formatted_string:
+        return f"No key financial data available to display for {ticker}."
+
+    return formatted_string.strip()
+
+# def make_prediction(ticker, news_sentiment, labeled_news):
+#     metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
+#     financial_data_json = metrics['metric']
+#     financial_data_formatted = format_financial_data(financial_data_json, ticker)
+
+#     if news_sentiment is not None:
+#         message = f"""Here is the financial data of {ticker}:\n\n{financial_data_formatted}\n\n.
+#                     The sentiment analysis of 20 of the most recent news surrounding the company is {news_sentiment}.
+#                     The list of labeled news are as follows: {labeled_news}.
+#                     The sentiment scores are provided by FinBERT. Positive or negative news are provided by the positive or negative values of the scores.
+#                     Highlight any key news that may influence the final rating.
+#                     """
+#     else:
+#         message = f"""Here is the financial data of {ticker}:\n\n{financial_data_formatted}\n\n.
+#                     """
+#     chat_session = st.session_state.chat_session
+#     response = chat_session.send_message(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
+#                     Analyse the performance and provide a concise insights but avoid introductions.
+#                     Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
+#                     Give the results in markdown format, with headers for key reasons for the rating of the stock. 
+#                     Bold any financial metric mentioned and reformat the name into a more readable format.
+
+#                     Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
+#                     depending on the stock rating. This is to comply with the formatting of the UI.""")
+
+#     # Debugging
+#     print(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
+#                     Analyse the performance and provide a concise insights but avoid introductions.
+#                     Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
+#                     Give the results in markdown format, with headers for key reasons for the rating of the stock. 
+#                     Bold any financial metric mentioned and reformat the name into a more readable format.
+
+#                     Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
+#                     depending on the stock rating. This is to comply with the formatting of the UI.""")
+
+#     return response.text
+
 def make_prediction(ticker, news_sentiment, labeled_news):
-    metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
-    financial_data_json = metrics['metric']
+    """
+    Generates a stock rating prediction using an LLM based on financial data and news sentiment.
 
-    if news_sentiment is not None:
-        message = f"""Here is the financial data of {ticker}:\n\n{financial_data_json}\n\n.
-                    The sentiment analysis of 20 of the most recent news surrounding the company is {news_sentiment}.
-                    The list of labeled news are as follows: {labeled_news}.
-                    The sentiment scores are provided by FinBERT. Positive or negative news are provided by the positive or negative values of the scores.
-                    Highlight any key news that may influence the final rating.
+    Args:
+        ticker (str): The stock ticker symbol.
+        news_sentiment (float or str): Overall sentiment score or label (e.g., "Positive").
+        labeled_news (list or str): Pre-formatted list/string of recent labeled news items.
+                                    Crucially, this should already be formatted for readability.
+
+    Returns:
+        str: The LLM's response text, hopefully containing the stock rating and analysis.
+             Returns None if an error occurs.
+    """
+    # --- 1. Fetch and Validate Financial Data ---
+    try:
+        metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
+        # Validate Finnhub response
+        if not metrics or 'metric' not in metrics or not isinstance(metrics.get('metric'), dict) or not metrics['metric']:
+             st.error(f"Could not retrieve valid financial metric data for {ticker} from Finnhub.")
+             print(f"Invalid Finnhub response for {ticker}: {metrics}") # Log the response
+             return None
+        financial_data_json = metrics['metric']
+    except Exception as e:
+        st.error(f"Error fetching financial data for {ticker} from Finnhub: {e}")
+        return None
+
+    # --- 2. Pre-process Data for LLM ---
+    # Format financial data using the helper function
+    readable_financial_data = format_financial_data(financial_data_json, ticker)
+    if not readable_financial_data or "No key financial data available" in readable_financial_data :
+         st.warning(f"Financial data formatting failed or returned no key metrics for {ticker}.")
+         # Decide if you want to proceed without financials or return error
+         # return None
+
+    # Prepare News Data section (Requires YOUR specific formatting logic for news_sentiment and labeled_news)
+    readable_labeled_news = ""
+    overall_sentiment_summary = ""
+    news_data_available = False
+
+    if news_sentiment is not None and labeled_news: # Ensure labeled_news isn't empty/None
+        news_data_available = True
+
+        # Example: Format labeled_news if it's a list
+        if isinstance(labeled_news, list):
+             # Simple formatting, adjust as needed (e.g., handle dicts if news items are complex)
+             readable_labeled_news = "\n".join([f"- {str(item).strip()}" for item in labeled_news])
+        elif isinstance(labeled_news, str): # Assume already formatted if string
+             readable_labeled_news = labeled_news
+        else:
+             readable_labeled_news = "Error: News data provided in unexpected format."
+
+        # Example: Create a summary sentence for the overall sentiment
+        if isinstance(news_sentiment, (int, float)):
+            # Define thresholds for sentiment description
+            if news_sentiment > 0.15: sentiment_desc = "Positive"
+            elif news_sentiment < -0.15: sentiment_desc = "Negative"
+            else: sentiment_desc = "Mixed/Neutral"
+            overall_sentiment_summary = f"Overall sentiment from recent news is **{sentiment_desc}** (Average Score: {news_sentiment:.2f})."
+        elif isinstance(news_sentiment, str): # If news_sentiment is already a label
+             overall_sentiment_summary = f"Overall sentiment label from recent news: **{news_sentiment}**."
+        else:
+             overall_sentiment_summary = "Overall sentiment data provided in unexpected format."
+
+    # --- 3. Construct the Prompt ---
+
+    # 3a. Context Data Block: Only includes the prepared data.
+    context_data = f"""**Context Data for {ticker}:**
+                    **Key Financial Metrics:**
+                    {readable_financial_data}
                     """
+    if news_data_available:
+        context_data += f"""
+        **Recent News Summary:**
+        {overall_sentiment_summary}
+        Key Labeled News Items:
+        {readable_labeled_news}
+        """
     else:
-        message = f"""Here is the financial data of {ticker}:\n\n{financial_data_json}\n\n.
-                    """
+        context_data += "\n**Recent News Summary:**\nNo recent news data available.\n"
+
+    # 3b. Improved Instructions Block: Clearer, more detailed instructions.
+    # Using {ticker} directly as this isn't nested inside another f-string here.
+    instructions = f"""
+        **Role:** Act as a neutral financial analyst.
+
+        **Objective:** Generate a stock rating (Buy, Hold, or Sell) for {ticker} based *strictly* on the context data provided above.
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Buy, Hold, or Sell.
+        2.  **Synthesize and Analyze:**
+            * Provide a concise analysis of the company's situation based *only* on the provided data. Avoid generic introductions.
+            * Identify key positive and negative indicators evident in both the financial metrics and the news sentiment/items.
+            * Explicitly discuss any significant conflicting signals (e.g., strong historical growth vs. poor recent news, high profitability vs. concerning debt levels).
+            * Identify the primary risks and potential opportunities highlighted *within the provided data*.
+        3.  **Justify Rating:**
+            * Clearly explain the core reasoning behind your final Buy/Hold/Sell rating.
+            * Support your points with specific **numerical values** and references to the **bolded financial metric names** or specific news themes from the context data.
+            * Briefly explain the relative weight or importance you assigned to different factors (e.g., recent news vs. financial trends, valuation vs. growth) in making your decision.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## {ticker}: :green[Buy]`, `## {ticker}: :orange[Hold]`, or `## {ticker}: :red[Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Analysis Summary`, `### Key Positives`, `### Key Concerns & Risks`, `### Rating Rationale`). Ensure logical flow.
+            * Maintain an objective, analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        """
+
+    # Combine context and instructions for the final prompt
+    final_prompt = context_data + "\n---\n" + instructions # Added separator for clarity
+
+    # --- 4. Send Prompt to LLM ---
+    if 'chat_session' not in st.session_state:
+        st.error("Chat session not initialized.")
+        return None
     chat_session = st.session_state.chat_session
-    response = chat_session.send_message(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
-                    Analyse the performance and provide a concise insights but avoid introductions.
-                    Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
-                    Give the results in markdown format, with headers for key reasons for the rating of the stock. 
-                    Bold any financial metric mentioned and reformat the name into a more readable format.
 
-                    Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
-                    depending on the stock rating. This is to comply with the formatting of the UI.""")
+    # Debugging: Print the final prompt being sent
+    # Consider using logging instead of print for production
+    print(f"--- Sending Prompt to LLM for {ticker} ---")
+    print(final_prompt)
+    print("------------------------------------------")
 
-    # Debugging
-    print(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
-                    Analyse the performance and provide a concise insights but avoid introductions.
-                    Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
-                    Give the results in markdown format, with headers for key reasons for the rating of the stock. 
-                    Bold any financial metric mentioned and reformat the name into a more readable format.
-
-                    Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
-                    depending on the stock rating. This is to comply with the formatting of the UI.""")
-
-    return response.text
+    try:
+        response = chat_session.send_message(final_prompt)
+        # Basic check if response seems valid before returning
+        if response and hasattr(response, 'text') and response.text:
+             return response.text
+        else:
+             st.warning(f"LLM returned an empty or invalid response for {ticker}.")
+             print(f"Invalid LLM response object: {response}")
+             return None
+    except Exception as e:
+        st.error(f"An error occurred while communicating with the LLM for {ticker}: {e}")
+        return None
 
 def make_comparative_rating(tickers, news_sentiments):
     metric_a = finnhub_client.get_company_basic_financials(tickers[0], 'all')
@@ -447,7 +711,6 @@ with st.sidebar:
         st.page_link("pages/2_Financial Ratio Analysis.py", label="Assisted Analysis")
         st.page_link("pages/4_News.py", label="News Analysis")
         st.page_link("pages/6_About.py", label="About")
-        st.page_link("pages/7_test.py", label="Test")
 
 st.title(":green[Dashboard]")
 

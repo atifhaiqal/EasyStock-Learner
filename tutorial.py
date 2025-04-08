@@ -406,5 +406,76 @@ with analysis_tab:
 with news_tab:
     st.header("News")
 
+    news = st.columns([3,2])
+
+    with news[0]:
+        st.markdown("""
+            Welcome to the **News Page**! This is where you can explore and analyze the latest news for the tickers you're interested in. Here's how to get the most out of it:
+
+            #### 1. **Filter Settings**
+            The News Page gives you several **filter options** to tailor your news feed:
+
+            - **All or Specific Tickers**: Choose to view news for **all tickers** or focus on the ones you’ve previously selected.
+            - **Sentiment Type**: Filter news based on sentiment, such as **positive**, **neutral**, or **negative**.
+            - **Date Range**: Set the **start** and **end date** to filter news within a specific timeframe.
+            - **News Limit**: Limit the number of news articles shown, so you can see exactly how much information you need.
+
+            #### 2. **Sentiment Analysis**
+            On the right side of the page, you’ll see a **donut chart**. This chart provides a **visual breakdown** of the sentiment of the news articles:
+
+            - **Positive** sentiment
+            - **Neutral** sentiment
+            - **Negative** sentiment
+
+            This gives you a quick overview of how the market feels about your selected tickers.
+
+            #### 3. **LLM News Summary**
+            Below the sentiment chart, the **LLM News Summary** will give you a **quick summary** of the news articles, highlighting the most important points. 
+
+            - When you first open the page, this may be empty. Just click on the **"Summarize News"** button, and the summary will be generated.If you’d like to update the summary, press the button again.
+
+            #### 4. **Explore the News**
+            As you scroll down the page, you'll see the **news articles** themselves, each with a **short snippet** and a link to read more.
+
+            #### Summary
+            The **News Page** helps you stay up-to-date with the latest developments related to your stocks. By using the filters, sentiment analysis, and LLM-powered summaries, you can easily track how the news is shaping the market for your selected tickers.
+
+            Feel free to explore and customize the news feed to suit your needs!
+            """)
+        
+    with news[1]:
+        st.image("assets/tutorial/news_page.png", caption="News page")
+
+        news_inner_col = st.columns(2)
+
+        with news_inner_col[0]:
+            st.image("assets/tutorial/news_page_ticker.png", caption="Ticker filter options")
+
+        with news_inner_col[1]:
+            st.image("assets/tutorial/news_page_rating_filter.png", caption="News rating filter options")
+
 with about_tab:
     st.header("About")
+
+    about = st.columns([3,2])
+
+    with about[0]:
+        st.markdown("""
+            Welcome to the **About Page**! This page provides a brief overview of the project behind this tool. Here’s what you’ll find:
+
+            #### 1. **Project Overview**
+            The page explains that this is a **dissertation project** designed to explore the integration of machine learning and financial data analysis. It highlights the goals and purpose of the project.
+
+            #### 2. **Objective**
+            The primary objective of the project is to **demonstrate how machine learning can assist in financial decision-making** by providing insights into stock performance, news sentiment, and key financial metrics.
+
+            #### 3. **Technical Details**
+            For those interested in the technical side of the project, this section provides information about the key technologies used, including:
+            - **APIs**: Various financial and news APIs are integrated to retrieve stock data and real-time news articles.
+            - **LLMs**: Large language models (LLMs) are used to analyze news sentiment and provide predictive stock ratings based on historical and real-time data.
+
+            Feel free to read through the content to better understand the vision, scope, and technical components of this project.
+            """)
+        
+    with about[1]:
+        st.image("assets/tutorial/about.png", caption="About page")
