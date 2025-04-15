@@ -186,11 +186,35 @@ cashflow_names = {
 def explain(metric, df, prompt):
     json_data = df.to_json(orient='records')
     chat_session = st.session_state.chat_session
-    response = chat_session.send_message(f"""This is a dataframe for {metric}. {json_data}.
-                                        Explain the trends in the data and provide a concise insights but avoid introductions.
-                                        Answer this core question: {prompt}. 
-                                         """)
+    response = chat_session.send_message(f"""
+**Role:** Objective financial analyst focused on graph interpretation.
 
+**Objective:** Analyze the {metric} data provided in JSON format: {json_data}, identify key trends visualized in the corresponding graph (based on the user's prompt), and explain these trends in the context of the prompt: "{prompt}".
+
+**Task Instructions:**
+
+1. **Understand Prompt:** Carefully consider the user's question: "{prompt}".
+
+2. **Identify Trends:** Pinpoint significant trends (e.g., upward, downward, volatile) in the {metric} data visualized in the graph.
+
+3. **Explain Graph Insights (Prompt Focused):**
+   * **Key Findings:** Articulate the primary findings from the graph analysis, emphasizing trends relevant to the user's question: "{prompt}".
+   * **Data Evidence:** Reference specific **numerical values** from the {metric} data to illustrate trends.
+   * **Prompt Relevance:** Briefly explain how identified trends directly relate to and provide insights for the user's question: "{prompt}".
+
+4. **Format Output:**
+   * Use Markdown.
+   * Structure your analysis under clear headers (e.g., `### Trend Analysis`, `### Key Observations`).
+   * Maintain an objective tone.
+   * When using dollar signs, use \$ to avoid unnecessary formatting.  
+
+**Constraint Checklist:**
+* [ ] Analysis based on trends and prompt?
+* [ ] External knowledge *not* used?
+* [ ] Markdown headers used?
+* [ ] Explanation focuses on graph insights based on prompt?
+* [ ] Output is understandable to users with moderate financial litteracy? 
+                                         """)
     return response.text
 
 def get_income_statements(tickers):

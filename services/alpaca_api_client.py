@@ -53,7 +53,7 @@ class Alpaca_APIClient:
             print(f"Error {response.status_code}: {response.text}")
             return None
 
-    @st.cache_resource
+    @st.cache_data(ttl=3600)
     def get_news(_self, symbols, start_date, end_date, limit=10, sort="desc"):
         """Retrieve news articles from Alpaca.
 

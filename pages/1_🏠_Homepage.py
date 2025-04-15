@@ -10,6 +10,7 @@ from streamlit_extras.metric_cards import style_metric_cards
 import requests
 import google.generativeai as genai
 import os
+import csv
 # import joblib
 
 # importing api clients
@@ -19,7 +20,6 @@ from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphava
 from services.finnhub_api_client import Finnhub_APIClient, get_finnhub_client
 from services.alpaca_api_client import Alpaca_APIClient, get_alpaca_client
 from config.api_settings import Alpaca_APIConfig, Qwen_LLM_APIConfig
-# from services.gemini_api_client import Gemini_APIClient, get_gemini_client
 
 # importing plot components
 from view.alphavantage_plot_components import AlphaVantage_Plot_Components
@@ -316,8 +316,7 @@ def format_financial_data(data, ticker):
     Selects a curated set of key metrics relevant for stock rating analysis,
     removing redundancy and less critical data points to improve LLM focus.
     """
-    # Define a curated mapping from Finnhub keys to readable names,
-    # focusing on Valuation, Profitability, Growth, Financial Health, Dividends, and Context.
+    
     metric_map = {
         # === Context & Basic Info ===
         'marketCapitalization': 'Market Capitalization',
@@ -340,7 +339,7 @@ def format_financial_data(data, ticker):
         'roeTTM': 'Return on Equity (TTM %)',
         'roaTTM': 'Return on Assets (TTM %)',
         'roiTTM': 'Return on Investment (TTM %)',
-        # Optional: Historical context for margins/returns
+        
         'roe5Y': 'Return on Equity (5Y Avg %)',
         'netProfitMargin5Y': 'Net Profit Margin (5Y Avg %)',
 
@@ -349,7 +348,7 @@ def format_financial_data(data, ticker):
         'revenueGrowthQuarterlyYoy': 'Revenue Growth (Quarterly YoY %)',
         'epsGrowthTTMYoy': 'EPS Growth (TTM YoY %)',
         'epsGrowthQuarterlyYoy': 'EPS Growth (Quarterly YoY %)',
-        # Optional: Longer term growth context
+        
         'revenueGrowth5Y': 'Revenue Growth (5Y %)',
         'epsGrowth5Y': 'EPS Growth (5Y %)',
         'dividendGrowthRate5Y': 'Dividend Growth Rate (5Y %)', # Also relevant to Dividends
@@ -382,14 +381,14 @@ def format_financial_data(data, ticker):
     }
 
     formatted_string = ""
-    # Iterate through the defined map to maintain a somewhat logical order
+    
     for key, readable_name in metric_map.items():
         if key in data and data[key] is not None:
             value = data[key]
-            # Basic formatting (customize further if needed)
+            
             formatted_value = value # Default
             if isinstance(value, float):
-                # Add percentage sign for relevant metrics based on readable name heuristics
+               
                 if '%' in readable_name or \
                    'Margin' in readable_name or \
                    'Return' in readable_name or \
@@ -398,7 +397,7 @@ def format_financial_data(data, ticker):
                    'Ratio' in readable_name or \
                    'Cagr' in readable_name or \
                    'CAGR' in readable_name:
-                    # Check if it's a ratio like P/E, P/B, Debt/Equity which shouldn't be a %
+                    
                     if 'Price-to-' not in readable_name and \
                        'Price/' not in readable_name and \
                        'EV/' not in readable_name and \
@@ -410,18 +409,13 @@ def format_financial_data(data, ticker):
                 else:
                     formatted_value = f"{value:.2f}"
             elif isinstance(value, int):
-                 # Consider formatting large numbers like Market Cap / EV if needed
+            
                  if 'Market Capitalization' in readable_name or 'Enterprise Value' in readable_name:
-                      formatted_value = f"{value:,}" # Add commas
+                      formatted_value = f"{value:,}" 
                  else:
                       formatted_value = f"{value}"
-            # Handle string values (like dates) directly
-            # else: formatted_value = value
 
             formatted_string += f"**{readable_name}**: {formatted_value}\n"
-        # If you want to explicitly state that data is missing for a mapped key:
-        # elif key in metric_map:
-        #    formatted_string += f"**{readable_name}**: Data not available\n"
 
 
     if not formatted_string:
@@ -429,42 +423,29 @@ def format_financial_data(data, ticker):
 
     return formatted_string.strip()
 
-# def make_prediction(ticker, news_sentiment, labeled_news):
-#     metrics = finnhub_client.get_company_basic_financials(ticker, 'all')
-#     financial_data_json = metrics['metric']
-#     financial_data_formatted = format_financial_data(financial_data_json, ticker)
+def save_llm_interaction(prompt, response, news_data_available, ticker, base_filename='data/evaluation/query_and_prompt/llm_queries'):
+    """
+    Saves the LLM prompt and response to a CSV file, labeled by ticker and whether news data was available.
 
-#     if news_sentiment is not None:
-#         message = f"""Here is the financial data of {ticker}:\n\n{financial_data_formatted}\n\n.
-#                     The sentiment analysis of 20 of the most recent news surrounding the company is {news_sentiment}.
-#                     The list of labeled news are as follows: {labeled_news}.
-#                     The sentiment scores are provided by FinBERT. Positive or negative news are provided by the positive or negative values of the scores.
-#                     Highlight any key news that may influence the final rating.
-#                     """
-#     else:
-#         message = f"""Here is the financial data of {ticker}:\n\n{financial_data_formatted}\n\n.
-#                     """
-#     chat_session = st.session_state.chat_session
-#     response = chat_session.send_message(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
-#                     Analyse the performance and provide a concise insights but avoid introductions.
-#                     Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
-#                     Give the results in markdown format, with headers for key reasons for the rating of the stock. 
-#                     Bold any financial metric mentioned and reformat the name into a more readable format.
+    Parameters:
+    - prompt (str): The input prompt sent to the LLM.
+    - response (str): The response received from the LLM.
+    - news_data_available (bool): Flag indicating if news data was used.
+    - ticker (str): Stock ticker symbol.
+    - base_filename (str): Base name of the CSV file. Defaults to 'llm_queries'.
+    """
 
-#                     Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
-#                     depending on the stock rating. This is to comply with the formatting of the UI.""")
+    suffix = 'with_news' if news_data_available else 'without_news'
+    filename = f'{base_filename}_{suffix}_updated.csv'
 
-#     # Debugging
-#     print(f"""{message} Given these data points, make a stock rating on the given company (buy, hold, or sell). 
-#                     Analyse the performance and provide a concise insights but avoid introductions.
-#                     Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
-#                     Give the results in markdown format, with headers for key reasons for the rating of the stock. 
-#                     Bold any financial metric mentioned and reformat the name into a more readable format.
+    file_exists = os.path.isfile(filename)
+    with open(filename, mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow(['Ticker', 'Prompt', 'Response'])
+        writer.writerow([ticker, prompt, response])
 
-#                     Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
-#                     depending on the stock rating. This is to comply with the formatting of the UI.""")
-
-#     return response.text
+    print(f"Saved to {filename}")
 
 def make_prediction(ticker, news_sentiment, labeled_news):
     """
@@ -550,27 +531,27 @@ def make_prediction(ticker, news_sentiment, labeled_news):
     # 3b. Improved Instructions Block: Clearer, more detailed instructions.
     # Using {ticker} directly as this isn't nested inside another f-string here.
     instructions = f"""
-        **Role:** Act as a neutral financial analyst.
+        **Role:** Act as an objective financial analyst.
 
-        **Objective:** Generate a stock rating (Buy, Hold, or Sell) for {ticker} based *strictly* on the context data provided above.
+        **Objective:** Evaluate the investment merit of {ticker} based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
 
         **Task Instructions:**
 
-        1.  **Determine Rating:** Assign a rating: Buy, Hold, or Sell.
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
         2.  **Synthesize and Analyze:**
-            * Provide a concise analysis of the company's situation based *only* on the provided data. Avoid generic introductions.
-            * Identify key positive and negative indicators evident in both the financial metrics and the news sentiment/items.
-            * Explicitly discuss any significant conflicting signals (e.g., strong historical growth vs. poor recent news, high profitability vs. concerning debt levels).
-            * Identify the primary risks and potential opportunities highlighted *within the provided data*.
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
         3.  **Justify Rating:**
-            * Clearly explain the core reasoning behind your final Buy/Hold/Sell rating.
-            * Support your points with specific **numerical values** and references to the **bolded financial metric names** or specific news themes from the context data.
-            * Briefly explain the relative weight or importance you assigned to different factors (e.g., recent news vs. financial trends, valuation vs. growth) in making your decision.
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
         4.  **Format Output:**
             * Use Markdown.
-            * Present the final rating *first*, using the exact format: `## {ticker}: :green[Buy]`, `## {ticker}: :orange[Hold]`, or `## {ticker}: :red[Sell]`.
-            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Analysis Summary`, `### Key Positives`, `### Key Concerns & Risks`, `### Rating Rationale`). Ensure logical flow.
-            * Maintain an objective, analytical tone throughout.
+            * Present the final rating *first*, using the exact format: `## {ticker}: :green[Strong Buy]`, `## {ticker}: :green[Buy]`, `## {ticker}: :orange[Hold]`, `## {ticker}: :red[Sell]`, or `## {ticker}: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
 
         **Constraint Checklist:**
         * [ ] Rating based *only* on provided context?
@@ -601,6 +582,7 @@ def make_prediction(ticker, news_sentiment, labeled_news):
         response = chat_session.send_message(final_prompt)
         # Basic check if response seems valid before returning
         if response and hasattr(response, 'text') and response.text:
+             save_llm_interaction(final_prompt, response.text, news_data_available, ticker)
              return response.text
         else:
              st.warning(f"LLM returned an empty or invalid response for {ticker}.")
@@ -632,16 +614,46 @@ def make_comparative_rating(tickers, news_sentiments):
                     {tickers[1]}: \n\n{financial_data_b_json}\n\n.
                     """
     chat_session = st.session_state.chat_session
-    response = chat_session.send_message(f"""{message} Given these data points, make a comparative rating on the given companies (buy, hold, or sell). 
-                    Analyse the performance and provide a concise insights but avoid introductions.
-                    Highlight key reasonings as to why the decision has been made with numerical explanations if possible. 
-                    Highlight the strengths and weaknesses for each company.
-                    Provide and pick which company is performing better with the key metrics that stands out for each company and how that influences the final rating. 
-                    Give the results in markdown format, with headers for key reasons for the rating of the stock. 
-                    Bold any financial metric mentioned and reformat the name into a more readable format.
+    response = chat_session.send_message(f"""
+**Role:** Objective financial analyst for comparative stock analysis.
 
-                    Return the rating as a markdown header in the form of "## {ticker}: :green[Buy]", "## {ticker}: :orange[Hold]" or "## {ticker}: :red[Sell]",
-                    depending on the stock rating. This is to comply with the formatting of the UI.""")
+**Objective:** Analyze financial data and news (if any) for {tickers} to provide comparative ratings (Buy, Hold, Sell for each) and identify the more favorable investment.
+
+**Task Instructions:**
+
+1. **Understand Message:** Analyze "{message}" containing financial data and news for {tickers}.
+
+2. **Analyze Performance:** Compare key metrics and news for each ticker in {tickers}.
+
+3. **Comparative Rating:** Assign a Buy, Hold, or Sell rating to each ticker.
+
+4. **Synthesize (Comparative):**
+   * **Overall Assessment:** Briefly compare investment merit.
+   * **Key Indicators:** Highlight strengths and weaknesses for each based on data and news.
+   * **Reasoning:** Explain ratings with **numerical values** and sentiment.
+   * **Favorable Company:** Identify the better performer based on key metrics and sentiment.
+
+5. **Justify:**
+   * **Rating Rationale (Per Company):** State reasons for each rating.
+   * **Data Evidence:** Reference **bolded, readable metrics** and sentiment from "{message}" if news is provided.
+   * **Favorable Selection:** Explain why one company is more favorable, citing key differences.
+
+6. **Format Output:**
+   * Markdown.
+   * Present the final rating *first*, using the exact format: `## {ticker}: :green[Strong Buy]`, `## {ticker}: :green[Buy]`, `## {ticker}: :orange[Hold]`, `## {ticker}: :red[Sell]`, or `## {ticker}: :red[Strong Sell]`.
+   * Analysis under headers (e.g., `### Comparative Overview`, `### Strengths & Weaknesses`, `### Rating Justification`, `### Favorable Company`).
+   * Objective tone.
+
+**Constraint Checklist:**
+* [ ] Comparative ratings for all tickers?
+* [ ] Favorable company identified?
+* [ ] External knowledge *not* used?
+* [ ] Numerical data and sentiment referenced?
+* [ ] Strengths/weaknesses for each?
+* [ ] Key differentiators identified?
+* [ ] Correct rating format?
+* [ ] Markdown with headers?
+""")
 
     return response.text
 

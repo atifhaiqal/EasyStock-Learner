@@ -32,11 +32,17 @@ with welcome_tab:
     st.header("Welcome to :green[EasyStock] Learner :chart:")
     st.image("assets/tutorial/dashboard.png", caption="EasyStock Learner Dashboard")
 
-    st.header("What is :green[EasyStock] Learner?")
-    st.markdown("EasyStock Learner is an educational platform powered by a Large Language Model (LLM), offering an interactive **sandbox** environment for users to develop a deeper understanding of investment principles.")
-    st.markdown("EasyStock Learner is built for users with minimal to intermediate knowledge of investing and finance. Whether you’re just starting out or looking to sharpen your understanding, this tool allows you to explore financial concepts through interactive graphs and visualizations. With the support of machine learning models, it helps break down complex metrics into understandable insights.")
-    st.markdown("All APIs used in the application are either free or operate under free-tier plans. The project is open-source, meaning you’re free to clone the original repository, explore the code, and modify it as you see fit.")
-    st.markdown("**Note: This application is strictly for educational purposes only and is not intended to provide financial or investment advice.**")
+    welcome = st.columns([4,2])
+
+    with welcome[0]:
+        st.header("What is :green[EasyStock] Learner?")
+        st.markdown("EasyStock Learner is an educational platform powered by a Large Language Model (LLM), offering an interactive **sandbox** environment for users to develop a deeper understanding of investment principles.")
+        st.markdown("EasyStock Learner is built for users with minimal to intermediate knowledge of investing and finance. Whether you’re just starting out or looking to sharpen your understanding, this tool allows you to explore financial concepts through interactive graphs and visualizations. With the support of machine learning models, it helps break down complex metrics into understandable insights.")
+        st.markdown("All APIs used in the application are either free or operate under free-tier plans. The project is open-source, meaning you’re free to clone the original repository, explore the code, and modify it as you see fit.")
+        st.markdown("To start, please use the tabs above to navigate through the tutorial.")
+        st.markdown("**Note: This application is strictly for educational purposes only and is not intended to provide financial or investment advice.**")
+    with welcome[1]:
+        st.image("assets/tutorial/stonks.webp", caption="Stonks meme")
 
 
 with navigation_tab:
@@ -52,7 +58,6 @@ with navigation_tab:
 
     with nav_col[2]:
         st.image("assets/tutorial/news_viewer.png", caption="Dashboard News Viewer")
-    
 
 with dashboard_tab:
     st.header("Dashboard")
@@ -401,7 +406,6 @@ with analysis_tab:
         st.image("assets/tutorial/assisted_analysis_prompt.png", caption="Example of prompts available to user")
 
         st.image("assets/tutorial/assisted_analysis_self_prompt.png", caption="Input box for custom prompts")
-
 
 with news_tab:
     st.header("News")
