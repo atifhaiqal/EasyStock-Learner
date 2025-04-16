@@ -65,8 +65,23 @@ First, you need to obtain the application code. You can either clone the Git rep
 The application relies on several Python libraries mentioned in [ Application Requirements](#application-requirements). To install these dependencies, navigate to the root directory of the cloned or downloaded project in your terminal or command prompt and run the following `pip` command:
 
 ```bash
-pip install altair==5.5.0 finnhub_python==2.4.22 numpy==2.2.4 openai==1.75.0 pandas==2.2.3 Pillow==11.2.1 plotly==5.22.0 protobuf==6.30.2 Requests==2.32.3 streamlit==1.42.0 streamlit_extras==0.6.0 transformers==4.48.3 yfinance==0.2.51
+pip install altair
+pip install finnhub_python
+pip install numpy
+pip install openai
+pip install pandas
+pip install Pillow
+pip install plotly
+pip install protobuf
+pip install requests
+pip install streamlit
+pip install streamlit_extras
+pip install transformers
+pip install yfinance
 ```
+
+Note: If you already have any of these packages installed, you can skip those specific commands. Alternatively, pip will simply confirm the package is already installed or update it to the latest version if necessary.
+
 
 **3. Run the Application:**
 
