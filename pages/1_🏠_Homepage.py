@@ -19,7 +19,7 @@ from services.fmp_api_client import FMP_APIClient, get_fmp_client
 from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphavantage_client
 from services.finnhub_api_client import Finnhub_APIClient, get_finnhub_client
 from services.alpaca_api_client import Alpaca_APIClient, get_alpaca_client
-from config.api_settings import Alpaca_APIConfig, Qwen_LLM_APIConfig
+from config.api_settings import APIConfig
 
 # importing plot components
 from view.alphavantage_plot_components import AlphaVantage_Plot_Components
@@ -46,17 +46,17 @@ if "user_name" not in st.session_state:
 if 'selected_tickers' not in st.session_state:
     st.session_state.selected_tickers = ['AAPL']
 
-#temp
 FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 AV_API_KEY = 'WGHKWKAR5TGFV4IC'
 FINNHUB_API_KEY = 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg'
+alpaca_api_key= "PKWSKNYCB90Y48I8T40S",
+alpaca_secret_key= "sbAZegA51WHldKlV6hLkHtgRepXDy8Yq7txtTtLm",
 
 fmp_api = get_fmp_client(FMP_API_KEY)
 av_api = get_alphavantage_client(AV_API_KEY)
 finnhub_client = get_finnhub_client(FINNHUB_API_KEY)
 api_config = FMP_APIConfig()
-alpaca_api = get_alpaca_client(Alpaca_APIConfig.get_alpaca_api_key, Alpaca_APIConfig.get_alpaca_secret_key)
-# gemini_api = get_gemini_client()
+alpaca_api = get_alpaca_client(alpaca_api_key, alpaca_secret_key)
 
 fin_plot = Finnhub_Plot_Components()
 fmp_plot = FMP_Plot_Components()
@@ -64,13 +64,6 @@ av_plot = AlphaVantage_Plot_Components()
 y_plot = YFinance_Plot_Components()
 
 pipe = pipeline("text-classification", model="ProsusAI/finbert")
-
-# Load the pipeline and label encoder
-# pipeline = joblib.load('model_pipeline.joblib')
-# label_encoder = joblib.load('label_encoder.joblib')
-
-# temporary value for API KEY
-st.session_state["api_key"] = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
 
 sp500_financial_df = pd.read_csv("ml_models/constituents-financials.csv")
 

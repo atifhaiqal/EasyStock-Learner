@@ -5452,3 +5452,757 @@ Despite the positive long-term indicators, several factors raise concerns.  The 
 
 The ""Hold"" rating reflects a balanced view of AAPL's performance.  While long-term financial metrics are strong (high ROE, ROA, ROI, and positive 5-year growth in EPS and revenue), several factors warrant caution: the negative year-to-date price return, predominantly negative news sentiment, and relatively high debt levels.  Given the recent negative trend, a ""Buy"" rating isn't justified. However, the strong historical performance and substantial market capitalization prevent a more negative rating. The weight given to recent performance and sentiment is higher than historical strength given the clear recent negative trend.  The opportunities lie in the long-term strength of the company, but the immediate challenges presented by the negative market sentiment and recent price decline are significant enough to warrant a ""Hold"" position for the time being.
 "
+AAPL,"**Context Data for AAPL:**
+                    **Key Financial Metrics:**
+                    **Market Capitalization**: 3039416.20
+**Beta**: 1.28
+**52-Week High**: 260.10
+**52-Week Low**: 164.07
+**Price-to-Earnings (TTM)**: 31.61
+**Price-to-Sales (TTM)**: 7.68
+**Price-to-Book (Quarterly)**: 57.10
+**Price-to-Tangible Book Value (Quarterly)**: 6.41
+**Enterprise Value**: 3105916.20
+**EV/Free Cash Flow (TTM)**: 31.60
+**Gross Margin (TTM %)**: 46.52%
+**Operating Margin (TTM %)**: 31.76%
+**Net Profit Margin (TTM %)**: 24.30%
+**Return on Equity (TTM %)**: 145.35%
+**Return on Assets (TTM %)**: 27.91%
+**Return on Investment (TTM %)**: 57.07%
+**Return on Equity (5Y Avg %)**: 151.11%
+**Net Profit Margin (5Y Avg %)**: 24.28%
+**Revenue Growth (TTM YoY %)**: 2.61%
+**Revenue Growth (Quarterly YoY %)**: 3.95%
+**EPS Growth (TTM YoY %)**: -2.13%
+**EPS Growth (Quarterly YoY %)**: 10.13%
+**Revenue Growth (5Y %)**: 8.49%
+**EPS Growth (5Y %)**: 15.41%
+**Dividend Growth Rate (5Y %)**: 5.30%
+**Current Ratio (Quarterly)**: 0.92
+**Quick Ratio (Quarterly)**: 0.88
+**Long-Term Debt/Equity (Quarterly)**: 1.26
+**Total Debt/Equity (Quarterly)**: 1.45
+**Net Interest Coverage (TTM)**: 622.51
+**Dividend Yield (Indicated Annual %)**: 0.49%
+**Dividend Per Share (TTM)**: 1.00
+**Payout Ratio (TTM %)**: 15.88
+**Earnings Per Share (TTM)**: 6.29
+**Book Value Per Share (Quarterly)**: 4.44
+**Cash Flow Per Share (TTM)**: 6.86
+**Revenue Per Share (TTM)**: 26.12
+**52-Week Price Return (%)**: 17.05%
+**Year-to-Date Price Return (%)**: -19.28%
+**26-Week Price Return (%)**: -10.47%
+**13-Week Price Return (%)**: -13.76%
+**Price Relative to S&P500 (52 Week %)**: 10.48%
+**Price Relative to S&P500 (YTD %)**: -11.01%
+                    
+        **Recent News Summary:**
+        Overall sentiment label from recent news: **Negative**.
+        Key Labeled News Items:
+        - ('AMD Flags $800 Million Risk From New US Chip Export Rules As China Tariffs Add Pressure', 'negative', 0.8480307459831238)
+- ('The Dividend ETF That Just Woke Up And Why Investors Are Watching Closely', 'neutral', 0.926750659942627)
+- (""Tesla Is 2025's Biggest Mag 7 Bruise So Far, But Also The Only One Still In The Green"", 'neutral', 0.7918473482131958)
+- ('Evaluating Apple Against Peers In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.7439758777618408)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 16, 2025 (Via Swaggy Stocks)', 'neutral', 0.9169433116912842)
+- ('Broadcom Unveils AI-Powered Cybersecurity Tool To Disrupt Hackers And Boost Resilience', 'positive', 0.8710261583328247)
+- (""Netflix's 'Black Mirror' Returns With Grim Warning About Life Trapped Behind Endless Paywalls"", 'negative', 0.8192013502120972)
+- ('3 Stocks We Are Betting Against', 'neutral', 0.9092920422554016)
+- (""JD Vance Indicates 'Good Chance' Of US-UK Trade Deal — But Allies Say There's A Catch"", 'positive', 0.9359638690948486)
+- ('Price Over Earnings Overview: Apple', 'neutral', 0.8978923559188843)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('Apple Plans On-Device AI Data Analysis To Boost Privacy, Catch Up In AI Race', 'positive', 0.710513710975647)
+- ('Competitor Analysis: Evaluating Apple And Competitors In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.9221819639205933)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 15, 2025 (Via Swaggy Stocks)', 'neutral', 0.9167941808700562)
+- (""US Manufacturing Unlikely To Benefit From Tariffs, Survey Indicates: Majority Feels Trump Team Is 'Bullying Corporate America'"", 'negative', 0.7878910899162292)
+- (""US Stock Futures Waver After Two-Day Rally: Trump's Tariff Moves Could End A 3-Year 'Rolling Recession,' Says Expert"", 'negative', 0.9515678286552429)
+- (""Marjorie Taylor Greene Made Large Stock Purchases Ahead Of Trump's 90-Day Tariff Pause: Hakeem Jeffries Calls It 'Problematic'"", 'neutral', 0.8584328889846802)
+- (""Dow Surges Over 300 Points Ahead Of Earnings: Fear & Greed Index Remains In 'Extreme Fear' Zone"", 'negative', 0.8135584592819214)
+- ('Mark Zuckerberg Defends Meta In Landmark Trial As FTC Seeks To Decouple WhatsApp, Instagram', 'neutral', 0.8585088849067688)
+- (""Bitcoin, Ethereum Steady, Dogecoin Falls Even As Trump's Tariff Reprieve Boosts Stocks: Analyst Says $82,024 BTC Level 'Worth Watching Closely'"", 'positive', 0.8845234513282776)
+        
+---
+
+        **Role:** Act as an objective financial analyst.
+
+        **Objective:** Evaluate the investment merit of AAPL based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
+        2.  **Synthesize and Analyze:**
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
+        3.  **Justify Rating:**
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## AAPL: :green[Strong Buy]`, `## AAPL: :green[Buy]`, `## AAPL: :orange[Hold]`, `## AAPL: :red[Sell]`, or `## AAPL: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        ","## AAPL: :orange[Hold]
+
+### Investment Merit Assessment
+
+Apple (AAPL) presents a mixed investment picture based solely on the provided data. While exhibiting strong historical financial performance, recent negative news and some concerning financial ratios warrant a cautious approach.  The decision to hold reflects a balanced assessment of both positive and negative factors.
+
+
+### Key Performance Highlights
+
+* **Historically Strong Profitability:**  AAPL boasts impressive profitability metrics.  **Return on Equity (TTM)** of 145.35% and **Return on Assets (TTM)** of 27.91% indicate efficient capital utilization and asset management.  The sustained strength is further supported by the 5-year averages of **Return on Equity (5Y Avg)** at 151.11% and **Net Profit Margin (5Y Avg)** at 24.28%.
+* **Solid Historical Growth:**  Five-year growth figures are positive, showing consistent expansion.  **Revenue Growth (5Y)** stands at 8.49%, and **EPS Growth (5Y)** is at 15.41%. This suggests a history of successful expansion and earnings generation.
+* **High Net Interest Coverage:** A **Net Interest Coverage (TTM)** of 622.51 demonstrates a robust ability to meet its interest obligations, indicating low financial risk.
+
+### Areas of Concern & Challenges
+
+* **Negative Recent News Sentiment:** The overall news sentiment is labeled as ""Negative,"" raising concerns about potential headwinds affecting the company's performance. Specific news items related to tariffs and competition add to this concern.
+* **High Valuation Ratios:**  Several valuation ratios are elevated, suggesting the stock might be overvalued.  The **Price-to-Earnings (TTM)** of 31.61, **Price-to-Sales (TTM)** of 7.68, and especially the **Price-to-Book (Quarterly)** of 57.10 are significantly high.  This could indicate limited upside potential, particularly in the current uncertain market environment.
+* **Declining Recent Growth:** While long-term growth is positive, recent growth figures are more mixed.  **EPS Growth (TTM YoY)** is -2.13%, and while **EPS Growth (Quarterly YoY)** is positive at 10.13%, this doesn't entirely offset the negative annual figure.  **Revenue Growth (TTM YoY)** is only 2.61%.
+* **Liquidity Concerns:** The **Current Ratio (Quarterly)** of 0.92 and **Quick Ratio (Quarterly)** of 0.88 are below the ideal levels of 1 or above, hinting at potential short-term liquidity challenges.
+* **High Debt Levels:**  The **Total Debt/Equity (Quarterly)** ratio of 1.45 suggests significant leverage. While the company can easily cover its interest payments, a high debt level increases financial risk.
+
+
+### Rating Justification
+
+The rating of ""Hold"" is a reflection of the conflicting signals in the data.  While the historical financial performance of AAPL is exceptionally strong, the recent negative news sentiment, high valuation multiples, and some liquidity concerns outweigh the positive aspects for now.  The significantly high price-to-book ratio is particularly concerning, suggesting the market may be pricing in overly optimistic expectations.  The strength of past performance is considered, but the more immediate concerns around current valuation, recent growth, and news sentiment lead to a more cautious ""Hold"" recommendation.  More information or a shift in the negative news sentiment would be needed to justify a ""Buy"" rating.
+"
+NVDA,"**Context Data for NVDA:**
+                    **Key Financial Metrics:**
+                    **Market Capitalization**: 2,701,324
+**Beta**: 2.08
+**52-Week High**: 153.13
+**52-Week Low**: 75.61
+**Price-to-Earnings (TTM)**: 37.07
+**Price-to-Sales (TTM)**: 20.70
+**Price-to-Book (Quarterly)**: 36.56
+**Price-to-Tangible Book Value (Quarterly)**: 36.93
+**Enterprise Value**: 2,701,198
+**EV/Free Cash Flow (TTM)**: 44.39
+**Gross Margin (TTM %)**: 75.45%
+**Operating Margin (TTM %)**: 62.42%
+**Net Profit Margin (TTM %)**: 55.85%
+**Return on Equity (TTM %)**: 115.44%
+**Return on Assets (TTM %)**: 78.81%
+**Return on Investment (TTM %)**: 101.36%
+**Return on Equity (5Y Avg %)**: 48.63%
+**Net Profit Margin (5Y Avg %)**: 36.62%
+**Revenue Growth (TTM YoY %)**: 114.20%
+**Revenue Growth (Quarterly YoY %)**: 77.94%
+**EPS Growth (TTM YoY %)**: 146.44%
+**EPS Growth (Quarterly YoY %)**: 81.53%
+**Revenue Growth (5Y %)**: 64.24%
+**EPS Growth (5Y %)**: 91.83%
+**Dividend Growth Rate (5Y %)**: 16.27%
+**Current Ratio (Quarterly)**: 4.44
+**Quick Ratio (Quarterly)**: 3.67
+**Long-Term Debt/Equity (Quarterly)**: 0.11
+**Total Debt/Equity (Quarterly)**: 0.11
+**Net Interest Coverage (TTM)**: 75.66
+**Dividend Yield (Indicated Annual %)**: 0.04%
+**Dividend Per Share (TTM)**: 0.03
+**Payout Ratio (TTM %)**: 1.14
+**Earnings Per Share (TTM)**: 2.94
+**Book Value Per Share (Quarterly)**: 3.24
+**Cash Flow Per Share (TTM)**: 8.21
+**Revenue Per Share (TTM)**: 5.28
+**52-Week Price Return (%)**: 30.47%
+**Year-to-Date Price Return (%)**: -16.45%
+**26-Week Price Return (%)**: -15.57%
+**13-Week Price Return (%)**: -15.78%
+**Price Relative to S&P500 (52 Week %)**: 23.89%
+**Price Relative to S&P500 (YTD %)**: -8.18%
+                    
+        **Recent News Summary:**
+        Overall sentiment label from recent news: **Negative**.
+        Key Labeled News Items:
+        - (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- (""Nvidia's China Sales Face Setback As H20 Chip Restrictions Catch Key Buyers Off Guard: Reuters"", 'negative', 0.9575986266136169)
+- (""Nvidia Drags Wall Street Down, Gold Defies Gravity Ahead Of Powell Remarks: What's Driving Markets Wednesday?"", 'negative', 0.7750637531280518)
+- ('AMD Flags $800 Million Risk From New US Chip Export Rules As China Tariffs Add Pressure', 'negative', 0.8480307459831238)
+- (""Nvidia H20 Chip Ban Could Lead To 'Manageable' Sales Drop, Bank Of America Says"", 'negative', 0.9721540212631226)
+- ('The Dividend ETF That Just Woke Up And Why Investors Are Watching Closely', 'neutral', 0.926750659942627)
+- (""Tesla Is 2025's Biggest Mag 7 Bruise So Far, But Also The Only One Still In The Green"", 'neutral', 0.7918473482131958)
+- (""Understanding NVIDIA's Position In Semiconductors &amp; Semiconductor Equipment Industry Compared To Competitors"", 'positive', 0.7835901975631714)
+- ('Cantor Fitzgerald Reiterates Overweight on NVIDIA, Maintains $200 Price Target', 'neutral', 0.8394924402236938)
+- ('Piper Sandler Maintains Overweight on NVIDIA, Lowers Price Target to $150', 'positive', 0.6422422528266907)
+- (""Chip Stocks Are Facing Selling Pressure Wednesday: Here's Why"", 'neutral', 0.5707978010177612)
+- ('Wedbush Reiterates Outperform on NVIDIA, Maintains $175 Price Target', 'negative', 0.5243962407112122)
+- ('Nvidia To $160? Here Are 10 Top Analyst Forecasts For Wednesday', 'neutral', 0.9202244877815247)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 16, 2025 (Via Swaggy Stocks)', 'neutral', 0.9169433116912842)
+- ('March Retail Sales Post Highest Surge In Over Two Years As US Consumers Anticipate Tariff Jitters', 'positive', 0.9134852290153503)
+- (""Jim Cramer: NRG Up, Deluxe Out, Nvidia 'You Have To Trim'"", 'neutral', 0.8271842002868652)
+- ('B of A Securities Maintains Buy on NVIDIA, Lowers Price Target to $160', 'neutral', 0.6437423825263977)
+- (""Nvidia Didn't Alert Chinese Clients About US Export Limits On H20 AI Chip: Report"", 'neutral', 0.8914428949356079)
+- ('Market-Moving News for April 16th', 'neutral', 0.9245150089263916)
+- (""US Stock Likely To Open Lower As US-China Tariff War Continues: 'Valuations Are Now Looking More Compelling,' Says Expert"", 'negative', 0.8763004541397095)
+        
+---
+
+        **Role:** Act as an objective financial analyst.
+
+        **Objective:** Evaluate the investment merit of NVDA based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
+        2.  **Synthesize and Analyze:**
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
+        3.  **Justify Rating:**
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## NVDA: :green[Strong Buy]`, `## NVDA: :green[Buy]`, `## NVDA: :orange[Hold]`, `## NVDA: :red[Sell]`, or `## NVDA: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        ","## NVDA: :orange[Hold]
+
+### Investment Merit Assessment
+
+Nvidia (NVDA) shows a complex investment profile based on the provided data.  Exceptional recent financial performance is counterbalanced by significant negative news regarding export restrictions and market uncertainty. This necessitates a cautious ""Hold"" rating.
+
+
+### Key Performance Highlights
+
+* **Exceptional Recent Growth:** NVDA demonstrates extraordinary recent growth.  **Revenue Growth (TTM YoY)** is a remarkable 114.20%, with **EPS Growth (TTM YoY)** at 146.44%.  This exceptional performance is further emphasized by the strong quarterly growth figures: **Revenue Growth (Quarterly YoY)** at 77.94% and **EPS Growth (Quarterly YoY)** at 81.53%.  The 5-year growth figures also show robust expansion: **Revenue Growth (5Y)** at 64.24% and **EPS Growth (5Y)** at 91.83%.
+* **High Profitability:** The company boasts extremely high profitability.  **Net Profit Margin (TTM)** is 55.85%, **Operating Margin (TTM)** is 62.42%, **Return on Equity (TTM)** is 115.44%, and **Return on Assets (TTM)** is 78.81%.  These figures highlight the company's efficient operations and strong earnings power.
+* **Strong Liquidity:**  The **Current Ratio (Quarterly)** of 4.44 and **Quick Ratio (Quarterly)** of 3.67 indicate excellent short-term liquidity, suggesting the company has ample resources to meet its obligations.
+* **Low Debt:** The **Total Debt/Equity (Quarterly)** ratio of 0.11 reflects a very conservative capital structure with minimal financial risk from debt.
+
+### Areas of Concern & Challenges
+
+* **Negative News Sentiment:** The overall news sentiment is ""Negative,"" driven by concerns about US export restrictions impacting sales to China. Several news items directly address the negative impact of these restrictions on NVDA's sales and revenue.  This poses a substantial threat to future growth.
+* **High Valuation:** While justified by recent growth, high valuation metrics warrant caution.  The **Price-to-Earnings (TTM)** of 37.07, **Price-to-Sales (TTM)** of 20.70, and **Price-to-Book (Quarterly)** of 36.56 are considerable. These valuations could indicate that the market is already pricing in much of the company's expected future growth.
+* **Uncertainty Regarding Export Restrictions:** The impact of the US export restrictions on NVDA's future performance is unclear.  While some analysts suggest a manageable impact, the overall negative sentiment surrounding this issue raises significant uncertainty.
+
+
+### Rating Justification
+
+The ""Hold"" rating balances NVDA's exceptional recent performance with the considerable negative news and high valuation.  The extraordinarily strong recent financial results are undeniable, but the uncertainty created by the export restrictions and their potential long-term effects on revenue cannot be ignored. The high valuation multiples further suggest that much of the expected growth from the AI boom might already be factored into the current stock price. Given this uncertainty, a ""Hold"" recommendation allows investors to observe the situation and assess the actual impact of the export restrictions before making a more definitive investment decision.  A substantial shift in the negative news sentiment regarding the export limitations, coupled with some moderation in valuation multiples, would be necessary to justify a ""Buy"" rating.
+"
+AAPL,"**Context Data for AAPL:**
+                    **Key Financial Metrics:**
+                    **Market Capitalization**: 3039416.20
+**Beta**: 1.28
+**52-Week High**: 260.10
+**52-Week Low**: 164.07
+**Price-to-Earnings (TTM)**: 31.61
+**Price-to-Sales (TTM)**: 7.68
+**Price-to-Book (Quarterly)**: 57.10
+**Price-to-Tangible Book Value (Quarterly)**: 6.41
+**Enterprise Value**: 3105916.20
+**EV/Free Cash Flow (TTM)**: 31.60
+**Gross Margin (TTM %)**: 46.52%
+**Operating Margin (TTM %)**: 31.76%
+**Net Profit Margin (TTM %)**: 24.30%
+**Return on Equity (TTM %)**: 145.35%
+**Return on Assets (TTM %)**: 27.91%
+**Return on Investment (TTM %)**: 57.07%
+**Return on Equity (5Y Avg %)**: 151.11%
+**Net Profit Margin (5Y Avg %)**: 24.28%
+**Revenue Growth (TTM YoY %)**: 2.61%
+**Revenue Growth (Quarterly YoY %)**: 3.95%
+**EPS Growth (TTM YoY %)**: -2.13%
+**EPS Growth (Quarterly YoY %)**: 10.13%
+**Revenue Growth (5Y %)**: 8.49%
+**EPS Growth (5Y %)**: 15.41%
+**Dividend Growth Rate (5Y %)**: 5.30%
+**Current Ratio (Quarterly)**: 0.92
+**Quick Ratio (Quarterly)**: 0.88
+**Long-Term Debt/Equity (Quarterly)**: 1.26
+**Total Debt/Equity (Quarterly)**: 1.45
+**Net Interest Coverage (TTM)**: 622.51
+**Dividend Yield (Indicated Annual %)**: 0.49%
+**Dividend Per Share (TTM)**: 1.00
+**Payout Ratio (TTM %)**: 15.88
+**Earnings Per Share (TTM)**: 6.29
+**Book Value Per Share (Quarterly)**: 4.44
+**Cash Flow Per Share (TTM)**: 6.86
+**Revenue Per Share (TTM)**: 26.12
+**52-Week Price Return (%)**: 17.05%
+**Year-to-Date Price Return (%)**: -19.28%
+**26-Week Price Return (%)**: -10.47%
+**13-Week Price Return (%)**: -13.76%
+**Price Relative to S&P500 (52 Week %)**: 10.48%
+**Price Relative to S&P500 (YTD %)**: -11.01%
+                    
+        **Recent News Summary:**
+        Overall sentiment label from recent news: **Negative**.
+        Key Labeled News Items:
+        - (""What's Going On With Apple Shares Wednesday?"", 'negative', 0.6533732414245605)
+- (""Apple's Foldable iPhone Rumors Gain Steam As Stock Slides: Could A $2,000 Device Spark A Comeback?"", 'neutral', 0.7209028005599976)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('AMD Flags $800 Million Risk From New US Chip Export Rules As China Tariffs Add Pressure', 'negative', 0.8480307459831238)
+- ('The Dividend ETF That Just Woke Up And Why Investors Are Watching Closely', 'neutral', 0.926750659942627)
+- (""Tesla Is 2025's Biggest Mag 7 Bruise So Far, But Also The Only One Still In The Green"", 'neutral', 0.7918473482131958)
+- ('Evaluating Apple Against Peers In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.7439758777618408)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 16, 2025 (Via Swaggy Stocks)', 'neutral', 0.9169433116912842)
+- ('Broadcom Unveils AI-Powered Cybersecurity Tool To Disrupt Hackers And Boost Resilience', 'positive', 0.8710261583328247)
+- (""Netflix's 'Black Mirror' Returns With Grim Warning About Life Trapped Behind Endless Paywalls"", 'negative', 0.8192013502120972)
+- ('3 Stocks We Are Betting Against', 'neutral', 0.9092920422554016)
+- (""JD Vance Indicates 'Good Chance' Of US-UK Trade Deal — But Allies Say There's A Catch"", 'positive', 0.9359638690948486)
+- ('Price Over Earnings Overview: Apple', 'neutral', 0.8978923559188843)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('Apple Plans On-Device AI Data Analysis To Boost Privacy, Catch Up In AI Race', 'positive', 0.710513710975647)
+- ('Competitor Analysis: Evaluating Apple And Competitors In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.9221819639205933)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 15, 2025 (Via Swaggy Stocks)', 'neutral', 0.9167941808700562)
+- (""US Manufacturing Unlikely To Benefit From Tariffs, Survey Indicates: Majority Feels Trump Team Is 'Bullying Corporate America'"", 'negative', 0.7878910899162292)
+- (""US Stock Futures Waver After Two-Day Rally: Trump's Tariff Moves Could End A 3-Year 'Rolling Recession,' Says Expert"", 'negative', 0.9515678286552429)
+- (""Marjorie Taylor Greene Made Large Stock Purchases Ahead Of Trump's 90-Day Tariff Pause: Hakeem Jeffries Calls It 'Problematic'"", 'neutral', 0.8584328889846802)
+        
+---
+
+        **Role:** Act as an objective financial analyst.
+
+        **Objective:** Evaluate the investment merit of AAPL based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
+        2.  **Synthesize and Analyze:**
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
+        3.  **Justify Rating:**
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## AAPL: :green[Strong Buy]`, `## AAPL: :green[Buy]`, `## AAPL: :orange[Hold]`, `## AAPL: :red[Sell]`, or `## AAPL: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        ","## AAPL: :orange[Hold]
+
+### Investment Merit Assessment
+
+Apple (AAPL) presents a mixed investment picture based solely on the provided data. While strong historical performance is evident, recent negative news and some concerning financial ratios temper overall optimism.  The decision to hold reflects a cautious approach pending further clarification.
+
+### Key Performance Highlights
+
+* **Historically Strong Financials:**  Apple boasts impressive historical performance across various metrics.  The **5Y average Return on Equity (151.11%)**, **5Y EPS Growth (15.41%)**, and **5Y Revenue Growth (8.49%)** demonstrate substantial long-term growth.  High **Return on Assets (27.91%)**, **Return on Investment (57.07%)**, and significant **Net Profit Margin (24.30%)** suggest efficient operations and profitability.  A high **Net Interest Coverage (622.51)** indicates strong debt-servicing capacity.
+
+* **Positive Cash Flow:**  The **Cash Flow Per Share (TTM) of 6.86** is substantially higher than the **Earnings Per Share (TTM) of 6.29**, indicating strong cash generation.
+
+
+### Areas of Concern & Challenges
+
+* **Negative Recent Performance:** The **Year-to-Date Price Return (-19.28%)**, **13-Week Price Return (-13.76%)**, and **26-Week Price Return (-10.47%)** highlight a concerning downward trend in the stock price. This negative momentum is reinforced by the overall **negative sentiment** from recent news. Several news items mention stock slides and concerns about tariffs.
+
+* **High Valuation Ratios:**  The extremely high **Price-to-Book (57.10)** and **Price-to-Earnings (31.61)** ratios suggest the stock may be overvalued relative to its book value and earnings. Although the **Price-to-Tangible Book Value (6.41)** is lower, it still sits above average for many companies.  A high **EV/Free Cash Flow (31.60)** adds to this valuation concern.
+
+* **Liquidity Concerns:** The **Current Ratio (0.92)** and **Quick Ratio (0.88)** are below 1, suggesting potential short-term liquidity issues.  While the high **Net Interest Coverage** provides some comfort, the elevated **Long-Term Debt/Equity (1.26)** and **Total Debt/Equity (1.45)** ratios warrant attention.  This means that Apple has more debt than equity, making it a riskier investment.
+
+* **Slowing Revenue Growth:** While still positive, the **Revenue Growth (TTM YoY %) of 2.61%** and **EPS Growth (TTM YoY %) of -2.13%** signals a deceleration compared to the strong 5-year averages.
+
+
+### Rating Justification
+
+The rating of Hold reflects a balanced assessment of AAPL's strengths and weaknesses. While strong historical financial performance and healthy cash flow are positive, the recent negative stock price trend, concerning valuation metrics, liquidity concerns, and slowing growth warrant caution. The negative news sentiment further supports a more conservative approach.  The positive aspects of the financials outweigh the recent decline and the negative news but not enough to warrant a ""Buy"" rating.  More data is needed to determine whether the recent negative trend is a temporary setback or a sign of more significant challenges.
+"
+AAPL,"**Context Data for AAPL:**
+                    **Key Financial Metrics:**
+                    **Market Capitalization**: 3039416.20
+**Beta**: 1.28
+**52-Week High**: 260.10
+**52-Week Low**: 164.07
+**Price-to-Earnings (TTM)**: 31.61
+**Price-to-Sales (TTM)**: 7.68
+**Price-to-Book (Quarterly)**: 57.10
+**Price-to-Tangible Book Value (Quarterly)**: 6.41
+**Enterprise Value**: 3105916.20
+**EV/Free Cash Flow (TTM)**: 31.60
+**Gross Margin (TTM %)**: 46.52%
+**Operating Margin (TTM %)**: 31.76%
+**Net Profit Margin (TTM %)**: 24.30%
+**Return on Equity (TTM %)**: 145.35%
+**Return on Assets (TTM %)**: 27.91%
+**Return on Investment (TTM %)**: 57.07%
+**Return on Equity (5Y Avg %)**: 151.11%
+**Net Profit Margin (5Y Avg %)**: 24.28%
+**Revenue Growth (TTM YoY %)**: 2.61%
+**Revenue Growth (Quarterly YoY %)**: 3.95%
+**EPS Growth (TTM YoY %)**: -2.13%
+**EPS Growth (Quarterly YoY %)**: 10.13%
+**Revenue Growth (5Y %)**: 8.49%
+**EPS Growth (5Y %)**: 15.41%
+**Dividend Growth Rate (5Y %)**: 5.30%
+**Current Ratio (Quarterly)**: 0.92
+**Quick Ratio (Quarterly)**: 0.88
+**Long-Term Debt/Equity (Quarterly)**: 1.26
+**Total Debt/Equity (Quarterly)**: 1.45
+**Net Interest Coverage (TTM)**: 622.51
+**Dividend Yield (Indicated Annual %)**: 0.49%
+**Dividend Per Share (TTM)**: 1.00
+**Payout Ratio (TTM %)**: 15.88
+**Earnings Per Share (TTM)**: 6.29
+**Book Value Per Share (Quarterly)**: 4.44
+**Cash Flow Per Share (TTM)**: 6.86
+**Revenue Per Share (TTM)**: 26.12
+**52-Week Price Return (%)**: 17.05%
+**Year-to-Date Price Return (%)**: -19.28%
+**26-Week Price Return (%)**: -10.47%
+**13-Week Price Return (%)**: -13.76%
+**Price Relative to S&P500 (52 Week %)**: 10.48%
+**Price Relative to S&P500 (YTD %)**: -11.01%
+                    
+        **Recent News Summary:**
+        Overall sentiment label from recent news: **Negative**.
+        Key Labeled News Items:
+        - (""Marjorie Taylor Greene Brushes Off Stock Buying Criticism, Says Portfolio Manager 'Bought The Dip'"", 'negative', 0.6978347897529602)
+- (""What's Going On With Apple Shares Wednesday?"", 'negative', 0.6533732414245605)
+- (""Apple's Foldable iPhone Rumors Gain Steam As Stock Slides: Could A $2,000 Device Spark A Comeback?"", 'neutral', 0.7209028005599976)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('AMD Flags $800 Million Risk From New US Chip Export Rules As China Tariffs Add Pressure', 'negative', 0.8480307459831238)
+- ('The Dividend ETF That Just Woke Up And Why Investors Are Watching Closely', 'neutral', 0.926750659942627)
+- (""Tesla Is 2025's Biggest Mag 7 Bruise So Far, But Also The Only One Still In The Green"", 'neutral', 0.7918473482131958)
+- ('Evaluating Apple Against Peers In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.7439758777618408)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 16, 2025 (Via Swaggy Stocks)', 'neutral', 0.9169433116912842)
+- ('Broadcom Unveils AI-Powered Cybersecurity Tool To Disrupt Hackers And Boost Resilience', 'positive', 0.8710261583328247)
+- (""Netflix's 'Black Mirror' Returns With Grim Warning About Life Trapped Behind Endless Paywalls"", 'negative', 0.8192013502120972)
+- ('3 Stocks We Are Betting Against', 'neutral', 0.9092920422554016)
+- (""JD Vance Indicates 'Good Chance' Of US-UK Trade Deal — But Allies Say There's A Catch"", 'positive', 0.9359638690948486)
+- ('Price Over Earnings Overview: Apple', 'neutral', 0.8978923559188843)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('Apple Plans On-Device AI Data Analysis To Boost Privacy, Catch Up In AI Race', 'positive', 0.710513710975647)
+- ('Competitor Analysis: Evaluating Apple And Competitors In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.9221819639205933)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 15, 2025 (Via Swaggy Stocks)', 'neutral', 0.9167941808700562)
+- (""US Manufacturing Unlikely To Benefit From Tariffs, Survey Indicates: Majority Feels Trump Team Is 'Bullying Corporate America'"", 'negative', 0.7878910899162292)
+- (""US Stock Futures Waver After Two-Day Rally: Trump's Tariff Moves Could End A 3-Year 'Rolling Recession,' Says Expert"", 'negative', 0.9515678286552429)
+        
+---
+
+        **Role:** Act as an objective financial analyst.
+
+        **Objective:** Evaluate the investment merit of AAPL based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
+        2.  **Synthesize and Analyze:**
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
+        3.  **Justify Rating:**
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## AAPL: :green[Strong Buy]`, `## AAPL: :green[Buy]`, `## AAPL: :orange[Hold]`, `## AAPL: :red[Sell]`, or `## AAPL: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        ","## AAPL: :orange[Hold]
+
+### Investment Merit Assessment
+
+Apple (AAPL) presents a mixed investment picture based solely on the provided data. While exhibiting strong historical financial performance and some positive recent developments, concerning recent stock performance and negative news sentiment warrant a cautious approach.
+
+### Key Performance Highlights
+
+Apple's historical financial strength is undeniable.  **Return on Equity (5Y Avg %)** of 151.11%, **EPS Growth (5Y %)** of 15.41%, and **Revenue Growth (5Y %)** of 8.49% all point to a history of significant profitability and growth.  High **Net Profit Margin (TTM %)** (24.30%) and robust **Return on Assets (TTM %)** (27.91%) further reinforce this positive trend.  The healthy **Net Interest Coverage (TTM)** of 622.51 indicates strong debt servicing ability.  The planned on-device AI data analysis to boost privacy is also a positive development.
+
+### Areas of Concern & Challenges
+
+Despite past success, several factors raise concerns.  The recent **Year-to-Date Price Return (%)** of -19.28% and the negative sentiment expressed in several recent news items (""Marjorie Taylor Greene Brushes Off Stock Buying Criticism..."", ""What's Going On With Apple Shares Wednesday?"",  ""US Stock Futures Waver After Two-Day Rally..."") significantly impact the outlook.  The negative news sentiment outweighs the positive news, creating an overall negative outlook. The relatively high **Price-to-Earnings (TTM)** ratio of 31.61 and **Price-to-Sales (TTM)** of 7.68 suggest the stock might be overvalued compared to its earnings and sales.  While **Revenue Growth (Quarterly YoY %)** shows a positive 3.95%, the **Revenue Growth (TTM YoY %)** is a low 2.61%, indicating some slowdown in growth.  The declining **EPS Growth (TTM YoY %)** (-2.13%) adds to this concern.  Finally, a **Current Ratio (Quarterly)** of 0.92 and a **Quick Ratio (Quarterly)** of 0.88 are near the lower bounds of ideal liquidity, suggesting potential vulnerability.
+
+### Rating Justification
+
+The rating of Hold reflects a balancing of positive historical performance against recent negative trends.  While Apple's past financial health is compelling, the recent negative stock performance, coupled with the preponderance of negative news sentiment and concerns about valuation and liquidity, outweigh the positives in the short term.  More information is needed to confidently assess whether these recent negative trends are temporary or indicative of a sustained downturn.  The significant weight given to recent performance and negative sentiment overrides the historically strong metrics.  Further observation and data are required to justify a stronger rating.
+"
+AAPL,"**Context Data for AAPL:**
+                    **Key Financial Metrics:**
+                    **Market Capitalization**: 3039416.20
+**Beta**: 1.28
+**52-Week High**: 260.10
+**52-Week Low**: 164.07
+**Price-to-Earnings (TTM)**: 31.61
+**Price-to-Sales (TTM)**: 7.68
+**Price-to-Book (Quarterly)**: 57.10
+**Price-to-Tangible Book Value (Quarterly)**: 6.41
+**Enterprise Value**: 3105916.20
+**EV/Free Cash Flow (TTM)**: 31.60
+**Gross Margin (TTM %)**: 46.52%
+**Operating Margin (TTM %)**: 31.76%
+**Net Profit Margin (TTM %)**: 24.30%
+**Return on Equity (TTM %)**: 145.35%
+**Return on Assets (TTM %)**: 27.91%
+**Return on Investment (TTM %)**: 57.07%
+**Return on Equity (5Y Avg %)**: 151.11%
+**Net Profit Margin (5Y Avg %)**: 24.28%
+**Revenue Growth (TTM YoY %)**: 2.61%
+**Revenue Growth (Quarterly YoY %)**: 3.95%
+**EPS Growth (TTM YoY %)**: -2.13%
+**EPS Growth (Quarterly YoY %)**: 10.13%
+**Revenue Growth (5Y %)**: 8.49%
+**EPS Growth (5Y %)**: 15.41%
+**Dividend Growth Rate (5Y %)**: 5.30%
+**Current Ratio (Quarterly)**: 0.92
+**Quick Ratio (Quarterly)**: 0.88
+**Long-Term Debt/Equity (Quarterly)**: 1.26
+**Total Debt/Equity (Quarterly)**: 1.45
+**Net Interest Coverage (TTM)**: 622.51
+**Dividend Yield (Indicated Annual %)**: 0.49%
+**Dividend Per Share (TTM)**: 1.00
+**Payout Ratio (TTM %)**: 15.88
+**Earnings Per Share (TTM)**: 6.29
+**Book Value Per Share (Quarterly)**: 4.44
+**Cash Flow Per Share (TTM)**: 6.86
+**Revenue Per Share (TTM)**: 26.12
+**52-Week Price Return (%)**: 17.05%
+**Year-to-Date Price Return (%)**: -19.28%
+**26-Week Price Return (%)**: -10.47%
+**13-Week Price Return (%)**: -13.76%
+**Price Relative to S&P500 (52 Week %)**: 10.48%
+**Price Relative to S&P500 (YTD %)**: -11.01%
+                    
+        **Recent News Summary:**
+        Overall sentiment label from recent news: **Negative**.
+        Key Labeled News Items:
+        - (""Marjorie Taylor Greene Brushes Off Stock Buying Criticism, Says Portfolio Manager 'Bought The Dip'"", 'negative', 0.6978347897529602)
+- (""What's Going On With Apple Shares Wednesday?"", 'negative', 0.6533732414245605)
+- (""Apple's Foldable iPhone Rumors Gain Steam As Stock Slides: Could A $2,000 Device Spark A Comeback?"", 'neutral', 0.7209028005599976)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('AMD Flags $800 Million Risk From New US Chip Export Rules As China Tariffs Add Pressure', 'negative', 0.8480307459831238)
+- ('The Dividend ETF That Just Woke Up And Why Investors Are Watching Closely', 'neutral', 0.926750659942627)
+- (""Tesla Is 2025's Biggest Mag 7 Bruise So Far, But Also The Only One Still In The Green"", 'neutral', 0.7918473482131958)
+- ('Evaluating Apple Against Peers In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.7439758777618408)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 16, 2025 (Via Swaggy Stocks)', 'neutral', 0.9169433116912842)
+- ('Broadcom Unveils AI-Powered Cybersecurity Tool To Disrupt Hackers And Boost Resilience', 'positive', 0.8710261583328247)
+- (""Netflix's 'Black Mirror' Returns With Grim Warning About Life Trapped Behind Endless Paywalls"", 'negative', 0.8192013502120972)
+- ('3 Stocks We Are Betting Against', 'neutral', 0.9092920422554016)
+- (""JD Vance Indicates 'Good Chance' Of US-UK Trade Deal — But Allies Say There's A Catch"", 'positive', 0.9359638690948486)
+- ('Price Over Earnings Overview: Apple', 'neutral', 0.8978923559188843)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('Apple Plans On-Device AI Data Analysis To Boost Privacy, Catch Up In AI Race', 'positive', 0.710513710975647)
+- ('Competitor Analysis: Evaluating Apple And Competitors In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.9221819639205933)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 15, 2025 (Via Swaggy Stocks)', 'neutral', 0.9167941808700562)
+- (""US Manufacturing Unlikely To Benefit From Tariffs, Survey Indicates: Majority Feels Trump Team Is 'Bullying Corporate America'"", 'negative', 0.7878910899162292)
+- (""US Stock Futures Waver After Two-Day Rally: Trump's Tariff Moves Could End A 3-Year 'Rolling Recession,' Says Expert"", 'negative', 0.9515678286552429)
+        
+---
+
+        **Role:** Act as an objective financial analyst.
+
+        **Objective:** Evaluate the investment merit of AAPL based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
+        2.  **Synthesize and Analyze:**
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
+        3.  **Justify Rating:**
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## AAPL: :green[Strong Buy]`, `## AAPL: :green[Buy]`, `## AAPL: :orange[Hold]`, `## AAPL: :red[Sell]`, or `## AAPL: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        ","## AAPL: :orange[Hold]
+
+### Investment Merit Assessment
+
+Apple (AAPL) presents a mixed investment picture based solely on the provided data. While it exhibits strong historical financial performance and some positive recent developments, several concerning factors warrant a cautious approach.  The significant negative year-to-date price return and predominantly negative news sentiment temper the otherwise robust financial fundamentals.
+
+### Key Performance Highlights
+
+Apple boasts impressive profitability metrics.  **Return on Equity (TTM)** at 145.35% and **Return on Assets (TTM)** at 27.91% showcase exceptional efficiency in utilizing shareholder equity and assets.  High **Net Profit Margin (TTM)** of 24.30% and consistent **Net Profit Margin (5Y Avg)** of 24.28% highlight sustainable profitability.  Furthermore, the five-year average **EPS Growth** of 15.41% indicates a strong historical growth trajectory.  Positive signals also come from the reasonably healthy **Net Interest Coverage (TTM)** of 622.51, suggesting comfortable debt servicing ability.  Finally, a relatively low **Payout Ratio (TTM)** of 15.88% indicates room for future dividend growth or reinvestment.
+
+### Areas of Concern & Challenges
+
+Despite the positive financial history, several factors raise concern.  The recent negative news sentiment, with many articles mentioning stock slides and criticisms, is a significant red flag. The **Year-to-Date Price Return (%)** of -19.28% is a major concern, reflecting a substantial loss in investor confidence.  Further adding to the concern is the relatively high **Price-to-Earnings (TTM)** of 31.61 and **Price-to-Book (Quarterly)** of 57.10, which suggest the stock might be overvalued.  While revenue growth is positive (**Revenue Growth (TTM YoY %)** of 2.61% and **Revenue Growth (Quarterly YoY %)** of 3.95%), the relatively low growth rate compared to previous five-year average growth might indicate slowing momentum. The declining **EPS Growth (TTM YoY)** of -2.13% further supports the slowing growth concerns.  Finally, the relatively high **Long-Term Debt/Equity (Quarterly)** of 1.26 and **Total Debt/Equity (Quarterly)** of 1.45 suggest considerable reliance on debt financing.
+
+### Rating Justification
+
+The ""Hold"" rating reflects the balancing act between Apple's historically strong financial performance and recent negative trends.  The exceptionally high profitability metrics, coupled with relatively healthy debt coverage and growth in previous years, demonstrate the company's fundamental strength. However, the substantial negative year-to-date price return, negative news sentiment, high valuation ratios (P/E, P/B), and slowing growth indicators outweigh the positive factors in the short term, leading to a cautious ""Hold"" recommendation.  Greater weight is given to recent performance and market sentiment due to their immediate impact on investment decisions, while long-term historical trends are considered important context for the company's capabilities.
+"
+AAPL,"**Context Data for AAPL:**
+                    **Key Financial Metrics:**
+                    **Market Capitalization**: 3039416.20
+**Beta**: 1.28
+**52-Week High**: 260.10
+**52-Week Low**: 164.07
+**Price-to-Earnings (TTM)**: 31.61
+**Price-to-Sales (TTM)**: 7.68
+**Price-to-Book (Quarterly)**: 57.10
+**Price-to-Tangible Book Value (Quarterly)**: 6.41
+**Enterprise Value**: 3105916.20
+**EV/Free Cash Flow (TTM)**: 31.60
+**Gross Margin (TTM %)**: 46.52%
+**Operating Margin (TTM %)**: 31.76%
+**Net Profit Margin (TTM %)**: 24.30%
+**Return on Equity (TTM %)**: 145.35%
+**Return on Assets (TTM %)**: 27.91%
+**Return on Investment (TTM %)**: 57.07%
+**Return on Equity (5Y Avg %)**: 151.11%
+**Net Profit Margin (5Y Avg %)**: 24.28%
+**Revenue Growth (TTM YoY %)**: 2.61%
+**Revenue Growth (Quarterly YoY %)**: 3.95%
+**EPS Growth (TTM YoY %)**: -2.13%
+**EPS Growth (Quarterly YoY %)**: 10.13%
+**Revenue Growth (5Y %)**: 8.49%
+**EPS Growth (5Y %)**: 15.41%
+**Dividend Growth Rate (5Y %)**: 5.30%
+**Current Ratio (Quarterly)**: 0.92
+**Quick Ratio (Quarterly)**: 0.88
+**Long-Term Debt/Equity (Quarterly)**: 1.26
+**Total Debt/Equity (Quarterly)**: 1.45
+**Net Interest Coverage (TTM)**: 622.51
+**Dividend Yield (Indicated Annual %)**: 0.49%
+**Dividend Per Share (TTM)**: 1.00
+**Payout Ratio (TTM %)**: 15.88
+**Earnings Per Share (TTM)**: 6.29
+**Book Value Per Share (Quarterly)**: 4.44
+**Cash Flow Per Share (TTM)**: 6.86
+**Revenue Per Share (TTM)**: 26.12
+**52-Week Price Return (%)**: 17.05%
+**Year-to-Date Price Return (%)**: -19.28%
+**26-Week Price Return (%)**: -10.47%
+**13-Week Price Return (%)**: -13.76%
+**Price Relative to S&P500 (52 Week %)**: 10.48%
+**Price Relative to S&P500 (YTD %)**: -11.01%
+                    
+        **Recent News Summary:**
+        Overall sentiment label from recent news: **Negative**.
+        Key Labeled News Items:
+        - (""Marjorie Taylor Greene Brushes Off Stock Buying Criticism, Says Portfolio Manager 'Bought The Dip'"", 'negative', 0.6978347897529602)
+- (""What's Going On With Apple Shares Wednesday?"", 'negative', 0.6533732414245605)
+- (""Apple's Foldable iPhone Rumors Gain Steam As Stock Slides: Could A $2,000 Device Spark A Comeback?"", 'neutral', 0.7209028005599976)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('AMD Flags $800 Million Risk From New US Chip Export Rules As China Tariffs Add Pressure', 'negative', 0.8480307459831238)
+- ('The Dividend ETF That Just Woke Up And Why Investors Are Watching Closely', 'neutral', 0.926750659942627)
+- (""Tesla Is 2025's Biggest Mag 7 Bruise So Far, But Also The Only One Still In The Green"", 'neutral', 0.7918473482131958)
+- ('Evaluating Apple Against Peers In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.7439758777618408)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 16, 2025 (Via Swaggy Stocks)', 'neutral', 0.9169433116912842)
+- ('Broadcom Unveils AI-Powered Cybersecurity Tool To Disrupt Hackers And Boost Resilience', 'positive', 0.8710261583328247)
+- (""Netflix's 'Black Mirror' Returns With Grim Warning About Life Trapped Behind Endless Paywalls"", 'negative', 0.8192013502120972)
+- ('3 Stocks We Are Betting Against', 'neutral', 0.9092920422554016)
+- (""JD Vance Indicates 'Good Chance' Of US-UK Trade Deal — But Allies Say There's A Catch"", 'positive', 0.9359638690948486)
+- ('Price Over Earnings Overview: Apple', 'neutral', 0.8978923559188843)
+- (""10 Information Technology Stocks Whale Activity In Today's Session"", 'neutral', 0.86128169298172)
+- ('Apple Plans On-Device AI Data Analysis To Boost Privacy, Catch Up In AI Race', 'positive', 0.710513710975647)
+- ('Competitor Analysis: Evaluating Apple And Competitors In Technology Hardware, Storage &amp; Peripherals Industry', 'neutral', 0.9221819639205933)
+- ('Top 10 Trending Stocks On WallStreetBets As Of April 15, 2025 (Via Swaggy Stocks)', 'neutral', 0.9167941808700562)
+- (""US Manufacturing Unlikely To Benefit From Tariffs, Survey Indicates: Majority Feels Trump Team Is 'Bullying Corporate America'"", 'negative', 0.7878910899162292)
+- (""US Stock Futures Waver After Two-Day Rally: Trump's Tariff Moves Could End A 3-Year 'Rolling Recession,' Says Expert"", 'negative', 0.9515678286552429)
+        
+---
+
+        **Role:** Act as an objective financial analyst.
+
+        **Objective:** Evaluate the investment merit of AAPL based strictly on the context data provided and assign a corresponding stock rating (Strong Buy, Buy, Hold, Sell, or Strong Sell).
+
+        **Task Instructions:**
+
+        1.  **Determine Rating:** Assign a rating: Strong Buy, Buy, Hold, Sell, or Strong Sell.
+        2.  **Synthesize and Analyze:**
+            * **Assess Overall Merit:** Provide a concise assessment of the investment attractiveness of the company based *only* on the provided data.
+            * **Identify Key Performance Indicators:** Pinpoint the critical positive and negative performance indicators evident in the financial metrics and news sentiment/items.
+            * **Analyze Data Consistency:** Examine the alignment and discrepancies within the provided data (e.g., consistency between financial trends and recent news, areas of contradiction).
+            * **Evaluate Opportunities and Challenges:** Based *solely* on the provided data, assess the significant potential opportunities and challenges facing the company.
+        3.  **Justify Rating:**
+            * **State Rating Rationale:** Clearly articulate the primary reasons supporting your assigned rating.
+            * **Provide Data-Driven Evidence:** Substantiate your rationale by referencing specific **numerical values** and **bolded financial metric names**, as well as key themes or sentiment from the news items. Ensure you highlight the evidence supporting both positive and negative aspects where relevant.
+            * **Explain Factor Prioritization:** Briefly explain the relative importance you assigned to different factors (e.g., the weight given to historical financial strength versus recent negative news, the significance of identified opportunities relative to existing risks) in reaching your conclusion.
+        4.  **Format Output:**
+            * Use Markdown.
+            * Present the final rating *first*, using the exact format: `## AAPL: :green[Strong Buy]`, `## AAPL: :green[Buy]`, `## AAPL: :orange[Hold]`, `## AAPL: :red[Sell]`, or `## AAPL: :red[Strong Sell]`.
+            * Structure the subsequent analysis and justification under clear, descriptive Markdown headers (e.g., `### Investment Merit Assessment`, `### Key Performance Highlights`, `### Areas of Concern & Challenges`, `### Rating Justification`). Ensure logical flow.
+            * Maintain an objective and analytical tone throughout.
+
+        **Constraint Checklist:**
+        * [ ] Rating based *only* on provided context?
+        * [ ] External knowledge *not* used?
+        * [ ] Specific data points referenced?
+        * [ ] Final rating format correct?
+        * [ ] Markdown headers used for structure?
+
+        **Begin Response:**
+        ","## AAPL: :orange[Hold]
+
+### Investment Merit Assessment
+
+Apple (AAPL) presents a mixed investment picture based solely on the provided data. While exhibiting strong historical financial performance and a large market capitalization, recent negative news sentiment and some concerning financial ratios warrant a cautious approach.  The decision to hold reflects a balanced assessment of both positive and negative factors.
+
+### Key Performance Highlights
+
+* **Strong Historical Performance:**  The company boasts impressive historical growth metrics.  **Revenue Growth (5Y %)** of 8.49% and **EPS Growth (5Y %)** of 15.41% indicate a healthy long-term growth trajectory.  High profitability is evident in metrics like **Return on Equity (TTM %)** (145.35%), **Return on Assets (TTM %)** (27.91%), and **Return on Investment (TTM %)** (57.07%).  Consistent profitability is further supported by the relatively stable **Net Profit Margin (5Y Avg %)** (24.28%).
+
+* **Solid Cash Flow:** The **Cash Flow Per Share (TTM)** of 6.86 demonstrates robust cash generation capabilities. This strong cash position is further evidenced by the high **Net Interest Coverage (TTM)** of 622.51, indicating a low risk of financial distress from debt obligations.
+
+### Areas of Concern & Challenges
+
+* **Negative Recent News Sentiment:** The overall sentiment from recent news is labeled as ""Negative,"" impacting investor confidence and potentially affecting short-term price performance. This negativity is further emphasized by news headlines like ""Marjorie Taylor Greene Brushes Off Stock Buying Criticism, Says Portfolio Manager 'Bought The Dip'"" and  ""What's Going On With Apple Shares Wednesday?"".
+
+* **Declining Short-Term Growth:** Despite strong historical growth, recent metrics paint a less optimistic picture. **Revenue Growth (TTM YoY %)** stands at only 2.61%, and **EPS Growth (TTM YoY %)** is a negative -2.13%.  The **Year-to-Date Price Return (%)** of -19.28% further reinforces concerns about near-term performance.
+
+
+* **High Valuation Ratios:** Some valuation metrics suggest the stock may be overvalued. The **Price-to-Earnings (TTM)** of 31.61 and **Price-to-Sales (TTM)** of 7.68 are relatively high, potentially indicating that the market is pricing in significant future growth expectations.  Furthermore, the extremely high **Price-to-Book (Quarterly)** of 57.10 suggests a significant premium over the company's book value.
+
+* **Liquidity Concerns:** While strong overall, the **Current Ratio (Quarterly)** of 0.92 and **Quick Ratio (Quarterly)** of 0.88 are below the generally accepted ideal of 1 or higher, potentially suggesting some short-term liquidity concerns.  Additionally, the high **Long-Term Debt/Equity (Quarterly)** (1.26) and **Total Debt/Equity (Quarterly)** (1.45) also present concerns about the level of leverage.
+
+### Rating Justification
+
+The rating of ""Hold"" reflects a balancing of AAPL's strong historical performance and significant cash generation against recent negative news sentiment, a slowing of near-term growth, and concerns around high valuation ratios and liquidity. While the historical performance is impressive, the negative news coupled with declining short-term growth metrics and elevated valuation ratios currently outweigh the positives, justifying a cautious stance.  More information, such as the reasons behind the recent negative growth, and clearer indication of future prospects, would be required before considering a ""Buy"" recommendation.  The ""Hold"" rating reflects a wait-and-see approach until clearer signs of improved growth or a more favorable valuation emerge.
+"

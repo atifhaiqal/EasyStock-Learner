@@ -14,7 +14,7 @@ from config.api_settings import FMP_APIConfig
 from services.fmp_api_client import FMP_APIClient, get_fmp_client
 from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphavantage_client
 from services.alpaca_api_client import Alpaca_APIClient, get_alpaca_client
-from config.api_settings import Alpaca_APIConfig
+from config.api_settings import APIConfig
 
 # importing plot components
 from view.alphavantage_plot_components import AlphaVantage_Plot_Components
@@ -27,16 +27,9 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-#temp
-FMP_API_KEY = "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw"
-AV_API_KEY = 'WGHKWKAR5TGFV4IC'
-FINNHUB_API_KEY = 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg'
-
-fmp_api = get_fmp_client(FMP_API_KEY)
-av_api = get_alphavantage_client(AV_API_KEY)
-finnhub_client = finnhub.Client(FINNHUB_API_KEY)
-alpaca_api = get_alpaca_client(Alpaca_APIConfig.get_alpaca_api_key, Alpaca_APIConfig.get_alpaca_secret_key)
+alpaca_api_key= "PKWSKNYCB90Y48I8T40S",
+alpaca_secret_key= "sbAZegA51WHldKlV6hLkHtgRepXDy8Yq7txtTtLm",
+alpaca_api = get_alpaca_client(alpaca_api_key, alpaca_secret_key)
 
 api_config = FMP_APIConfig()
 

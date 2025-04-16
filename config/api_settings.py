@@ -41,21 +41,7 @@ class YF_APIConfig:
         """Returns the list of ticker options from the configuration."""
         return self.config_data.get("ticker_options", [])
 
-class Qwen_LLM_APIConfig:
-    def __init__(self, config_file='config/api_key.json'):
-        # Check if the config file exists
-        if not os.path.exists(config_file):
-            raise FileNotFoundError(f"The configuration file {config_file} does not exist!")
-
-        # Load the JSON configuration file
-        with open(config_file, 'r') as f:
-            self.config_data = json.load(f)
-
-    def get_qwen_api_key(self):
-        """Returns the API Key for Qwen LM. Curently ignored"""
-        return self.config_data.get("qwenlm_api_key", [])
-
-class Alpaca_APIConfig:
+class APIConfig:
     def __init__(self, config_file='config/api_key.json'):
         # Check if the config file exists
         if not os.path.exists(config_file):
@@ -72,3 +58,19 @@ class Alpaca_APIConfig:
     def get_alpaca_secret_key(self):
         """Returns the Secret Key for Alpaca LM"""
         return self.config_data.get("alpaca_secret_key", [])
+    
+    def get_fmp_api_key(self):
+        """Returns the API Key for Financial Modeling Prep (FMP)"""
+        return self.config_data.get("fmp_api_key")
+
+    def get_av_api_key(self):
+        """Returns the API Key for Alpha Vantage (AV)"""
+        return self.config_data.get("av_api_key")
+
+    def get_finnhub_api_key(self):
+        """Returns the API Key for Finnhub"""
+        return self.config_data.get("finnhub_api_key")
+
+    def get_gemini_api_key(self):
+        """Returns the API Key for Gemini"""
+        return self.config_data.get("gemini_api_key")

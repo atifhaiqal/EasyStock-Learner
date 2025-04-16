@@ -10,6 +10,7 @@ import plotly.express as px
 from config.api_settings import FMP_APIConfig
 from services.fmp_api_client import FMP_APIClient, get_fmp_client
 from services.alphavantage_api_client import AlphaVantage_APIClient, get_alphavantage_client
+from config.api_settings import APIConfig
 
 # importing plot components
 from view.alphavantage_plot_components import AlphaVantage_Plot_Components

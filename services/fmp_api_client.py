@@ -83,6 +83,7 @@ class FMP_APIClient:
 
         return None
 
+    @st.cache_data(ttl=3600)
     def get_balance_sheet(_self, ticker):
         endpoint = f"v3/balance-sheet-statement/{ticker}"
         params = {"period": "annual"}
@@ -93,6 +94,7 @@ class FMP_APIClient:
 
         return None
 
+    @st.cache_data(ttl=3600)
     def get_cashflow_statement(_self, ticker):
         endpoint = f"v3/cash-flow-statement/{ticker}"
         params = {"period": "annual"}
@@ -104,6 +106,6 @@ class FMP_APIClient:
         return None
 
 @st.cache_resource
-def get_fmp_client(api_key):
+def get_fmp_client(_api_key):
     """Streamlit cached resource for the FMP API client."""
-    return FMP_APIClient(api_key)
+    return FMP_APIClient(_api_key)

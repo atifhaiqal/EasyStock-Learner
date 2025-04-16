@@ -8,14 +8,15 @@ class Finnhub_APIClient:
         self.api_key = api_key
         self.finnhub_client = finnhub.Client(api_key)
 
-    @st.cache_resource
+    @st.cache_data(ttl=3600)
     def get_company_basic_financials(_self, symbol, metric):
         return _self.finnhub_client.company_basic_financials(symbol, metric)
 
-    @st.cache_resource
+    @st.cache_data(ttl=3600)
     def get_recommendation_trends(_self, ticker):
         return _self.finnhub_client.recommendation_trends(ticker)
 
+    @st.cache_data(ttl=3600)
     def get_rating_consensus(_self, ticker):
         rating = _self.get_recommendation_trends(ticker)
         ratings = rating[0]
@@ -49,6 +50,6 @@ class Finnhub_APIClient:
 
 
 @st.cache_resource
-def get_finnhub_client(api_key):
+def get_finnhub_client(_api_key):
     """Streamlit cached resource for the Finnhub API client."""
-    return Finnhub_APIClient(api_key)
+    return Finnhub_APIClient(_api_key)

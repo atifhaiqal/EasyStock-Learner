@@ -82,6 +82,6 @@ class AlphaVantage_APIClient:
 
 # Cache the AlphaVantage_APIClient instance based on API key
 @st.cache_resource
-def get_alphavantage_client(api_key):
+def get_alphavantage_client(_api_key):
     """Cache the AlphaVantageAPIClient instance."""
-    return AlphaVantage_APIClient(api_key)
+    return AlphaVantage_APIClient(_api_key)

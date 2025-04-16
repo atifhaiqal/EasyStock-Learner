@@ -1,5 +1,8 @@
 {
-  "qwenlm_api_key": "sk-dc7103c355de45eca9e5da17025407a5",
   "alpaca_api_key": "PKWSKNYCB90Y48I8T40S",
-  "alpaca_secret_key": "sbAZegA51WHldKlV6hLkHtgRepXDy8Yq7txtTtLm"
+  "alpaca_secret_key": "sbAZegA51WHldKlV6hLkHtgRepXDy8Yq7txtTtLm",
+  "fmp_api_key" : "OSrMm0u3iB8mz1iJMaK0XQno7DyqQKRw",
+  "av_api_key" : "WGHKWKAR5TGFV4IC",
+  "finnhub_api_key" : 'ctkp081r01qn6d7j5lt0ctkp081r01qn6d7j5ltg',
+  "gemini_api_key": "AIzaSyDeEKkLTe_Gbv0jTn4Ormx5OUy8cuz8ahA"
 }
